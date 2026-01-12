@@ -2,51 +2,315 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Structural Reasoning Risk Instrument</title>
+  <meta name="description" content="Decision-grade structural reasoning diagnostics with auditable traceability." />
+
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:40px;line-height:1.45;max-width:980px}
-    .pill{display:inline-block;border:1px solid #ddd;padding:6px 10px;border-radius:999px;font-size:12px;margin-right:8px}
-    .card{border:1px solid #eee;border-radius:12px;padding:18px;margin:18px 0}
-    img{max-width:100%;border:1px solid #eee;border-radius:12px}
-    h1{margin:0 0 10px}
-    h2{margin:28px 0 10px}
-    .muted{color:#555}
+    :root{
+      --bg:#0b0e10;
+      --panel:#101417;
+      --panel2:#0f1316;
+      --text:#e8eef3;
+      --muted:#a9b4bf;
+      --line:#1c242b;
+      --accent:#29ff7a; /* swap to your website neon if different */
+      --accent2:#0bdc63;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:14px;
+      --max:1040px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(41,255,122,.10), transparent 60%),
+                  radial-gradient(900px 500px at 85% 0%, rgba(11,220,99,.08), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      font-family:var(--sans);
+      line-height:1.45;
+    }
+    a{color:var(--text); text-decoration:none}
+    a:hover{color:var(--accent)}
+    .wrap{max-width:var(--max); margin:0 auto; padding:26px 18px 70px}
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(11,14,16,.72);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .brand{
+      display:flex; flex-direction:column; gap:2px;
+    }
+    .brand .t{
+      font-weight:650;
+      letter-spacing:.2px;
+      font-size:14px;
+    }
+    .brand .s{
+      font-size:12px;
+      color:var(--muted);
+    }
+    .nav{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:flex-end;
+      align-items:center;
+    }
+    .nav a{
+      font-size:12px;
+      color:var(--muted);
+      padding:8px 10px;
+      border:1px solid transparent;
+      border-radius:999px;
+    }
+    .nav a:hover{
+      border-color:rgba(41,255,122,.35);
+      color:var(--text);
+    }
+    .nav a.active{
+      border-color:rgba(41,255,122,.55);
+      color:var(--text);
+    }
+
+    .hero{
+      padding:34px 0 18px;
+    }
+    .kickers{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      margin-bottom:14px;
+    }
+    .pill{
+      font-size:11px;
+      color:var(--muted);
+      border:1px solid var(--line);
+      background: rgba(16,20,23,.65);
+      padding:6px 10px;
+      border-radius:999px;
+    }
+    .pill.accent{
+      border-color:rgba(41,255,122,.45);
+      color:var(--text);
+      box-shadow: 0 0 0 1px rgba(41,255,122,.08) inset;
+    }
+
+    h1{
+      font-size:34px;
+      line-height:1.15;
+      margin:0 0 10px;
+      letter-spacing:-.3px;
+    }
+    .subtitle{
+      color:var(--muted);
+      max-width:850px;
+      font-size:15px;
+      margin:0 0 20px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+      margin-top:18px;
+    }
+    .card{
+      grid-column: span 12;
+      background: linear-gradient(180deg, rgba(16,20,23,.85), rgba(15,19,22,.85));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px 16px 14px;
+    }
+    .card h2{
+      font-size:14px; margin:0 0 10px;
+      letter-spacing:.2px;
+    }
+    .card p{margin:0 0 10px; color:var(--muted); font-size:13px}
+    .card ul{margin:10px 0 0 18px; color:var(--muted); font-size:13px}
+    .card li{margin:6px 0}
+    .callout{
+      border-left:2px solid rgba(41,255,122,.65);
+      padding-left:12px;
+      color:var(--muted);
+      font-size:13px;
+      margin-top:10px;
+    }
+    .two .card{grid-column: span 12}
+    @media (min-width: 860px){
+      .two .card{grid-column: span 6}
+      .three .card{grid-column: span 4}
+    }
+    .mono{
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--muted);
+    }
+    .btnrow{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .btn{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(12,16,18,.65);
+      font-size:12px;
+      color:var(--text);
+    }
+    .btn:hover{border-color:rgba(41,255,122,.45)}
+    .btn.primary{
+      border-color:rgba(41,255,122,.55);
+      box-shadow:0 0 0 1px rgba(41,255,122,.10) inset;
+    }
+    .footer{
+      margin-top:32px;
+      padding-top:16px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      align-items:center;
+    }
   </style>
 </head>
+
 <body>
-  <div class="pill">Restricted</div><div class="pill">Research Prototype</div><div class="pill">Audit-Trail</div>
-
-  <h1>Structural Reasoning Risk Instrument</h1>
-  <p class="muted">
-    Evaluates whether AI-generated conclusions are structurally derivable from stated premises, with an auditable trace.
-    Non-goal: this does not judge factual truth, sentiment, or bias.
-  </p>
-
-  <div class="card">
-    <h2>Video Walkthrough (4 minutes)</h2>
-    <p><a href="PASTE_UNLISTED_VIDEO_LINK_HERE">Watch the instrument walkthrough</a></p>
+  <!-- Top Nav -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="t">Structural Reasoning Risk Instrument</div>
+        <div class="s">Restricted evaluation site · decision-grade, auditable diagnostics</div>
+      </div>
+      <div class="nav">
+        <a class="active" href="index.html">Start Here</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="what-it-measures.html">What It Measures</a>
+        <a href="use-cases.html">Use Cases & Value</a>
+        <a href="evidence.html">Proof & Evidence</a>
+        <a href="funding-roadmap.html">Funding & Roadmap</a>
+      </div>
+    </div>
   </div>
 
-  <div class="card">
-    <h2>Current Capabilities</h2>
-    <ul>
-      <li>Evidence locker with immutable case IDs and deterministic replay.</li>
-      <li>Structural metrics: integrity, coverage, stability, density, orphan signals.</li>
-      <li>Claim–premise trace (X-ray) for audit-grade inspection.</li>
-      <li>Cross-model synthesis under identical constraints.</li>
-    </ul>
-  </div>
+  <div class="wrap">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="kickers">
+        <div class="pill accent">Research Prototype</div>
+        <div class="pill">Audit-Trail Enforced</div>
+        <div class="pill">Cross-Model Comparison</div>
+        <div class="pill">Deterministic Artifacts</div>
+      </div>
 
-  <div class="card">
-    <h2>What Funding Enables</h2>
-    <ul>
-      <li>Validation infrastructure (benchmarks, stress tests, stability validation).</li>
-      <li>Institutional projection layers (governance/compliance overlays; no metric recomputation).</li>
-      <li>Decision-grade reporting exports and workflow integration.</li>
-    </ul>
-  </div>
+      <h1>Measure whether AI conclusions are structurally justified — with an audit trail.</h1>
+      <p class="subtitle">
+        This instrument evaluates whether conclusions produced by AI systems are <b>derivable from their stated premises</b>.
+        It does <b>not</b> judge factual truth, sentiment, or policy merit. It measures structural justification and exposes
+        unsupported commitments before high-stakes decisions are made.
+      </p>
 
-  <p class="muted">Contact: [your email]</p>
+      <div class="btnrow">
+        <a class="btn primary" href="evidence.html">Open Proof & Evidence</a>
+        <a class="btn" href="use-cases.html">See Use Cases & Value</a>
+        <a class="btn" href="funding-roadmap.html">Funding & Roadmap</a>
+      </div>
+    </section>
+
+    <!-- CORE PROBLEM / GAP / SOLUTION CLASS -->
+    <section class="grid two">
+      <div class="card">
+        <h2>The Problem</h2>
+        <ul>
+          <li>AI-generated analyses are increasingly used in funding, policy, compliance, and governance workflows.</li>
+          <li>Outputs can sound coherent while being structurally unsupported (missing premises, orphan conclusions, over-commitment).</li>
+          <li>Human review is inconsistent and costly; failures are often discovered after commitments are made.</li>
+        </ul>
+        <div class="callout">
+          The core risk is not “bad tone.” It is <b>unsupported commitment</b> packaged as reasoning.
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>What Existing Tools Miss</h2>
+        <ul>
+          <li>Benchmarks focus on accuracy; they don’t verify whether a conclusion follows from provided premises.</li>
+          <li>Red-teaming finds edge cases but does not produce audit-grade, replayable reasoning structure.</li>
+          <li>Preference / rubric scoring evaluates outputs, not the internal support structure of claims.</li>
+        </ul>
+        <div class="callout">
+          This instrument measures <b>structure</b>: claim–premise linkage, coverage, orphans, stability, and cross-model divergence.
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT IT IS / WHO IT IS FOR / AUTHORITY -->
+    <section class="grid three">
+      <div class="card">
+        <h2>What This Is</h2>
+        <p>
+          A decision-grade measurement instrument that converts AI-generated analysis into an inspectable structure
+          (claims, premises, conclusions) and quantifies structural integrity with replayable evidence artifacts.
+        </p>
+        <p class="mono">Non-goal: truth verification. Goal: structural justification + auditability.</p>
+      </div>
+
+      <div class="card">
+        <h2>Who It Serves</h2>
+        <ul>
+          <li>Public funders and program evaluators</li>
+          <li>Regulators, auditors, and compliance teams</li>
+          <li>Enterprises governing internal AI usage</li>
+          <li>AI labs / evaluators comparing model reliability</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Authority It Provides</h2>
+        <p>
+          The ability to state — with a traceable record — whether an AI-generated conclusion is structurally supported,
+          and to compare models under identical constraints.
+        </p>
+        <div class="callout">
+          In audits and governance reviews: “We can show the support chain, not just the output.”
+        </div>
+      </div>
+    </section>
+
+    <!-- WHERE TO GO NEXT -->
+    <section class="grid">
+      <div class="card">
+        <h2>Where to Start</h2>
+        <ul>
+          <li><b>How It Works:</b> see the end-to-end pipeline from probe → artifacts → metrics → interpreter.</li>
+          <li><b>What It Measures:</b> definitions of core signals (coverage, orphans, stability, integrity).</li>
+          <li><b>Use Cases & Value:</b> decision contexts, cost avoidance, and institutional adoption logic.</li>
+          <li><b>Proof & Evidence:</b> the 10-screenshot evidence chain demonstrating the live instrument.</li>
+          <li><b>Funding & Roadmap:</b> what is funded next (validation, regimes, reporting, deployment hardening).</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div>Contact: <span class="mono">[YOUR EMAIL]</span></div>
+      <div class="mono">Build: v[YOUR_VERSION] · Access: restricted evaluation</div>
+    </div>
+  </div>
 </body>
 </html>
