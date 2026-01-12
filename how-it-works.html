@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <!-- Top Nav (match index) -->
+  <!-- Top Nav -->
   <div class="topbar">
     <div class="topbar-inner">
       <div class="brand">
@@ -37,76 +37,69 @@
         <div class="pill">Deterministic Artifacts</div>
         <div class="pill">Cross Model Comparison</div>
         <div class="pill">Evidence Locked</div>
-
-        <!-- Keep the black+green verified badge feel (same class used on index) -->
-        <div class="badge-verified" title="This page describes the measurement pipeline and its audit guarantees.">
-          <span class="dot"></span>
-          <span>Integrity Verified</span>
-        </div>
       </div>
 
-      <h1>How it works: a replayable measurement pipeline, not “LLM as judge.”</h1>
+      <h1>How it works: a replayable measurement pipeline — not “LLM as judge.”</h1>
+
       <p class="subtitle">
-        Reflective Diagnostics converts model outputs into an <b>inspectable support structure</b> (claims, premises, conclusions),
-        computes <b>structural signals</b>, and produces an <b>evidence packet</b> that can be replayed and audited.
+        Reflective Diagnostics evaluates <b>whether conclusions are structurally supported</b> by their stated premises.
+        It converts model outputs into an inspectable support structure, computes structural signals,
+        and produces a replayable evidence record suitable for audit and review.
       </p>
 
       <div class="btnrow">
-        <a class="btn primary" href="evidence.html">Open Proof and Evidence</a>
+        <a class="btn primary black" href="evidence.html">Open Proof and Evidence</a>
         <a class="btn" href="what-it-measures.html">Read Metric Definitions</a>
         <a class="btn" href="compliance.html">See Regime Mapping (Compliance)</a>
       </div>
     </section>
 
-    <!-- PIPELINE (single readable block) -->
+    <!-- PIPELINE OVERVIEW -->
     <section class="grid">
       <div class="card">
-        <h2>End to End Pipeline</h2>
-        <p class="mono" style="margin:0 0 10px;">
-          INPUT → CONTROLLED RUN → ARTIFACT CAPTURE → STRUCTURAL EXTRACTION → SIGNAL COMPUTATION → INTERPRETER → EVIDENCE PACKET
+        <h2>End-to-End Measurement Flow</h2>
+        <p class="mono">
+          Input → Controlled Run → Artifact Capture → Structural Extraction → Signal Computation → Interpreter → Evidence Packet
         </p>
-
         <div class="callout">
-          Key property: each stage produces a fixed artifact that becomes the input to the next stage. No hidden rewrites. No silent retries.
+          Each stage produces a fixed artifact that becomes the input to the next stage.
+          No hidden rewrites. No silent retries.
         </div>
       </div>
     </section>
 
-    <!-- FOUR STAGES (wide, readable, evaluator-friendly) -->
+    <!-- STEPS -->
     <section class="grid">
       <div class="card">
-        <h2>1) Controlled Run</h2>
-        <p><b>Purpose:</b> comparability across models.</p>
+        <h2>1) Controlled Run (Comparability)</h2>
         <ul>
-          <li>Same input, same constraints, across models</li>
+          <li>Same input and constraints across models</li>
           <li>No hidden retries, no prompt rewriting, no adaptive steering</li>
           <li>Model identity and version recorded</li>
         </ul>
         <div class="callout">
-          Why it matters: differences observed are attributable to the model, not shifting conditions.
+          Why it matters: observed differences are attributable to the model, not shifting conditions.
         </div>
       </div>
 
       <div class="card">
-        <h2>2) Artifact Capture</h2>
-        <p><b>Purpose:</b> source of record.</p>
+        <h2>2) Artifact Capture (Source of Record)</h2>
         <ul>
           <li>Raw model outputs stored verbatim</li>
           <li>Run metadata captured (timestamps, run ID, model selection)</li>
           <li>Hashes generated to prevent silent alteration</li>
         </ul>
         <div class="callout">
-          Why it matters: the run can be audited by someone who did not witness it.
+          Why it matters: a run can be audited by someone who did not witness it.
         </div>
       </div>
 
       <div class="card">
-        <h2>3) Structural Extraction</h2>
-        <p><b>Purpose:</b> convert free text into inspectable support structure.</p>
+        <h2>3) Structural Extraction (Support Graph)</h2>
         <ul>
-          <li>Extract claims, premises, and conclusions</li>
-          <li>Link conclusions to premises (support chain)</li>
-          <li>Flag unsupported commitments (orphans)</li>
+          <li>Claims, premises, and conclusions explicitly identified</li>
+          <li>Support links established between premises and conclusions</li>
+          <li>Unsupported conclusions (orphans) flagged</li>
         </ul>
         <div class="callout">
           Why it matters: the instrument evaluates support structure, not writing quality.
@@ -114,30 +107,29 @@
       </div>
 
       <div class="card">
-        <h2>4) Signal Computation + Interpreter</h2>
-        <p><b>Purpose:</b> compute decision signals and compare models under identical constraints.</p>
+        <h2>4) Signal Computation and Interpretation</h2>
         <ul>
-          <li>Compute structural signals (coverage, orphan rate, integrity, stability)</li>
-          <li>Cross model divergence: where models disagree under the same input</li>
-          <li>Interpreter produces a consolidated, inspectable summary</li>
+          <li>Structural signals computed (coverage, orphan rate, integrity, stability)</li>
+          <li>Cross-model divergence measured under identical constraints</li>
+          <li>Interpreter produces a consolidated, inspectable synthesis</li>
         </ul>
         <div class="callout">
-          Why it matters: evaluators can see where conclusions are structurally justified (or not) and how consistent models are.
+          Why it matters: evaluators can see where conclusions are structurally justified — and where they are not.
         </div>
       </div>
     </section>
 
-    <!-- NON-GOALS (keep it sharp, brief) -->
+    <!-- NON-GOALS -->
     <section class="grid">
       <div class="card">
-        <h2>What This Is Not</h2>
+        <h2>What This Instrument Does Not Do</h2>
         <ul>
-          <li>Not truth verification</li>
-          <li>Not sentiment or policy merit scoring</li>
-          <li>Not a subjective “LLM judges LLM” rubric</li>
+          <li>It does not verify factual truth</li>
+          <li>It does not score sentiment or policy merit</li>
+          <li>It does not rely on subjective rubric grading</li>
         </ul>
         <div class="callout">
-          This instrument measures <b>derivability</b>: whether conclusions follow from stated premises, with replayable evidence.
+          The goal is <b>derivability</b>: can the conclusion be shown to follow from the stated premises?
         </div>
       </div>
     </section>
