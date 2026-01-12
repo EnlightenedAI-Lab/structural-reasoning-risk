@@ -3,72 +3,148 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Reflective Diagnostics — Structural Reasoning Risk (L2)</title>
+  <title>Reflective Diagnostics™ — Structural Reasoning Risk (L2)</title>
   <meta name="description" content="Decision-grade structural reasoning diagnostics with auditable traceability." />
 
   <style>
     :root{
-      /* LIGHT THEME (matches your screenshots) */
+      /* LIGHT — SCIENTIFIC */
       --bg:#ffffff;
-      --panel:#ffffff;
-      --panel2:#fbfcfd;
-      --text:#0b0e10;
-      --muted:#4b5563;
-      --line:#e5e7eb;
-      --accent:#111827;     /* neutral black */
-      --accent2:#0b0e10;
-      --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --paper:#ffffff;
+      --panel:#fbfcfd;
+      --panel2:#f6f8fa;
+
+      --text:#0b1220;
+      --muted:#4b5563;        /* slate */
+      --faint:#6b7280;        /* lighter slate */
+      --line:#e5e7eb;         /* neutral */
+      --line2:#eef2f7;
+
+      /* GREEN: reserved for verification only */
+      --ok:#16a34a;           /* restrained green */
+      --ok_bg:#ecfdf3;        /* very light green */
+      --ok_line:#86efac;      /* soft green line */
+
+      --shadow: 0 10px 26px rgba(2,6,23,.08);
+      --shadow2: 0 1px 0 rgba(2,6,23,.04);
+
       --radius:14px;
-      --max:1040px;
+      --max:1080px;
+
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       --sans: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
       background:
-        radial-gradient(1200px 600px at 20% -10%, rgba(0,0,0,.04), transparent 60%),
-        radial-gradient(900px 500px at 85% 0%, rgba(0,0,0,.03), transparent 55%),
+        radial-gradient(1200px 520px at 30% -10%, rgba(22,163,74,.06), transparent 55%),
+        radial-gradient(900px 520px at 85% 0%, rgba(22,163,74,.04), transparent 55%),
         var(--bg);
       color:var(--text);
       font-family:var(--sans);
-      line-height:1.45;
+      line-height:1.5;
     }
-    a{color:var(--text); text-decoration:none}
-    a:hover{color:#111827}
-    .wrap{max-width:var(--max); margin:0 auto; padding:26px 18px 70px}
 
+    a{color:inherit; text-decoration:none}
+    a:hover{color:var(--ok)}
+
+    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 70px}
+
+    /* TOPBAR */
     .topbar{
       position:sticky; top:0; z-index:50;
+      background: rgba(255,255,255,.86);
       backdrop-filter: blur(10px);
-      background: rgba(255,255,255,.85);
       border-bottom:1px solid var(--line);
     }
     .topbar-inner{
       max-width:var(--max);
       margin:0 auto;
-      padding:14px 18px;
+      padding:12px 18px;
       display:flex;
       gap:14px;
-      align-items:center;
+      align-items:flex-start;
       justify-content:space-between;
     }
-    .brand{display:flex; flex-direction:column; gap:2px;}
-    .brand .t{
-      font-weight:700;
-      letter-spacing:.2px;
-      font-size:14px;
+
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      min-width: 280px;
     }
-    .brand .s{
+    .brand .title{
+      font-weight:700;
+      letter-spacing:-.2px;
+      font-size:14px;
+      line-height:1.15;
+    }
+    .brand .subtitle{
       font-size:12px;
       color:var(--muted);
     }
 
+    /* System status readout (scientific) */
+    .status{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      justify-content:flex-end;
+      flex-wrap:wrap;
+      margin-top:1px;
+    }
+    .readout{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.92);
+      border-radius:12px;
+      padding:10px 12px;
+      box-shadow: var(--shadow2);
+      min-width: 240px;
+    }
+    .readout .k{
+      font-family:var(--mono);
+      font-size:11px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--faint);
+      margin-bottom:6px;
+    }
+    .readout .v{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--text);
+    }
+    .okpill{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--ok_line);
+      background: var(--ok_bg);
+      color: var(--ok);
+      font-family:var(--mono);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .dot{
+      width:8px;height:8px;border-radius:50%;
+      background: var(--ok);
+      box-shadow: 0 0 0 3px rgba(22,163,74,.12);
+    }
+
+    /* NAV */
     .nav{
       display:flex;
       flex-wrap:wrap;
-      gap:10px;
+      gap:8px;
       justify-content:flex-end;
       align-items:center;
     }
@@ -78,46 +154,85 @@
       padding:8px 10px;
       border:1px solid transparent;
       border-radius:999px;
+      background: transparent;
     }
     .nav a:hover{
-      border-color:rgba(17,24,39,.18);
+      border-color: rgba(22,163,74,.22);
       color:var(--text);
+      background: rgba(22,163,74,.04);
     }
     .nav a.active{
-      border-color:rgba(17,24,39,.28);
+      border-color: rgba(22,163,74,.32);
       color:var(--text);
+      background: rgba(22,163,74,.06);
     }
 
-    .hero{padding:34px 0 18px;}
-    .kickers{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:14px;}
-    .pill{
+    /* HERO */
+    .hero{padding:34px 0 18px}
+
+    .meta-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-bottom:14px;
+    }
+
+    .tag{
+      font-family:var(--mono);
       font-size:11px;
-      color:var(--muted);
+      color:var(--faint);
       border:1px solid var(--line);
-      background: rgba(255,255,255,.9);
+      background: rgba(255,255,255,.8);
       padding:6px 10px;
       border-radius:999px;
+      box-shadow: var(--shadow2);
     }
-    .pill.accent{
-      border-color:rgba(17,24,39,.30);
-      color:var(--text);
-      box-shadow: 0 0 0 1px rgba(17,24,39,.06) inset;
-      font-weight:600;
+    .tag.ok{
+      border-color: rgba(22,163,74,.30);
+      background: rgba(22,163,74,.06);
+      color: var(--text);
     }
 
     h1{
       font-size:34px;
-      line-height:1.15;
+      line-height:1.12;
       margin:0 0 10px;
-      letter-spacing:-.3px;
+      letter-spacing:-.6px;
+      color: var(--text);
     }
-    .subtitle{
+    .lead{
       color:var(--muted);
-      max-width:850px;
+      max-width:860px;
       font-size:15px;
-      margin:0 0 20px;
+      margin:0 0 18px;
     }
 
+    .btnrow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.92);
+      font-size:12px;
+      color:var(--text);
+      box-shadow: var(--shadow2);
+    }
+    .btn:hover{border-color: rgba(22,163,74,.28); background: rgba(22,163,74,.04)}
+    .btn.primary{
+      border-color: rgba(22,163,74,.34);
+      background: rgba(22,163,74,.07);
+    }
+
+    /* CARDS */
     .grid{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
@@ -126,50 +241,45 @@
     }
     .card{
       grid-column: span 12;
-      background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(251,252,253,.98));
+      background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(250,251,253,.96));
       border:1px solid var(--line);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
       padding:16px 16px 14px;
     }
-    .card h2{font-size:14px; margin:0 0 10px; letter-spacing:.2px;}
+    .card h2{
+      font-size:13px;
+      margin:0 0 10px;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      color: var(--faint);
+      font-family: var(--mono);
+    }
     .card p{margin:0 0 10px; color:var(--muted); font-size:13px}
     .card ul{margin:10px 0 0 18px; color:var(--muted); font-size:13px}
     .card li{margin:6px 0}
 
     .callout{
-      border-left:2px solid rgba(17,24,39,.65);
+      border-left:3px solid rgba(22,163,74,.45);
       padding-left:12px;
       color:var(--muted);
       font-size:13px;
       margin-top:10px;
+      background: rgba(22,163,74,.035);
+      border-radius:10px;
+      padding-top:10px;
+      padding-bottom:10px;
     }
 
     .two .card{grid-column: span 12}
-    @media (min-width: 860px){
+    @media (min-width: 900px){
       .two .card{grid-column: span 6}
       .three .card{grid-column: span 4}
     }
 
-    .mono{font-family:var(--mono); font-size:12px; color:var(--muted);}
+    .mono{font-family:var(--mono); font-size:12px; color:var(--faint)}
 
-    .btnrow{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;}
-    .btn{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.92);
-      font-size:12px;
-      color:var(--text);
-    }
-    .btn:hover{border-color:rgba(17,24,39,.25)}
-    .btn.primary{
-      border-color:rgba(17,24,39,.35);
-      box-shadow:0 0 0 1px rgba(17,24,39,.06) inset;
-      font-weight:600;
-    }
-
+    /* FOOTER */
     .footer{
       margin-top:32px;
       padding-top:16px;
@@ -182,54 +292,66 @@
       justify-content:space-between;
       align-items:center;
     }
+    .footer .right{
+      font-family:var(--mono);
+      color:var(--faint);
+    }
   </style>
 </head>
 
 <body>
-  <!-- Top Nav -->
   <div class="topbar">
     <div class="topbar-inner">
       <div class="brand">
-        <div class="t">Reflective Diagnostics™ — Structural Reasoning Risk (L2)</div>
-        <div class="s">Enlightened AI Research Lab · restricted evaluation · decision-grade, auditable diagnostics</div>
+        <div class="title">Reflective Diagnostics™ — Structural Reasoning Risk (L2)</div>
+        <div class="subtitle">Enlightened AI Research Lab · restricted evaluation · decision-grade, auditable diagnostics</div>
       </div>
-      <div class="nav">
-        <a class="active" href="index.html">Start Here</a>
-        <a href="how-it-works.html">How It Works</a>
-        <a href="what-it-measures.html">What It Measures</a>
-        <a href="use-cases.html">Use Cases & Value</a>
-        <a href="evidence.html">Proof & Evidence</a>
-        <a href="funding-roadmap.html">Funding & Roadmap</a>
+
+      <div class="status">
+        <div class="nav">
+          <a class="active" href="index.html">Start Here</a>
+          <a href="how-it-works.html">How It Works</a>
+          <a href="what-it-measures.html">What It Measures</a>
+          <a href="use-cases.html">Use Cases &amp; Value</a>
+          <a href="evidence.html">Proof &amp; Evidence</a>
+          <a href="funding-roadmap.html">Funding &amp; Roadmap</a>
+        </div>
+
+        <div class="readout" aria-label="System Status">
+          <div class="k">SYSTEM STATUS</div>
+          <div class="v">
+            <span>INTEGRITY</span>
+            <span class="okpill"><span class="dot"></span>VERIFIED</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="wrap">
-    <!-- HERO -->
     <section class="hero">
-      <div class="kickers">
-        <div class="pill accent">Instrument: Reflective Diagnostics™</div>
-        <div class="pill">Module: Structural Reasoning Risk (L2)</div>
-        <div class="pill">Audit-Trail Enforced</div>
-        <div class="pill">Cross-Model Comparison</div>
-        <div class="pill">Deterministic Artifacts</div>
+      <div class="meta-row">
+        <div class="tag ok">Instrument: Reflective Diagnostics™</div>
+        <div class="tag">Module: Structural Reasoning Risk (L2)</div>
+        <div class="tag">Audit-Trail Enforced</div>
+        <div class="tag">Cross-Model Comparison</div>
+        <div class="tag">Deterministic Artifacts</div>
       </div>
 
       <h1>Measure whether AI conclusions are structurally justified — with an audit trail.</h1>
-      <p class="subtitle">
+      <p class="lead">
         This instrument evaluates whether conclusions produced by AI systems are <b>derivable from their stated premises</b>.
         It does <b>not</b> judge factual truth, sentiment, or policy merit. It measures structural justification and exposes
         unsupported commitments before high-stakes decisions are made.
       </p>
 
       <div class="btnrow">
-        <a class="btn primary" href="evidence.html">Open Proof & Evidence</a>
-        <a class="btn" href="use-cases.html">See Use Cases & Value</a>
-        <a class="btn" href="funding-roadmap.html">Funding & Roadmap</a>
+        <a class="btn primary" href="evidence.html">Open Proof &amp; Evidence</a>
+        <a class="btn" href="use-cases.html">See Use Cases &amp; Value</a>
+        <a class="btn" href="funding-roadmap.html">Funding &amp; Roadmap</a>
       </div>
     </section>
 
-    <!-- CORE PROBLEM / GAP / SOLUTION CLASS -->
     <section class="grid two">
       <div class="card">
         <h2>The Problem</h2>
@@ -239,7 +361,7 @@
           <li>Human review is inconsistent and costly; failures are often discovered after commitments are made.</li>
         </ul>
         <div class="callout">
-          The core risk is not “bad tone.” It is <b>unsupported commitment</b> packaged as reasoning.
+          The core risk is not tone. It is <b>unsupported commitment</b> packaged as reasoning.
         </div>
       </div>
 
@@ -256,7 +378,6 @@
       </div>
     </section>
 
-    <!-- WHAT IT IS / WHO IT IS FOR / AUTHORITY -->
     <section class="grid three">
       <div class="card">
         <h2>What This Is</h2>
@@ -264,7 +385,7 @@
           A decision-grade measurement instrument that converts AI-generated analysis into an inspectable structure
           (claims, premises, conclusions) and quantifies structural integrity with replayable evidence artifacts.
         </p>
-        <p class="mono">Non-goal: truth verification. Goal: structural justification + auditability.</p>
+        <p class="mono">Non-goal: truth verification · Goal: structural justification + auditability</p>
       </div>
 
       <div class="card">
@@ -284,28 +405,27 @@
           and to compare models under identical constraints.
         </p>
         <div class="callout">
-          In audits and governance reviews: “We can show the support chain, not just the output.”
+          In governance reviews: “We can show the support chain, not just the output.”
         </div>
       </div>
     </section>
 
-    <!-- WHERE TO GO NEXT -->
     <section class="grid">
       <div class="card">
         <h2>Where to Start</h2>
         <ul>
           <li><b>How It Works:</b> probe → artifacts → metrics → interpreter.</li>
-          <li><b>What It Measures:</b> coverage, orphans, stability, integrity, divergence.</li>
-          <li><b>Use Cases & Value:</b> decision contexts, cost avoidance, adoption logic.</li>
-          <li><b>Proof & Evidence:</b> the evidence chain demonstrating the live instrument.</li>
-          <li><b>Funding & Roadmap:</b> what funding unlocks next (validation, regimes, reporting, deployment hardening).</li>
+          <li><b>What It Measures:</b> definitions of core signals (coverage, orphans, stability, integrity).</li>
+          <li><b>Use Cases &amp; Value:</b> decision contexts, cost avoidance, and adoption logic.</li>
+          <li><b>Proof &amp; Evidence:</b> the 10-screenshot evidence chain demonstrating the live instrument.</li>
+          <li><b>Funding &amp; Roadmap:</b> what funding unlocks next (validation, regimes, reporting, deployment hardening).</li>
         </ul>
       </div>
     </section>
 
     <div class="footer">
       <div>Contact: <span class="mono">research@enlightenedai.ai</span></div>
-      <div class="mono">Build: Research Prototype v1.0 · Reflective Diagnostics™ · restricted evaluation</div>
+      <div class="right">Build: Research Prototype v1.0 · Reflective Diagnostics™ · restricted evaluation</div>
     </div>
   </div>
 </body>
