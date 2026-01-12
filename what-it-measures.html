@@ -1,1 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>What It Measures · Structural Reasoning Risk Instrument</title>
+  <meta name="description" content="Definitions of the core structural signals measured by the instrument and what they imply for decision risk." />
+
+  <style>
+    :root{
+      --bg:#0b0e10;
+      --panel:#101417;
+      --panel2:#0f1316;
+      --text:#e8eef3;
+      --muted:#a9b4bf;
+      --line:#1c242b;
+      --accent:#29ff7a;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:14px;
+      --max:1040px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(41,255,122,.10), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+      font-family:var(--sans);
+      line-height:1.45;
+    }
+    a{color:var(--text); text-decoration:none}
+    a:hover{color:var(--accent)}
+    .wrap{max-width:var(--max); margin:0 auto; padding:26px 18px 70px}
+
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(11,14,16,.72);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .brand .t{font-weight:650; font-size:14px}
+    .brand .s{font-size:12px; color:var(--muted)}
+    .nav{display:flex; gap:10px; flex-wrap:wrap}
+    .nav a{
+      font-size:12px; color:var(--muted);
+      padding:8px 10px; border-radius:999px;
+      border:1px solid transparent;
+    }
+    .nav a:hover{border-color:rgba(41,255,122,.35); color:var(--text)}
+    .nav a.active{border-color:rgba(41,255,122,.55); color:var(--text)}
+
+    h1{font-size:30px; margin:14px 0 6px}
+    .subtitle{color:var(--muted); max-width:920px; font-size:14px}
+
+    .grid{display:grid; grid-template-columns:repeat(12,1fr); gap:14px; margin-top:18px}
+    .card{
+      grid-column:span 12;
+      background: linear-gradient(180deg, rgba(16,20,23,.85), rgba(15,19,22,.85));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px;
+    }
+    @media(min-width:860px){
+      .half{grid-column:span 6}
+    }
+    h2{font-size:14px; margin:0 0 8px}
+    p{margin:0 0 10px; color:var(--muted); font-size:13px}
+    ul{margin:10px 0 0 18px; color:var(--muted); font-size:13px}
+    li{margin:6px 0}
+
+    .metric{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:12px;
+      background: rgba(10,14,16,.35);
+      margin-top:12px;
+    }
+    .metric .name{
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      font-size:13px; color:var(--text); font-weight:600;
+    }
+    .metric .tag{
+      font-family:var(--mono);
+      font-size:11px;
+      color:var(--muted);
+      border:1px solid var(--line);
+      padding:4px 8px;
+      border-radius:999px;
+      background: rgba(16,20,23,.55);
+    }
+    .metric .desc{margin-top:8px}
+    .metric .desc p{margin:0 0 8px}
+    .metric .desc b{color:var(--text)}
+    .callout{
+      border-left:2px solid rgba(41,255,122,.65);
+      padding-left:12px;
+      color:var(--muted);
+      font-size:13px;
+      margin-top:8px;
+    }
+    .mono{font-family:var(--mono); font-size:12px; color:var(--muted)}
+    .footer{
+      margin-top:32px;
+      padding-top:16px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Top Nav -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="t">Structural Reasoning Risk Instrument</div>
+        <div class="s">Restricted evaluation site · decision-grade diagnostics</div>
+      </div>
+      <div class="nav">
+        <a href="index.html">Start Here</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a class="active" href="what-it-measures.html">What It Measures</a>
+        <a href="use-cases.html">Use Cases & Value</a>
+        <a href="evidence.html">Proof & Evidence</a>
+        <a href="funding-roadmap.html">Funding & Roadmap</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <h1>What the Instrument Measures</h1>
+    <p class="subtitle">
+      The instrument converts an AI-generated analysis into an inspectable structure: <b>claims</b>, <b>premises</b>, and
+      <b>conclusions</b>, plus the support links between them. It then quantifies whether the output is structurally justified.
+      These signals are designed for governance workflows where auditability matters.
+    </p>
+
+    <section class="grid two">
+      <div class="card half">
+        <h2>Unit of Analysis</h2>
+        <ul>
+          <li><b>Claim</b>: a distinct assertion that must be supported.</li>
+          <li><b>Premise</b>: an asserted reason or evidence offered in support.</li>
+          <li><b>Conclusion</b>: a commitment that depends on premises (often implicit).</li>
+          <li><b>Support link</b>: a traceable dependency from premise → claim/conclusion.</li>
+        </ul>
+        <div class="callout">
+          The goal is not to “grade writing.” The goal is to make support structure visible and measurable.
+        </div>
+      </div>
+
+      <div class="card half">
+        <h2>Explicit Non-Goals</h2>
+        <ul>
+          <li>No factual truth verification.</li>
+          <li>No sentiment, bias, or ideology scoring.</li>
+          <li>No policy merit judgment (“good/bad idea”).</li>
+          <li>No prediction of outcomes.</li>
+        </ul>
+        <div class="callout">
+          This instrument measures <b>derivability</b> from stated premises, not whether the premises are true.
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h2>Core Structural Signals</h2>
+        <p>
+          Below are the primary signals used to detect unsupported commitment and structural vulnerability. Each signal is defined
+          in plain language and mapped to the failure mode it detects.
+        </p>
+
+        <div class="metric">
+          <div class="name">
+            Integrity Score <span class="tag">Structural justification</span>
+          </div>
+          <div class="desc">
+            <p><b>What it is:</b> a composite measure of how consistently conclusions follow from stated premises.</p>
+            <p><b>Detects:</b> persuasive conclusions with insufficient support; “looks right” outputs that do not logically derive.</p>
+            <p><b>Decision implication:</b> low integrity → require manual review, deny escalation, or request missing evidence.</p>
+          </div>
+        </div>
+
+        <div class="metric">
+          <div class="name">
+            Premise Coverage <span class="tag">Support completeness</span>
+          </div>
+          <div class="desc">
+            <p><b>What it is:</b> how fully claims are supported by explicit premises in the text.</p>
+            <p><b>Detects:</b> missing links; implied evidence; “hand-wavy” support.</p>
+            <p><b>Decision implication:</b> low coverage → the document is structurally incomplete for audit-grade decisions.</p>
+          </div>
+        </div>
+
+        <div class="metric">
+          <div class="name">
+            Orphan Claim Rate <span class="tag">Unsupported assertions</span>
+          </div>
+          <div class="desc">
+            <p><b>What it is:</b> proportion of claims/conclusions with no traceable supporting premises.</p>
+            <p><b>Detects:</b> unsupported commitments; hidden leaps; “because I say so” reasoning.</p>
+            <p><b>Decision implication:</b> high orphan rate → high risk of committing to conclusions that cannot be defended later.</p>
+          </div>
+        </div>
+
+        <div class="metric">
+          <div class="name">
+            Reasoning Density <span class="tag">Support per token</span>
+          </div>
+          <div class="desc">
+            <p><b>What it is:</b> how much structurally relevant support exists relative to the length of the output.</p>
+            <p><b>Detects:</b> verbose outputs with little actual justification; “style masking.”</p>
+            <p><b>Decision implication:</b> low density → the output may sound thorough but contains little defensible structure.</p>
+          </div>
+        </div>
+
+        <div class="metric">
+          <div class="name">
+            Premise Depth <span class="tag">Support chain depth</span>
+          </div>
+          <div class="desc">
+            <p><b>What it is:</b> how many levels of support exist (premise → sub-premise → conclusion).</p>
+            <p><b>Detects:</b> shallow justification; conclusions supported by generic statements rather than evidence chains.</p>
+            <p><b>Decision implication:</b> shallow depth → request substantiation, sources, or external verification.</p>
+          </div>
+        </div>
+
+        <div class="metric">
+          <div class="name">
+            Support Concentration <span class="tag">Single-point failure</span>
+          </div>
+          <div class="desc">
+            <p><b>What it is:</b> whether many conclusions depend on a small set of premises.</p>
+            <p><b>Detects:</b> fragile reasoning; one weak premise collapses the entire argument.</p>
+            <p><b>Decision implication:</b> high concentration → prioritize verifying the few load-bearing premises.</p>
+          </div>
+        </div>
+
+        <div class="metric">
+          <div class="name">
+            Stability Under Variation <span class="tag">Robustness</span>
+          </div>
+          <div class="desc">
+            <p><b>What it is:</b> whether structure and conclusions remain consistent under controlled perturbations (e.g., mild prompt changes).</p>
+            <p><b>Detects:</b> drift; reasoning that is not reproducible.</p>
+            <p><b>Decision implication:</b> low stability → do not rely on the output for commitments; require additional runs or independent review.</p>
+          </div>
+        </div>
+
+        <div class="metric">
+          <div class="name">
+            Cross-Model Consensus Spread <span class="tag">Comparability</span>
+          </div>
+          <div class="desc">
+            <p><b>What it is:</b> how much models agree or diverge structurally under identical constraints.</p>
+            <p><b>Detects:</b> false confidence; model-specific vulnerabilities; “agreement” that is only stylistic.</p>
+            <p><b>Decision implication:</b> large spread → treat as high uncertainty; investigate premises and failure modes.</p>
+          </div>
+        </div>
+
+        <div class="metric">
+          <div class="name">
+            Hallucination Risk <span class="tag">Unsupported fabrication</span>
+          </div>
+          <div class="desc">
+            <p><b>What it is:</b> a structural estimate of the likelihood that content was introduced without evidentiary grounding.</p>
+            <p><b>Detects:</b> invented support; fabricated details; hidden premise insertion.</p>
+            <p><b>Decision implication:</b> elevated risk → require citations, evidence packet, or exclude unsupported portions.</p>
+          </div>
+        </div>
+
+        <div class="callout">
+          Interpreting these signals is straightforward: the instrument tells you <b>where support is missing</b> and which premises are load-bearing.
+          This is the difference between “it sounds right” and “it is defensible.”
+        </div>
+
+        <p class="mono" style="margin-top:12px;">
+          Note: exact thresholds and regime-specific weighting are documented in the Funding & Roadmap section as part of validation and calibration work.
+        </p>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div>Contact: <span class="mono">research@enlightenedai.ai</span></div>
+      <div class="mono">Build: v200.0 · Restricted evaluation</div>
+    </div>
+  </div>
+</body>
+</html>
 
