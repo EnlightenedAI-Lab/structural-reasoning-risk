@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>How It Works · Reflective Diagnostics</title>
-  <meta name="description" content="End-to-end pipeline for structural reasoning diagnostics with deterministic, auditable artifacts." />
+  <meta name="description" content="Replayable measurement pipeline with deterministic artifacts and an audit-grade evidence packet." />
   <link rel="stylesheet" href="assets/site.css" />
 </head>
 
@@ -37,17 +37,19 @@
         <div class="pill">Deterministic Artifacts</div>
         <div class="pill">Cross Model Comparison</div>
         <div class="pill">Evidence Locked</div>
-        <div class="badge-verified" title="Evidence chain and outputs are captured for replay and inspection.">
+
+        <!-- keep this exact style: black badge + green -->
+        <div class="badge-verified" title="This page is a public record of the evaluation site and evidence chain.">
           <span class="dot"></span>
           <span>Integrity Verified</span>
         </div>
       </div>
 
-      <h1>How it works: a replayable measurement pipeline, not “LLM as judge.”</h1>
+      <h1>How it works: a replayable measurement pipeline (not “LLM as judge”).</h1>
+
       <p class="subtitle">
-        Reflective Diagnostics converts model outputs into a <b>structured, inspectable support graph</b>
-        (claims, premises, conclusions), computes <b>structural signals</b>, and produces an <b>evidence packet</b>
-        that can be replayed and audited. The system is designed so that every stage is explicit and reviewable.
+        We measure one thing: whether conclusions are <b>structurally supported</b> by stated premises.
+        Every run produces a <b>replayable evidence packet</b>: raw outputs + metadata + hashes + extracted structure + computed signals.
       </p>
 
       <div class="btnrow">
@@ -57,151 +59,100 @@
       </div>
     </section>
 
-    <!-- PIPELINE OVERVIEW -->
+    <!-- PIPELINE -->
     <section class="grid">
-      <div class="card">
-        <h2>End to end pipeline</h2>
-        <div class="pipeline">
-INPUT (prompt / document / evidence)
-  → CONTROLLED RUN (identical constraints across models)
-    → ARTIFACT CAPTURE (raw output + metadata + hashes)
-      → STRUCTURAL EXTRACTION (claims, premises, conclusions)
-        → SIGNAL COMPUTATION (coverage, orphans, integrity, stability)
-          → INTERPRETER (cross model synthesis + divergence)
-            → EVIDENCE PACKET (replayable record + exportable exhibit)
+      <div class="panel">
+        <h2>End to End Pipeline</h2>
+
+        <div class="pipeline-line mono">
+          INPUT → CONTROLLED RUN → ARTIFACT CAPTURE → STRUCTURAL MAP → SIGNALS → CROSS MODEL SYNTHESIS → EVIDENCE PACKET
         </div>
 
-        <p>
-          This is a measurement flow. Outputs from each stage become inputs to the next stage and are treated as
-          <b>fixed evidence</b> for review.
-        </p>
+        <div class="small">
+          Each stage is explicit. Outputs from a stage become fixed inputs to the next stage.
+        </div>
       </div>
     </section>
 
-    <!-- WHAT MAKES IT DETERMINISTIC -->
+    <!-- 4 STAGES (EVALUATOR READABLE) -->
     <section class="grid two">
-      <div class="card">
-        <h2>1) Controlled execution</h2>
+      <div class="panel">
+        <h2>1) Controlled Run (comparability)</h2>
         <ul>
           <li>Same input, same constraints, across models</li>
-          <li>Model identity and version captured</li>
           <li>No hidden retries, no prompt rewriting, no adaptive steering</li>
-          <li>Run produces a unique case identifier</li>
+          <li>Model identity and version recorded</li>
         </ul>
-        <p>
-          The goal is comparability. Observed differences are attributable to the model, not to shifting conditions.
-        </p>
+        <div class="accent-note">
+          Goal: differences observed are attributable to the model, not shifting conditions.
+        </div>
       </div>
 
-      <div class="card">
-        <h2>2) Evidence first capture</h2>
+      <div class="panel">
+        <h2>2) Artifact Capture (source of record)</h2>
         <ul>
           <li>Raw model outputs stored verbatim</li>
-          <li>Capture metadata (timestamps, run IDs, selection)</li>
-          <li>Artifacts are treated as the source of record</li>
-          <li>Exportable “forensic exhibit” supported</li>
+          <li>Run metadata captured (timestamps, run IDs, selection)</li>
+          <li>Hashes generated to prevent silent alteration</li>
         </ul>
-        <p>
-          This makes the instrument reviewable by an external evaluator who did not witness the run.
-        </p>
+        <div class="accent-note">
+          Result: a run can be audited by someone who did not witness it.
+        </div>
       </div>
     </section>
 
-    <!-- STRUCTURE EXTRACTION -->
     <section class="grid two">
-      <div class="card">
-        <h2>3) Structural extraction</h2>
-        <p>
-          The instrument converts free text into an inspectable structure:
-          <b>claims</b> (what is asserted), <b>premises</b> (supporting statements), and <b>conclusions</b>
-          (derived commitments).
-        </p>
+      <div class="panel">
+        <h2>3) Structural Map (inspectable support graph)</h2>
         <ul>
-          <li>Each conclusion is checked for stated support</li>
-          <li>Premise coverage and orphan rates are computed</li>
-          <li>Reasoning density and reuse signals are measured</li>
+          <li>Extract claims, premises, and conclusions</li>
+          <li>Compute linkage: what supports what</li>
+          <li>Expose unsupported commitments (orphans)</li>
         </ul>
-        <p class="mono">
-          Non goal: prove truth. Goal: verify whether the stated support exists for the stated commitments.
-        </p>
+        <div class="accent-note">
+          Output: an inspectable structure, not a “vibe” score.
+        </div>
       </div>
 
-      <div class="card">
-        <h2>4) Signal computation</h2>
-        <p>
-          Structural signals are computed from the extracted topology. These signals are designed to be
-          <b>auditable</b>: reviewers can map any score back to the underlying trace.
-        </p>
+      <div class="panel">
+        <h2>4) Signals + Synthesis (cross model)</h2>
         <ul>
-          <li><b>Integrity</b>: support completeness under the instrument rules</li>
-          <li><b>Coverage</b>: proportion of claims supported by premises</li>
-          <li><b>Orphans</b>: unsupported conclusions or assertions</li>
-          <li><b>Stability</b>: sensitivity to perturbation across runs / models</li>
+          <li>Compute structural signals (coverage, orphans, integrity, stability)</li>
+          <li>Rank and compare models under identical constraints</li>
+          <li>Surface divergence: where models disagree structurally</li>
+        </ul>
+        <div class="accent-note">
+          Output: a cross model decision record tied to artifacts.
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT MAKES THIS NOT LLM AS JUDGE -->
+    <section class="grid">
+      <div class="panel">
+        <h2>Why this is not “LLM as judge”</h2>
+        <ul>
+          <li>No model scores itself</li>
+          <li>No subjective rubric or preference voting</li>
+          <li>Signals are derived from extracted structure + fixed artifacts</li>
         </ul>
       </div>
     </section>
 
-    <!-- INTERPRETER + REGIMES -->
-    <section class="grid two">
-      <div class="card">
-        <h2>5) Interpreter: cross model synthesis</h2>
-        <p>
-          The interpreter aggregates metrics across models under identical constraints and identifies:
-          winner candidates, divergence, and failure signatures that require manual review.
-        </p>
+    <!-- EVIDENCE PACKET -->
+    <section class="grid">
+      <div class="panel">
+        <h2>What an evaluator can export</h2>
         <ul>
-          <li>Ranked leaderboard (integrity and risk penalties)</li>
-          <li>Consensus vs spread (cross model agreement)</li>
-          <li>Comparative synthesis instruments (risk quadrant, signal DNA)</li>
+          <li>Raw outputs (verbatim)</li>
+          <li>Run metadata + hashes (provenance)</li>
+          <li>Structural map (claims / premises / conclusions)</li>
+          <li>Signals + cross model synthesis (decision exhibit)</li>
         </ul>
-        <p>
-          Interpretation is separated from measurement: the system can present the evidence chain without narrative.
-        </p>
-      </div>
 
-      <div class="card">
-        <h2>6) Regimes and compliance mapping</h2>
-        <p>
-          The next module translates structural signals into <b>regime constraints</b> (compliance requirements).
-          This is how evaluators move from “measured structure” to “acceptable under a given standard.”
-        </p>
-        <ul>
-          <li>Regime definition: thresholds, weights, and allowed failure modes</li>
-          <li>Policy aware evaluation: what counts as sufficient support in a domain</li>
-          <li>Outputs: regime compliance flags + required remediation actions</li>
-        </ul>
-        <p class="mono">
-          This is why funding matters: regimes convert the instrument into a deployable governance layer.
-        </p>
-      </div>
-    </section>
-
-    <!-- WHY NOT LLM-AS-JUDGE -->
-    <section class="grid two">
-      <div class="card">
-        <h2>What this is not</h2>
-        <ul>
-          <li>No model grades itself</li>
-          <li>No subjective rubrics or preference voting</li>
-          <li>No “style” or “tone” scoring</li>
-          <li>No truth adjudication by the instrument</li>
-        </ul>
-        <p>
-          This prevents circular evaluation. The instrument measures structure derived from outputs and exposes the trace.
-        </p>
-      </div>
-
-      <div class="card">
-        <h2>What convinces evaluators</h2>
-        <ul>
-          <li>They can trace every conclusion back to support or lack of support</li>
-          <li>They can compare models under identical constraints</li>
-          <li>They can export a case file suitable for audit review</li>
-          <li>They can apply regimes to match institutional standards</li>
-        </ul>
-        <p>
-          The instrument’s authority comes from replayable evidence, not from subjective scoring.
-        </p>
+        <div class="callout">
+          The key deliverable is the <b>evidence packet</b>: a replayable case file suitable for audit and governance review.
+        </div>
       </div>
     </section>
 
