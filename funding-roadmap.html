@@ -1,1 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Funding & Roadmap · Structural Reasoning Risk Instrument</title>
+  <meta name="description" content="What funding enables: validation, regimes, reporting, deployment hardening, and measurable milestones." />
+
+  <style>
+    :root{
+      --bg:#0b0e10;
+      --panel:#101417;
+      --text:#e8eef3;
+      --muted:#a9b4bf;
+      --line:#1c242b;
+      --accent:#29ff7a;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --radius:14px;
+      --max:1040px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --sans: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(41,255,122,.10), transparent 60%), var(--bg);
+      color:var(--text);
+      font-family:var(--sans);
+      line-height:1.45;
+    }
+    a{color:var(--text); text-decoration:none}
+    a:hover{color:var(--accent)}
+    .wrap{max-width:var(--max); margin:0 auto; padding:26px 18px 70px}
+
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(11,14,16,.72);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+    }
+    .brand .t{font-weight:650; font-size:14px}
+    .brand .s{font-size:12px; color:var(--muted)}
+    .nav{display:flex; gap:10px; flex-wrap:wrap}
+    .nav a{
+      font-size:12px; color:var(--muted);
+      padding:8px 10px; border-radius:999px;
+      border:1px solid transparent;
+    }
+    .nav a:hover{border-color:rgba(41,255,122,.35); color:var(--text)}
+    .nav a.active{border-color:rgba(41,255,122,.55); color:var(--text)}
+
+    h1{font-size:30px; margin:14px 0 6px}
+    .subtitle{color:var(--muted); max-width:920px; font-size:14px}
+
+    .grid{display:grid; grid-template-columns:repeat(12,1fr); gap:14px; margin-top:18px}
+    .card{
+      grid-column:span 12;
+      background: linear-gradient(180deg, rgba(16,20,23,.85), rgba(15,19,22,.85));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px;
+    }
+    @media(min-width:860px){
+      .half{grid-column:span 6}
+      .third{grid-column:span 4}
+    }
+    h2{font-size:14px; margin:0 0 8px}
+    p{margin:0 0 10px; color:var(--muted); font-size:13px}
+    ul{margin:10px 0 0 18px; color:var(--muted); font-size:13px}
+    li{margin:6px 0}
+    .callout{
+      border-left:2px solid rgba(41,255,122,.65);
+      padding-left:12px;
+      color:var(--muted);
+      font-size:13px;
+      margin-top:8px;
+    }
+    .mono{font-family:var(--mono); font-size:12px; color:var(--muted)}
+
+    .milestone{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:12px;
+      background: rgba(10,14,16,.35);
+      margin-top:12px;
+    }
+    .milestone .head{
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      font-weight:650; font-size:13px;
+    }
+    .milestone .tag{
+      font-family:var(--mono);
+      font-size:11px;
+      color:var(--muted);
+      border:1px solid var(--line);
+      padding:4px 8px;
+      border-radius:999px;
+      background: rgba(16,20,23,.55);
+    }
+
+    .footer{
+      margin-top:32px;
+      padding-top:16px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="t">Structural Reasoning Risk Instrument</div>
+        <div class="s">Restricted evaluation site · funding and delivery plan</div>
+      </div>
+      <div class="nav">
+        <a href="index.html">Start Here</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="what-it-measures.html">What It Measures</a>
+        <a href="use-cases.html">Use Cases & Value</a>
+        <a href="evidence.html">Proof & Evidence</a>
+        <a class="active" href="funding-roadmap.html">Funding & Roadmap</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <h1>Funding & Roadmap</h1>
+    <p class="subtitle">
+      The core instrument already exists and runs end-to-end (see Proof & Evidence).
+      Funding is sought to transform a working prototype into a validated, regime-driven, decision-grade system
+      suitable for institutional adoption.
+    </p>
+
+    <section class="grid">
+      <div class="card half">
+        <h2>What Exists Today</h2>
+        <ul>
+          <li>Live multi-model probing under identical constraints</li>
+          <li>Immutable evidence locker and replayable artifacts</li>
+          <li>Structural extraction (claims, premises, conclusions) and trace X-ray</li>
+          <li>Core metrics (integrity, coverage, orphans, density, stability, risk telemetry)</li>
+          <li>Interpreter synthesis (cross-model consensus and ranking)</li>
+          <li>Exportable forensic exhibits</li>
+        </ul>
+        <div class="callout">
+          This de-risks the project: the primary technical risk (making a working instrument) has already been retired.
+        </div>
+      </div>
+
+      <div class="card half">
+        <h2>What Is Missing (Why Funding Matters)</h2>
+        <ul>
+          <li><b>Validation:</b> calibrated thresholds, confidence bounds, and human-audited ground truth cases</li>
+          <li><b>Regime expansion:</b> domain-specific standards (public funding, compliance, procurement, policy)</li>
+          <li><b>Reporting:</b> standardized decision-grade dossiers and regulator-facing summaries</li>
+          <li><b>Deployment hardening:</b> privacy modes, access controls, and institutional operating procedures</li>
+        </ul>
+        <div class="callout">
+          Funding converts a working system into an institution-ready instrument with documented standards and evidence of reliability.
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h2>What Funding Enables (Deliverable Categories)</h2>
+        <ul>
+          <li><b>Measurement depth:</b> stronger structural extraction, long-context robustness, and multi-step decision chains</li>
+          <li><b>Calibration:</b> threshold justification, stability testing, confidence reporting</li>
+          <li><b>Regimes:</b> configurable standards by jurisdiction / domain (weights, thresholds, compliance logic)</li>
+          <li><b>Reporting:</b> PDF dossiers, audit packets, and standardized disclosure templates</li>
+          <li><b>Security & ops:</b> deployment modes suitable for sensitive institutional usage</li>
+        </ul>
+        <p class="mono">
+          Exact scope can be tuned to the funder’s program constraints without changing the scientific goal: structural justification + auditability.
+        </p>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h2>Phased Roadmap (Example)</h2>
+        <p>
+          The roadmap is structured so that each phase produces concrete artifacts that can be independently verified.
+        </p>
+
+        <div class="milestone">
+          <div class="head">
+            Phase 1 · Instrument Expansion <span class="tag">0–8 weeks</span>
+          </div>
+          <ul>
+            <li>Formalize metric definitions and regime schema (weights, thresholds, compliance rules)</li>
+            <li>Implement regime toggles and standardized evaluation protocols</li>
+            <li>Produce “instrument specification” document suitable for reviewers</li>
+            <li>Deliver 5–10 curated demonstration cases with full evidence packets</li>
+          </ul>
+        </div>
+
+        <div class="milestone">
+          <div class="head">
+            Phase 2 · Validation & Calibration <span class="tag">8–16 weeks</span>
+          </div>
+          <ul>
+            <li>Build human-audited benchmark set (grounded claims/premises labeling)</li>
+            <li>Calibrate thresholds per regime with confidence reporting</li>
+            <li>Run stability experiments (controlled perturbations, reproducibility tests)</li>
+            <li>Publish validation report (internal or public depending on funding constraints)</li>
+          </ul>
+        </div>
+
+        <div class="milestone">
+          <div class="head">
+            Phase 3 · Pilot Deployment <span class="tag">16–24 weeks</span>
+          </div>
+          <ul>
+            <li>Deploy a restricted pilot for institutional partners</li>
+            <li>Generate decision-grade PDF dossiers and audit packets</li>
+            <li>Collect evaluator feedback and iterate on regimes and reporting</li>
+            <li>Deliver a pilot outcome report: adoption readiness + measured impact</li>
+          </ul>
+        </div>
+
+        <div class="callout">
+          The key validation question: can the instrument reliably detect unsupported commitment and structural vulnerability across models,
+          and produce artifacts that stand up to institutional audit?
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card third">
+        <h2>Success Criteria</h2>
+        <ul>
+          <li>Repeatable, regime-driven evaluations</li>
+          <li>Documented thresholds and calibration</li>
+          <li>Benchmark cases with human-audited ground truth</li>
+          <li>Decision-grade reports generated automatically</li>
+        </ul>
+      </div>
+
+      <div class="card third">
+        <h2>Why This Fits NRC</h2>
+        <ul>
+          <li>R&D uncertainty: calibration, validation, regime formalization</li>
+          <li>Canadian benefit: safer adoption of AI in public and regulated workflows</li>
+          <li>Commercial pathway: pilots → institutional licensing</li>
+        </ul>
+      </div>
+
+      <div class="card third">
+        <h2>Funding Ask (Placeholder)</h2>
+        <ul>
+          <li>Amount: <span class="mono">[INSERT]</span></li>
+          <li>Duration: <span class="mono">[INSERT]</span></li>
+          <li>Outcome: validated regime-driven instrument + pilot-ready reporting</li>
+        </ul>
+        <p class="mono">Replace placeholders to match the specific program.</p>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div>Contact: <span class="mono">research@enlightenedai.ai</span></div>
+      <div class="mono">Build: v200.0 · Restricted evaluation</div>
+    </div>
+  </div>
+</body>
+</html>
 
