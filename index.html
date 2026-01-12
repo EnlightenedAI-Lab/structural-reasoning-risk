@@ -12,8 +12,12 @@
       --text:#0b0e10;
       --muted:#5f6b76;
       --line:#d6dde3;
-      --panel:#ffffff;
-      --black:#0b0e10;
+
+      /* Instrument panels */
+      --panel:#0f1215;        /* elegant graphite */
+      --panel-text:#e9eef3;
+      --panel-muted:#b7c0c8;
+
       --green:#16c172;
 
       --max:1100px;
@@ -67,7 +71,8 @@
       border:1px solid transparent;
     }
     .nav a.active{
-      border:1px solid var(--black);
+      border:1px solid var(--green);
+      color:var(--green);
     }
 
     /* Layout */
@@ -78,19 +83,6 @@
     }
 
     /* Hero */
-    .hero h1{
-      font-size:34px;
-      line-height:1.15;
-      margin:0 0 12px;
-    }
-    .subtitle{
-      max-width:880px;
-      color:var(--muted);
-      font-size:15px;
-      margin-bottom:18px;
-    }
-
-    /* Signal pills */
     .signals{
       display:flex;
       gap:10px;
@@ -102,10 +94,23 @@
       border:1px solid var(--line);
       padding:6px 10px;
       font-family:var(--mono);
+      background:#fff;
     }
     .signal.green{
       border-color:var(--green);
       color:var(--green);
+    }
+
+    h1{
+      font-size:34px;
+      line-height:1.15;
+      margin:0 0 12px;
+    }
+    .subtitle{
+      max-width:880px;
+      color:var(--muted);
+      font-size:15px;
+      margin-bottom:18px;
     }
 
     /* Buttons */
@@ -117,7 +122,7 @@
     }
     .btn{
       padding:10px 14px;
-      border:1px solid var(--black);
+      border:1px solid var(--line);
       font-size:12px;
       background:#fff;
     }
@@ -133,9 +138,11 @@
       gap:18px;
       margin-top:18px;
     }
+
+    /* DARK INSTRUMENT PANELS */
     .panel{
       grid-column:span 12;
-      border:1px solid var(--black);
+      border:1px solid #000;
       padding:16px;
       background:var(--panel);
     }
@@ -144,11 +151,12 @@
       margin:0 0 10px;
       letter-spacing:.4px;
       text-transform:uppercase;
+      color:var(--panel-text);
     }
     .panel p,
     .panel li{
       font-size:13px;
-      color:var(--muted);
+      color:var(--panel-muted);
     }
     .panel ul{
       margin:8px 0 0 18px;
@@ -160,7 +168,7 @@
       padding-left:10px;
       margin-top:10px;
       font-size:13px;
-      color:var(--muted);
+      color:var(--panel-muted);
     }
 
     @media(min-width:900px){
@@ -206,15 +214,16 @@
 
   <div class="wrap">
 
-    <section class="hero">
+    <section>
       <div class="signals">
-        <div class="signal green">INTEGRITY VERIFIED</div>
+        <div class="signal green">RESEARCH PROTOTYPE v1.0</div>
         <div class="signal">AUDIT TRAIL ENFORCED</div>
         <div class="signal">CROSS-MODEL COMPARISON</div>
         <div class="signal">DETERMINISTIC ARTIFACTS</div>
+        <div class="signal green">INTEGRITY VERIFIED</div>
       </div>
 
-      <h1>Measure whether AI conclusions are structurally justified.</h1>
+      <h1>Measure whether AI conclusions are structurally justified with an audit trail.</h1>
       <p class="subtitle">
         This instrument evaluates whether conclusions produced by AI systems are
         <b>derivable from their stated premises</b>. It does not judge factual truth,
@@ -282,7 +291,7 @@
           structurally supported.
         </p>
         <div class="accent">
-          “Show the support chain, not just the output.”
+          Show the support chain, not just the output.
         </div>
       </div>
     </section>
