@@ -11,18 +11,13 @@
       --bg:#ffffff;
       --text:#0b0e10;
       --muted:#5f6b76;
-      --line:#d6dde3;
-
-      /* Instrument panels */
-      --panel:#0f1215;        /* elegant graphite */
-      --panel-text:#e9eef3;
-      --panel-muted:#b7c0c8;
-
-      --green:#16c172;
-
+      --line:#d8dde3;
+      --black:#0b0e10;
+      --green:#18c36b;
       --max:1100px;
+      --radius:6px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       --sans: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
 
     *{box-sizing:border-box}
@@ -35,9 +30,9 @@
     }
 
     a{color:var(--text); text-decoration:none}
-    a:hover{text-decoration:underline}
+    .wrap{max-width:var(--max); margin:0 auto; padding:32px 20px 80px}
 
-    /* Top bar */
+    /* Top Bar */
     .topbar{
       border-bottom:1px solid var(--line);
       background:#fff;
@@ -45,10 +40,10 @@
     .topbar-inner{
       max-width:var(--max);
       margin:0 auto;
-      padding:14px 18px;
+      padding:16px 20px;
       display:flex;
       justify-content:space-between;
-      align-items:center;
+      align-items:flex-start;
       gap:20px;
     }
     .brand .t{
@@ -60,75 +55,72 @@
       font-size:12px;
       color:var(--muted);
     }
+
     .nav{
-      display:flex;
-      gap:16px;
-      flex-wrap:wrap;
-      font-size:12px;
-    }
-    .nav a{
-      padding:6px 8px;
-      border:1px solid transparent;
-    }
-    .nav a.active{
-      border:1px solid var(--green);
-      color:var(--green);
-    }
-
-    /* Layout */
-    .wrap{
-      max-width:var(--max);
-      margin:0 auto;
-      padding:32px 18px 80px;
-    }
-
-    /* Hero */
-    .signals{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
-      margin-bottom:18px;
+      justify-content:flex-end;
     }
-    .signal{
-      font-size:11px;
-      border:1px solid var(--line);
+    .nav a{
+      font-size:12px;
       padding:6px 10px;
-      font-family:var(--mono);
-      background:#fff;
+      border:1px solid transparent;
     }
-    .signal.green{
-      border-color:var(--green);
-      color:var(--green);
+    .nav a.active{
+      border:1px solid var(--black);
     }
 
+    /* Pills */
+    .pills{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-bottom:16px;
+    }
+    .pill{
+      font-size:11px;
+      padding:6px 10px;
+      border:1px solid var(--black);
+      background:#fff;
+    }
+    .pill.black{
+      background:var(--black);
+      color:#fff;
+    }
+    .pill.verified{
+      border-color:var(--green);
+      color:var(--green);
+      font-weight:600;
+    }
+
+    /* Hero */
     h1{
       font-size:34px;
       line-height:1.15;
-      margin:0 0 12px;
+      margin:10px 0 12px;
     }
     .subtitle{
-      max-width:880px;
-      color:var(--muted);
+      max-width:860px;
       font-size:15px;
-      margin-bottom:18px;
+      color:var(--muted);
     }
 
-    /* Buttons */
     .btnrow{
       display:flex;
       gap:12px;
+      margin-top:18px;
       flex-wrap:wrap;
-      margin-bottom:32px;
     }
     .btn{
-      padding:10px 14px;
-      border:1px solid var(--line);
       font-size:12px;
+      padding:10px 14px;
+      border:1px solid var(--black);
       background:#fff;
     }
     .btn.primary{
-      border-color:var(--green);
-      color:var(--green);
+      background:var(--black);
+      color:#fff;
     }
 
     /* Grid */
@@ -136,57 +128,58 @@
       display:grid;
       grid-template-columns:repeat(12,1fr);
       gap:18px;
-      margin-top:18px;
+      margin-top:36px;
     }
 
-    /* DARK INSTRUMENT PANELS */
-    .panel{
+    .card{
       grid-column:span 12;
-      border:1px solid #000;
-      padding:16px;
-      background:var(--panel);
+      border:1px solid var(--line);
+      padding:18px;
+      background:#fff;
     }
-    .panel h2{
+
+    .card.black{
+      background:var(--black);
+      color:#fff;
+      border-color:var(--black);
+    }
+
+    .card h2{
       font-size:13px;
+      letter-spacing:.2px;
       margin:0 0 10px;
-      letter-spacing:.4px;
       text-transform:uppercase;
-      color:var(--panel-text);
     }
-    .panel p,
-    .panel li{
+    .card p, .card li{
       font-size:13px;
-      color:var(--panel-muted);
+      color:inherit;
     }
-    .panel ul{
+    .card ul{
       margin:8px 0 0 18px;
     }
-    .panel li{margin:6px 0}
 
     .accent{
-      border-left:3px solid var(--green);
-      padding-left:10px;
       margin-top:10px;
-      font-size:13px;
-      color:var(--panel-muted);
+      padding-left:10px;
+      border-left:3px solid var(--green);
+      font-size:12px;
     }
 
-    @media(min-width:900px){
+    @media (min-width:900px){
       .half{grid-column:span 6}
       .third{grid-column:span 4}
     }
 
-    /* Footer */
     .footer{
-      margin-top:40px;
+      margin-top:48px;
       padding-top:14px;
       border-top:1px solid var(--line);
+      font-size:12px;
+      color:var(--muted);
       display:flex;
       justify-content:space-between;
       flex-wrap:wrap;
       gap:10px;
-      font-size:12px;
-      color:var(--muted);
     }
     .mono{font-family:var(--mono)}
   </style>
@@ -194,127 +187,111 @@
 
 <body>
 
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">
-        <div class="t">Reflective Diagnostics™</div>
-        <div class="s">Structural Reasoning Risk · restricted evaluation · auditable diagnostics</div>
-      </div>
-      <div class="nav">
-        <a class="active" href="index.html">Start Here</a>
-        <a href="how-it-works.html">How It Works</a>
-        <a href="what-it-measures.html">What It Measures</a>
-        <a href="use-cases.html">Use Cases and Value</a>
-        <a href="evidence.html">Proof and Evidence</a>
-        <a href="funding-roadmap.html">Funding and Roadmap</a>
-        <a href="compliance.html">Compliance</a>
-      </div>
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="t">Reflective Diagnostics™</div>
+      <div class="s">Structural Reasoning Risk · restricted evaluation · auditable diagnostics</div>
+    </div>
+    <div class="nav">
+      <a class="active" href="index.html">Start Here</a>
+      <a href="how-it-works.html">How It Works</a>
+      <a href="what-it-measures.html">What It Measures</a>
+      <a href="use-cases.html">Use Cases and Value</a>
+      <a href="evidence.html">Proof and Evidence</a>
+      <a href="funding-roadmap.html">Funding and Roadmap</a>
+      <a href="compliance.html">Compliance</a>
     </div>
   </div>
+</div>
 
-  <div class="wrap">
+<div class="wrap">
 
-    <section>
-      <div class="signals">
-        <div class="signal green">RESEARCH PROTOTYPE v1.0</div>
-        <div class="signal">AUDIT TRAIL ENFORCED</div>
-        <div class="signal">CROSS-MODEL COMPARISON</div>
-        <div class="signal">DETERMINISTIC ARTIFACTS</div>
-        <div class="signal green">INTEGRITY VERIFIED</div>
-      </div>
+  <div class="pills">
+    <div class="pill black">Research Prototype v1.0</div>
+    <div class="pill">Audit Trail Enforced</div>
+    <div class="pill">Cross-Model Comparison</div>
+    <div class="pill">Deterministic Artifacts</div>
+    <div class="pill verified">Integrity Verified</div>
+  </div>
 
-      <h1>Measure whether AI conclusions are structurally justified with an audit trail.</h1>
-      <p class="subtitle">
-        This instrument evaluates whether conclusions produced by AI systems are
-        <b>derivable from their stated premises</b>. It does not judge factual truth,
-        sentiment, or policy merit. It exposes unsupported commitments before
-        high-stakes decisions are made.
+  <h1>Measure whether AI conclusions are structurally justified with an audit trail.</h1>
+
+  <p class="subtitle">
+    This instrument evaluates whether conclusions produced by AI systems are
+    <b>derivable from their stated premises</b>. It does not judge factual truth,
+    sentiment, or policy merit. It exposes unsupported commitments before
+    high-stakes decisions are made.
+  </p>
+
+  <div class="btnrow">
+    <a class="btn primary" href="evidence.html">Open Proof and Evidence</a>
+    <a class="btn" href="use-cases.html">Use Cases and Value</a>
+    <a class="btn" href="funding-roadmap.html">Funding and Roadmap</a>
+  </div>
+
+  <section class="grid">
+    <div class="card half">
+      <h2>The Problem</h2>
+      <ul>
+        <li>AI analyses are used in funding, policy, compliance, and governance.</li>
+        <li>Outputs can sound coherent while being structurally unsupported.</li>
+        <li>Human review is inconsistent and costly.</li>
+      </ul>
+      <div class="accent">The core risk is unsupported commitment packaged as reasoning.</div>
+    </div>
+
+    <div class="card half">
+      <h2>What Existing Tools Miss</h2>
+      <ul>
+        <li>Accuracy benchmarks do not verify derivability.</li>
+        <li>Red-teaming is not audit-grade or replayable.</li>
+        <li>Rubric scoring evaluates outputs, not structure.</li>
+      </ul>
+      <div class="accent">This instrument measures structure, not preference.</div>
+    </div>
+
+    <div class="card third black">
+      <h2>What This Is</h2>
+      <p>
+        A decision-grade measurement instrument converting AI analysis into
+        inspectable structure and replayable evidence.
       </p>
-
-      <div class="btnrow">
-        <a class="btn primary" href="evidence.html">Open Proof and Evidence</a>
-        <a class="btn" href="use-cases.html">Use Cases and Value</a>
-        <a class="btn" href="funding-roadmap.html">Funding and Roadmap</a>
-      </div>
-    </section>
-
-    <section class="grid">
-      <div class="panel half">
-        <h2>The Problem</h2>
-        <ul>
-          <li>AI-generated analyses are used in funding, policy, compliance, and governance.</li>
-          <li>Outputs can sound coherent while being structurally unsupported.</li>
-          <li>Human review is inconsistent and costly.</li>
-        </ul>
-        <div class="accent">
-          The core risk is unsupported commitment packaged as reasoning.
-        </div>
-      </div>
-
-      <div class="panel half">
-        <h2>What Existing Tools Miss</h2>
-        <ul>
-          <li>Accuracy benchmarks do not verify derivability.</li>
-          <li>Red-teaming is not audit-grade or replayable.</li>
-          <li>Rubric scoring evaluates outputs, not support structure.</li>
-        </ul>
-        <div class="accent">
-          This instrument measures structure, not preference.
-        </div>
-      </div>
-    </section>
-
-    <section class="grid">
-      <div class="panel third">
-        <h2>What This Is</h2>
-        <p>
-          A decision-grade measurement instrument that converts AI analysis into
-          inspectable structure and quantifies integrity with replayable artifacts.
-        </p>
-        <p class="mono">Non-goal: truth verification.</p>
-      </div>
-
-      <div class="panel third">
-        <h2>Who It Serves</h2>
-        <ul>
-          <li>Public funders</li>
-          <li>Regulators and auditors</li>
-          <li>Enterprises governing AI use</li>
-          <li>AI labs and evaluators</li>
-        </ul>
-      </div>
-
-      <div class="panel third">
-        <h2>Authority It Provides</h2>
-        <p>
-          The ability to demonstrate — with evidence — whether a conclusion is
-          structurally supported.
-        </p>
-        <div class="accent">
-          Show the support chain, not just the output.
-        </div>
-      </div>
-    </section>
-
-    <section class="grid">
-      <div class="panel">
-        <h2>Where to Start</h2>
-        <ul>
-          <li><b>How It Works</b>: probe → artifacts → metrics → interpreter</li>
-          <li><b>What It Measures</b>: coverage, orphans, stability, integrity</li>
-          <li><b>Use Cases and Value</b>: cost avoidance and governance logic</li>
-          <li><b>Proof and Evidence</b>: the 10-screenshot live instrument record</li>
-          <li><b>Funding and Roadmap</b>: what validation unlocks next</li>
-          <li><b>Compliance</b>: forthcoming regime-mapping module</li>
-        </ul>
-      </div>
-    </section>
-
-    <div class="footer">
-      <div>Contact: <span class="mono">research@enlightenedai.ai</span></div>
-      <div class="mono">Build: Research Prototype v1.0 · Reflective Diagnostics™ · restricted evaluation</div>
     </div>
 
+    <div class="card third black">
+      <h2>Who It Serves</h2>
+      <ul>
+        <li>Public funders</li>
+        <li>Regulators and auditors</li>
+        <li>Enterprises</li>
+        <li>AI labs</li>
+      </ul>
+    </div>
+
+    <div class="card third black">
+      <h2>Authority It Provides</h2>
+      <p>Demonstrable, evidence-backed structural justification.</p>
+      <div class="accent">Show the support chain, not just the output.</div>
+    </div>
+
+    <div class="card black">
+      <h2>Where to Start</h2>
+      <ul>
+        <li><b>How It Works</b>: probe → artifacts → metrics → interpreter</li>
+        <li><b>What It Measures</b>: coverage, orphans, stability, integrity</li>
+        <li><b>Use Cases and Value</b>: cost avoidance and governance logic</li>
+        <li><b>Proof and Evidence</b>: 10-screenshot live instrument record</li>
+        <li><b>Compliance</b>: forthcoming regime-mapping module</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="footer">
+    <div>Contact: <span class="mono">research@enlightenedai.ai</span></div>
+    <div class="mono">Build: Research Prototype v1.0 · Reflective Diagnostics™ · restricted evaluation</div>
   </div>
+
+</div>
 </body>
 </html>
