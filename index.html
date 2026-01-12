@@ -3,20 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Structural Reasoning Risk Instrument</title>
+  <title>Reflective Diagnostics — Structural Reasoning Risk (L2)</title>
   <meta name="description" content="Decision-grade structural reasoning diagnostics with auditable traceability." />
 
   <style>
     :root{
-      --bg:#0b0e10;
-      --panel:#101417;
-      --panel2:#0f1316;
-      --text:#e8eef3;
-      --muted:#a9b4bf;
-      --line:#1c242b;
-      --accent:#29ff7a; /* swap to your website neon if different */
-      --accent2:#0bdc63;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      /* LIGHT THEME (matches your screenshots) */
+      --bg:#ffffff;
+      --panel:#ffffff;
+      --panel2:#fbfcfd;
+      --text:#0b0e10;
+      --muted:#4b5563;
+      --line:#e5e7eb;
+      --accent:#111827;     /* neutral black */
+      --accent2:#0b0e10;
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
       --radius:14px;
       --max:1040px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -26,20 +27,22 @@
     html,body{height:100%}
     body{
       margin:0;
-      background: radial-gradient(1200px 600px at 20% -10%, rgba(41,255,122,.10), transparent 60%),
-                  radial-gradient(900px 500px at 85% 0%, rgba(11,220,99,.08), transparent 55%),
-                  var(--bg);
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(0,0,0,.04), transparent 60%),
+        radial-gradient(900px 500px at 85% 0%, rgba(0,0,0,.03), transparent 55%),
+        var(--bg);
       color:var(--text);
       font-family:var(--sans);
       line-height:1.45;
     }
     a{color:var(--text); text-decoration:none}
-    a:hover{color:var(--accent)}
+    a:hover{color:#111827}
     .wrap{max-width:var(--max); margin:0 auto; padding:26px 18px 70px}
+
     .topbar{
       position:sticky; top:0; z-index:50;
       backdrop-filter: blur(10px);
-      background: rgba(11,14,16,.72);
+      background: rgba(255,255,255,.85);
       border-bottom:1px solid var(--line);
     }
     .topbar-inner{
@@ -51,11 +54,9 @@
       align-items:center;
       justify-content:space-between;
     }
-    .brand{
-      display:flex; flex-direction:column; gap:2px;
-    }
+    .brand{display:flex; flex-direction:column; gap:2px;}
     .brand .t{
-      font-weight:650;
+      font-weight:700;
       letter-spacing:.2px;
       font-size:14px;
     }
@@ -63,6 +64,7 @@
       font-size:12px;
       color:var(--muted);
     }
+
     .nav{
       display:flex;
       flex-wrap:wrap;
@@ -78,33 +80,29 @@
       border-radius:999px;
     }
     .nav a:hover{
-      border-color:rgba(41,255,122,.35);
+      border-color:rgba(17,24,39,.18);
       color:var(--text);
     }
     .nav a.active{
-      border-color:rgba(41,255,122,.55);
+      border-color:rgba(17,24,39,.28);
       color:var(--text);
     }
 
-    .hero{
-      padding:34px 0 18px;
-    }
-    .kickers{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
-      margin-bottom:14px;
-    }
+    .hero{padding:34px 0 18px;}
+    .kickers{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:14px;}
     .pill{
       font-size:11px;
       color:var(--muted);
       border:1px solid var(--line);
-      background: rgba(16,20,23,.65);
+      background: rgba(255,255,255,.9);
       padding:6px 10px;
       border-radius:999px;
     }
     .pill.accent{
-      border-color:rgba(41,255,122,.45);
+      border-color:rgba(17,24,39,.30);
       color:var(--text);
-      box-shadow: 0 0 0 1px rgba(41,255,122,.08) inset;
+      box-shadow: 0 0 0 1px rgba(17,24,39,.06) inset;
+      font-weight:600;
     }
 
     h1{
@@ -119,6 +117,7 @@
       font-size:15px;
       margin:0 0 20px;
     }
+
     .grid{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
@@ -127,54 +126,50 @@
     }
     .card{
       grid-column: span 12;
-      background: linear-gradient(180deg, rgba(16,20,23,.85), rgba(15,19,22,.85));
+      background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(251,252,253,.98));
       border:1px solid var(--line);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
       padding:16px 16px 14px;
     }
-    .card h2{
-      font-size:14px; margin:0 0 10px;
-      letter-spacing:.2px;
-    }
+    .card h2{font-size:14px; margin:0 0 10px; letter-spacing:.2px;}
     .card p{margin:0 0 10px; color:var(--muted); font-size:13px}
     .card ul{margin:10px 0 0 18px; color:var(--muted); font-size:13px}
     .card li{margin:6px 0}
+
     .callout{
-      border-left:2px solid rgba(41,255,122,.65);
+      border-left:2px solid rgba(17,24,39,.65);
       padding-left:12px;
       color:var(--muted);
       font-size:13px;
       margin-top:10px;
     }
+
     .two .card{grid-column: span 12}
     @media (min-width: 860px){
       .two .card{grid-column: span 6}
       .three .card{grid-column: span 4}
     }
-    .mono{
-      font-family:var(--mono);
-      font-size:12px;
-      color:var(--muted);
-    }
-    .btnrow{
-      display:flex; gap:10px; flex-wrap:wrap;
-      margin-top:12px;
-    }
+
+    .mono{font-family:var(--mono); font-size:12px; color:var(--muted);}
+
+    .btnrow{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;}
     .btn{
       display:inline-flex; align-items:center; gap:10px;
       padding:10px 12px;
       border-radius:12px;
       border:1px solid var(--line);
-      background: rgba(12,16,18,.65);
+      background: rgba(255,255,255,.92);
       font-size:12px;
       color:var(--text);
     }
-    .btn:hover{border-color:rgba(41,255,122,.45)}
+    .btn:hover{border-color:rgba(17,24,39,.25)}
     .btn.primary{
-      border-color:rgba(41,255,122,.55);
-      box-shadow:0 0 0 1px rgba(41,255,122,.10) inset;
+      border-color:rgba(17,24,39,.35);
+      box-shadow:0 0 0 1px rgba(17,24,39,.06) inset;
+      font-weight:600;
     }
+
     .footer{
       margin-top:32px;
       padding-top:16px;
@@ -195,8 +190,8 @@
   <div class="topbar">
     <div class="topbar-inner">
       <div class="brand">
-        <div class="t">Structural Reasoning Risk Instrument</div>
-        <div class="s">Restricted evaluation site · decision-grade, auditable diagnostics</div>
+        <div class="t">Reflective Diagnostics™ — Structural Reasoning Risk (L2)</div>
+        <div class="s">Enlightened AI Research Lab · restricted evaluation · decision-grade, auditable diagnostics</div>
       </div>
       <div class="nav">
         <a class="active" href="index.html">Start Here</a>
@@ -213,7 +208,8 @@
     <!-- HERO -->
     <section class="hero">
       <div class="kickers">
-        <div class="pill accent">Research Prototype</div>
+        <div class="pill accent">Instrument: Reflective Diagnostics™</div>
+        <div class="pill">Module: Structural Reasoning Risk (L2)</div>
         <div class="pill">Audit-Trail Enforced</div>
         <div class="pill">Cross-Model Comparison</div>
         <div class="pill">Deterministic Artifacts</div>
@@ -298,18 +294,18 @@
       <div class="card">
         <h2>Where to Start</h2>
         <ul>
-          <li><b>How It Works:</b> see the end-to-end pipeline from probe → artifacts → metrics → interpreter.</li>
-          <li><b>What It Measures:</b> definitions of core signals (coverage, orphans, stability, integrity).</li>
-          <li><b>Use Cases & Value:</b> decision contexts, cost avoidance, and institutional adoption logic.</li>
-          <li><b>Proof & Evidence:</b> the 10-screenshot evidence chain demonstrating the live instrument.</li>
-          <li><b>Funding & Roadmap:</b> what is funded next (validation, regimes, reporting, deployment hardening).</li>
+          <li><b>How It Works:</b> probe → artifacts → metrics → interpreter.</li>
+          <li><b>What It Measures:</b> coverage, orphans, stability, integrity, divergence.</li>
+          <li><b>Use Cases & Value:</b> decision contexts, cost avoidance, adoption logic.</li>
+          <li><b>Proof & Evidence:</b> the evidence chain demonstrating the live instrument.</li>
+          <li><b>Funding & Roadmap:</b> what funding unlocks next (validation, regimes, reporting, deployment hardening).</li>
         </ul>
       </div>
     </section>
 
     <div class="footer">
-      <div>Contact: <span class="mono">[YOUR EMAIL]</span></div>
-      <div class="mono">Build: v[YOUR_VERSION] · Access: restricted evaluation</div>
+      <div>Contact: <span class="mono">research@enlightenedai.ai</span></div>
+      <div class="mono">Build: Research Prototype v1.0 · Reflective Diagnostics™ · restricted evaluation</div>
     </div>
   </div>
 </body>
