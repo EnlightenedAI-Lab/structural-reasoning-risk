@@ -1,1 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>How It Works · Structural Reasoning Risk Instrument</title>
+  <meta name="description" content="End-to-end pipeline for structural reasoning diagnostics with deterministic, auditable artifacts." />
+
+  <style>
+    :root{
+      --bg:#0b0e10;
+      --panel:#101417;
+      --panel2:#0f1316;
+      --text:#e8eef3;
+      --muted:#a9b4bf;
+      --line:#1c242b;
+      --accent:#29ff7a;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:14px;
+      --max:1040px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(41,255,122,.10), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+      font-family:var(--sans);
+      line-height:1.45;
+    }
+    a{color:var(--text); text-decoration:none}
+    a:hover{color:var(--accent)}
+    .wrap{max-width:var(--max); margin:0 auto; padding:26px 18px 70px}
+
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(11,14,16,.72);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .brand .t{font-weight:650; font-size:14px}
+    .brand .s{font-size:12px; color:var(--muted)}
+    .nav{display:flex; gap:10px; flex-wrap:wrap}
+    .nav a{
+      font-size:12px; color:var(--muted);
+      padding:8px 10px; border-radius:999px;
+      border:1px solid transparent;
+    }
+    .nav a:hover{border-color:rgba(41,255,122,.35); color:var(--text)}
+    .nav a.active{border-color:rgba(41,255,122,.55); color:var(--text)}
+
+    h1{font-size:30px; margin:14px 0 6px}
+    .subtitle{color:var(--muted); max-width:860px; font-size:14px}
+
+    .grid{display:grid; grid-template-columns:repeat(12,1fr); gap:14px; margin-top:18px}
+    .card{
+      grid-column:span 12;
+      background: linear-gradient(180deg, rgba(16,20,23,.85), rgba(15,19,22,.85));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px;
+    }
+    @media(min-width:860px){
+      .half{grid-column:span 6}
+    }
+    h2{font-size:14px; margin:0 0 8px}
+    p{margin:0 0 10px; color:var(--muted); font-size:13px}
+    ul{margin:10px 0 0 18px; color:var(--muted); font-size:13px}
+    li{margin:6px 0}
+    .mono{font-family:var(--mono); font-size:12px; color:var(--muted)}
+    .pipeline{
+      border:1px dashed rgba(41,255,122,.35);
+      border-radius:12px;
+      padding:12px;
+      font-family:var(--mono);
+      font-size:12px;
+      color:#cfeedd;
+      background: rgba(10,18,14,.45);
+    }
+    .footer{
+      margin-top:32px;
+      padding-top:16px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Top Nav -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="t">Structural Reasoning Risk Instrument</div>
+        <div class="s">Restricted evaluation site · decision-grade diagnostics</div>
+      </div>
+      <div class="nav">
+        <a href="index.html">Start Here</a>
+        <a class="active" href="how-it-works.html">How It Works</a>
+        <a href="what-it-measures.html">What It Measures</a>
+        <a href="use-cases.html">Use Cases & Value</a>
+        <a href="evidence.html">Proof & Evidence</a>
+        <a href="funding-roadmap.html">Funding & Roadmap</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <h1>How the Instrument Works</h1>
+    <p class="subtitle">
+      This system is designed as a <b>measurement instrument</b>, not a chat interface or subjective evaluator.
+      Every step is controlled, replayable, and produces artifacts suitable for audit and review.
+    </p>
+
+    <section class="grid">
+      <div class="card">
+        <h2>End-to-End Pipeline</h2>
+        <div class="pipeline">
+Input (prompt / document / evidence)
+  → Multi-model execution (identical constraints)
+    → Artifact capture (raw outputs, metadata, hashes)
+      → Structural extraction (claims, premises, conclusions)
+        → Metric computation (coverage, integrity, orphans, stability)
+          → Interpreter synthesis (cross-model comparison)
+            → Evidence locker (persistent, replayable case file)
+        </div>
+        <p>
+          Each arrow represents a <b>non-skippable stage</b>. Outputs from one stage become immutable inputs to the next.
+        </p>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card half">
+        <h2>Controlled Execution</h2>
+        <ul>
+          <li>Identical prompts across models</li>
+          <li>Explicit temperature and sampling controls</li>
+          <li>No hidden retries or prompt adaptation</li>
+          <li>Model identity and version captured</li>
+        </ul>
+        <p>
+          This ensures differences observed are <b>structural</b>, not artifacts of tuning or variance.
+        </p>
+      </div>
+
+      <div class="card half">
+        <h2>Determinism & Replay</h2>
+        <ul>
+          <li>Every run produces a unique case ID</li>
+          <li>Raw artifacts are stored verbatim</li>
+          <li>Analyses can be replayed and re-inspected</li>
+          <li>No post-hoc modification of evidence</li>
+        </ul>
+        <p>
+          Decisions can be revisited months later with the same evidence.
+        </p>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card half">
+        <h2>Why This Is Not “LLM-as-Judge”</h2>
+        <ul>
+          <li>No model scores itself</li>
+          <li>No subjective rubrics</li>
+          <li>No outcome-based grading</li>
+          <li>No preference voting</li>
+        </ul>
+        <p>
+          The instrument measures <b>structure</b> extracted from outputs, not opinions about quality.
+        </p>
+      </div>
+
+      <div class="card half">
+        <h2>Audit-Grade by Design</h2>
+        <ul>
+          <li>Immutable artifacts</li>
+          <li>Explicit reasoning topology</li>
+          <li>Cross-model comparability</li>
+          <li>Exportable forensic exhibits</li>
+        </ul>
+        <p>
+          Suitable for governance, compliance, and external review.
+        </p>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div>Contact: <span class="mono">research@enlightenedai.ai</span></div>
+      <div class="mono">Build: v200.0 · Restricted evaluation</div>
+    </div>
+  </div>
+</body>
+</html>
 
