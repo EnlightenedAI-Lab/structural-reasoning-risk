@@ -226,15 +226,20 @@
       font-weight: 500;
     }
     
-    .interpretation-box {
+    /* REVISED INTERPRETATION CALLOUT (No Black Box) */
+    .interpretation-callout {
         grid-column: span 12;
-        background: var(--black);
-        color: #fff;
-        padding: 24px;
+        border-left: 3px solid var(--green);
+        padding-left: 16px;
         margin-top: 40px;
-        font-size: 15px;
+        font-size: 15px; /* Standard body size */
+        color: var(--text);
+        line-height: 1.5;
     }
-    .interpretation-box b { color: #fff; }
+    .interpretation-callout b {
+        color: var(--black);
+        font-weight: 600;
+    }
 
     @media(min-width:900px){
       .two .card{grid-column:span 6}
@@ -346,7 +351,7 @@
       <div class="metric-name">Orphan Claim Rate</div>
       <span class="metric-tag">Unsupported assertions</span>
       <p><b>What it is:</b> The proportion of claims or conclusions with no traceable supporting premises.</p>
-      <p><b>Detects:</b> Unsupported commitments, hidden leaps, and “because I say so” reasoning.</p>
+      <p><b>Detects:</b> Unsupported commitments, hidden leaps, and unsupported assertions without stated justification.</p>
       <div class="accent">High orphan rate → indefensible conclusions.</div>
     </div>
 
@@ -423,7 +428,7 @@
     </div>
   </section>
 
-  <div class="interpretation-box">
+  <div class="interpretation-callout">
     Interpreting these signals is straightforward: the instrument shows where support is missing and which premises are load-bearing. 
     This is the difference between <b>“it sounds right”</b> and <b>“it is defensible.”</b>
   </div>
