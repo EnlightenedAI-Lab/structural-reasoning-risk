@@ -3,10 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>How It Works · Reflective Diagnostics (BUILD vA)</title>
-  <meta name="description" content="Replayable measurement pipeline: controlled runs, deterministic artifacts, structural extraction, signals, interpreter, and evidence packet." />
+  <title>System Anatomy · Reflective Diagnostics (BUILD vA)</title>
+  <meta name="description" content="Technical component map and execution flow: Probe, L2 Analysis, Interpreter, and Reporting layers." />
 
   <style>
+    /* ORIGINAL DESIGN TOKENS */
     :root{
       --bg:#ffffff;
       --text:#0b0e10;
@@ -15,7 +16,7 @@
       --black:#0b0e10;
       --green:#2ecc71;
       --green-soft:#e9f8f0;
-      --radius:6px;
+      --radius:6px; /* Rounded corners returned */
       --max:1100px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       --sans: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
@@ -68,6 +69,7 @@
     }
     .nav a.active{
       border-color:var(--black);
+      border-radius:var(--radius);
     }
 
     /* LAYOUT */
@@ -101,7 +103,7 @@
       color:var(--text);
       border-color:var(--line);
     }
-
+    
     .pill.green{
       background:var(--green-soft);
       color:#145c38;
@@ -122,28 +124,6 @@
       margin-bottom:26px;
     }
 
-    /* BUTTONS */
-    .btnrow{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-
-    .btn{
-      padding:10px 14px;
-      font-size:13px;
-      border:1px solid var(--line);
-      background:#fff;
-      cursor:pointer;
-      display:inline-block;
-    }
-
-    .btn.primary{
-      background:var(--black);
-      color:#fff;
-      border-color:var(--black);
-    }
-
     /* GRID / CARDS */
     .grid{
       display:grid;
@@ -155,60 +135,95 @@
     .card{
       grid-column:span 12;
       border:1px solid var(--line);
-      padding:18px 18px 16px;
+      padding:24px; /* Slightly more padding for tech specs */
       background:#fff;
+      border-radius:var(--radius);
     }
 
     .card h2{
-      font-size:14px;
-      margin:0 0 10px;
-      letter-spacing:.2px;
+      font-size:13px;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin:0 0 16px;
+      letter-spacing:.5px;
+      color:var(--black);
+      border-bottom:1px solid var(--line);
+      padding-bottom:8px;
     }
 
+    .card h3{
+      font-size:14px;
+      margin:16px 0 8px;
+      font-weight:600;
+    }
+    
+    .card h3:first-of-type{margin-top:0}
+
     .card p{
-      margin:0;
+      margin:0 0 12px;
       color:var(--muted);
       font-size:14px;
-      max-width:900px;
+      line-height:1.5;
     }
 
     .card ul{
-      margin:10px 0 0 18px;
+      margin:0 0 12px 18px;
       color:var(--muted);
       font-size:14px;
-      padding-left:14px;
+      padding-left:0;
     }
 
     .card li{margin:6px 0}
+    
+    .spec-list {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--text);
+    }
+    .spec-list li { margin-bottom: 4px; }
 
     .accent{
       border-left:3px solid var(--green);
       padding-left:12px;
-      margin-top:12px;
+      margin-top:16px;
       color:#145c38;
-      font-size:14px;
+      font-size:13px;
+      background:var(--green-soft);
+      padding:10px 12px;
+      border-radius:0 4px 4px 0;
     }
 
     @media(min-width:900px){
-      .two .card{grid-column:span 6}
       .three .card{grid-column:span 4}
+      .two .card{grid-column:span 6}
     }
 
-    /* PIPELINE STRIP */
+    /* PIPELINE STRIP (Flowchart Translation) */
+    .pipeline-container {
+        overflow-x: auto;
+        padding-bottom: 10px;
+        margin-top: 20px;
+    }
     .pipeline{
       display:flex;
-      flex-wrap:wrap;
-      gap:10px;
       align-items:center;
-      margin-top:14px;
+      gap:8px;
+      min-width: max-content;
     }
     .step{
       border:1px solid var(--line);
-      padding:8px 10px;
+      padding:8px 12px;
       font-size:12px;
       background:#fff;
       font-family:var(--mono);
-      border-radius:0; /* square boxes as requested */
+      border-radius:var(--radius);
+      color:var(--black);
+      font-weight:500;
+    }
+    .step.active {
+        background: var(--black);
+        color: #fff;
+        border-color: var(--black);
     }
     .arrow{
       color:var(--muted);
@@ -234,8 +249,6 @@
 </head>
 
 <body>
-<!-- BUILD MARKER: HOW-IT-WORKS vA -->
-
 <div class="topbar">
   <div class="topbar-inner">
     <div class="brand">
@@ -244,12 +257,10 @@
     </div>
     <div class="nav">
       <a href="index.html">Start Here</a>
-      <a class="active" href="how-it-works.html">How It Works</a>
+      <a href="how-it-works.html">How It Works</a>
       <a href="what-it-measures.html">What It Measures</a>
-      <a href="use-cases.html">Use Cases and Value</a>
+      <a class="active" href="anatomy.html">System Anatomy</a>
       <a href="evidence.html">Proof and Evidence</a>
-      <a href="funding-roadmap.html">Funding and Roadmap</a>
-      <a href="compliance.html">Compliance</a>
     </div>
   </div>
 </div>
@@ -258,129 +269,116 @@
 
   <section>
     <div class="kickers">
-      <div class="pill">Research Prototype v1.0</div>
-      <div class="pill light">Deterministic Artifacts</div>
-      <div class="pill light">Cross-Model Comparison</div>
-      <div class="pill light">Evidence Locked</div>
-      <div class="pill light">Replayable Runs</div>
+      <div class="pill">Technical Specification</div>
+      <div class="pill light">Flowchart</div>
+      <div class="pill light">Component Map</div>
     </div>
 
-    <h1>How it works: a replayable measurement pipeline for structural support.</h1>
-
+    <h1>System Anatomy & Execution Map</h1>
     <p class="subtitle">
-      Reflective Diagnostics converts AI output into an <b>inspectable support structure</b>
-      (claims → premises → conclusions), computes <b>structural signals</b> (coverage, orphans, stability, integrity),
-      and produces a <b>replayable evidence record</b> suitable for audit and external review.
-      <span class="mono">Non-goal: truth verification.</span>
+      A complete forensic reconstruction pipeline. The instrument operates in strict phases: 
+      Ingest (Probe), Analysis (L2), Synthesis (Interpreter), and Reporting.
     </p>
 
-    <div class="btnrow">
-      <a class="btn primary" href="evidence.html">Open Proof and Evidence</a>
-      <a class="btn" href="what-it-measures.html">Read Metric Definitions</a>
-      <a class="btn" href="compliance.html">See Regime Mapping</a>
+    <div class="pipeline-container">
+        <div class="pipeline">
+            <div class="step active">ENTRY</div>
+            <div class="arrow">→</div>
+            <div class="step">Run ID Created</div>
+            <div class="arrow">→</div>
+            <div class="step">Probe (Ingest)</div>
+            <div class="arrow">→</div>
+            <div class="step">Locker (Hash)</div>
+            <div class="arrow">→</div>
+            <div class="step">L2 Extraction</div>
+            <div class="arrow">→</div>
+            <div class="step">Measurement</div>
+            <div class="arrow">→</div>
+            <div class="step">Interpreter</div>
+            <div class="arrow">→</div>
+            <div class="step">Report Artifact</div>
+        </div>
     </div>
   </section>
 
-  <section class="grid">
+  <section class="grid three">
     <div class="card">
-      <h2>END-TO-END MEASUREMENT FLOW</h2>
-      <p>
-        Outputs from each stage become fixed inputs to the next stage.
-        The instrument is designed to prevent hidden changes that would break auditability.
-      </p>
+      <h2>1. Global Shell & Ingest</h2>
+      
+      <h3>Run Context</h3>
+      <p>Every interaction is bound to a unique Run ID (e.g., 2126FD14). This ensures strict separation of evidence between sessions.</p>
+      
+      <h3>Probe Console</h3>
+      <ul class="spec-list">
+        <li><strong>Load Evidence:</strong> Analyze existing files</li>
+        <li><strong>Run Live Probe:</strong> Inject prompts live</li>
+        <li><strong>Input Types:</strong> Text, PDF, JSON</li>
+      </ul>
 
-      <div class="pipeline" aria-label="Pipeline steps">
-        <div class="step">Input</div><div class="arrow">→</div>
-        <div class="step">Controlled Run</div><div class="arrow">→</div>
-        <div class="step">Artifact Capture</div><div class="arrow">→</div>
-        <div class="step">Structural Extraction</div><div class="arrow">→</div>
-        <div class="step">Signal Computation</div><div class="arrow">→</div>
-        <div class="step">Interpreter</div><div class="arrow">→</div>
-        <div class="step">Evidence Packet</div>
-      </div>
-
+      <h3>Evidence Locker</h3>
+      <p>Once capture completes, evidence is frozen. The locker generates SHA-256 hashes to prevent downstream alteration.</p>
+      
       <div class="accent">
-        No hidden rewrites. No silent retries. No adaptive steering.
+        The anchor for replayability.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>2. L2 Structural Analysis</h2>
+      
+      <h3>Extraction Engine</h3>
+      <p>Converts narrative output into an inspectable support graph. Identifies Claims, Premises, and Conclusions.</p>
+
+      <h3>Telemetry Metrics</h3>
+      <ul class="spec-list">
+        <li><strong>Coverage:</strong> % Substantiated</li>
+        <li><strong>Orphans:</strong> Unsupported claims</li>
+        <li><strong>Density:</strong> Reasoning interconnectivity</li>
+        <li><strong>Stability:</strong> Consistency under load</li>
+      </ul>
+
+      <h3>Trace X-Ray</h3>
+      <p>A highlighted view showing exactly where each claim and premise appears in the source text. No abstraction layer.</p>
+    </div>
+
+    <div class="card">
+      <h2>3. Interpreter & Reporting</h2>
+      
+      <h3>Cross-Model Synthesis</h3>
+      <p>Aggregates structural metrics across multiple models. Generates the <strong>Consensus Topology</strong> and <strong>Ranked Leaderboard</strong>.</p>
+      
+      <h3>Deterministic Copilots</h3>
+      <ul class="spec-list">
+        <li><strong>Chart Copilot:</strong> Explains metrics</li>
+        <li><strong>Interpreter:</strong> Recommends winner</li>
+      </ul>
+      <p>Rule-based guidance only. No creative reasoning.</p>
+
+      <h3>Court-Grade Report</h3>
+      <p>Assembles locked artifacts, metrics, and definitions into a static PDF-style export for governance review.</p>
+      
+      <div class="accent">
+        Not a score — a case file.
       </div>
     </div>
   </section>
 
   <section class="grid two">
     <div class="card">
-      <h2>1) CONTROLLED RUN (COMPARABILITY)</h2>
-      <ul>
-        <li>Same input, same constraints, across models</li>
-        <li>Model identity and version recorded</li>
-        <li>No prompt rewriting or hidden retries</li>
-      </ul>
-      <div class="accent">
-        Differences observed are attributable to the model, not shifting conditions.
-      </div>
+        <h2>What This System Is</h2>
+        <ul>
+            <li>A forensic reconstruction pipeline</li>
+            <li>A structural measurement instrument</li>
+            <li>A replayable evidence generator</li>
+        </ul>
     </div>
-
     <div class="card">
-      <h2>2) ARTIFACT CAPTURE (SOURCE OF RECORD)</h2>
-      <ul>
-        <li>Raw outputs stored verbatim</li>
-        <li>Run metadata captured (timestamps, run ID, model selection)</li>
-        <li>Hashes generated to prevent silent alteration</li>
-      </ul>
-      <div class="accent">
-        A run can be audited by someone who did not witness it.
-      </div>
-    </div>
-  </section>
-
-  <section class="grid two">
-    <div class="card">
-      <h2>3) STRUCTURAL EXTRACTION (SUPPORT GRAPH)</h2>
-      <ul>
-        <li>Claims, premises, and conclusions explicitly identified</li>
-        <li>Support relationships made visible</li>
-        <li>Orphaned (unsupported) conclusions surfaced</li>
-      </ul>
-      <div class="accent">
-        Narrative output becomes inspectable structure.
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>4) SIGNAL COMPUTATION (STRUCTURAL METRICS)</h2>
-      <ul>
-        <li><b>Coverage</b>: how much of the conclusion is supported</li>
-        <li><b>Orphan rate</b>: unsupported commitments</li>
-        <li><b>Stability</b>: consistency under controlled variation</li>
-        <li><b>Integrity</b>: internal coherence of the support chain</li>
-      </ul>
-      <div class="accent">
-        Signals are derived from structure — not preference or outcome grading.
-      </div>
-    </div>
-  </section>
-
-  <section class="grid two">
-    <div class="card">
-      <h2>5) INTERPRETER (CROSS-MODEL SYNTHESIS)</h2>
-      <ul>
-        <li>Cross-model comparison under identical constraints</li>
-        <li>Divergence and consistency made explicit</li>
-        <li>Failure modes shown with supporting artifacts</li>
-      </ul>
-      <div class="accent">
-        This is how evaluation becomes decision-grade, not subjective.
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>6) EVIDENCE PACKET (EXPORTABLE EXHIBIT)</h2>
-      <ul>
-        <li>Replayable record: inputs, outputs, and computed signals</li>
-        <li>Exportable forensic exhibit format</li>
-        <li>Designed for audit, governance, and funding review</li>
-      </ul>
-      <div class="accent">
-        The output is not a score — it’s a case file.
-      </div>
+        <h2>What This System Is Not</h2>
+        <ul>
+            <li>Not a truth oracle</li>
+            <li>Not a semantic judge</li>
+            <li>Not a probabilistic scorer</li>
+        </ul>
     </div>
   </section>
 
