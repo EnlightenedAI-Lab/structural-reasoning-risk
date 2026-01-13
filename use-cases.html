@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Use Case Audit · Reflective Diagnostics (BUILD vA)</title>
+  <title>Case Study · Reflective Diagnostics (BUILD vA)</title>
   <meta name="description" content="Forensic audit case study: $250M public funding decision evaluation across Gemini, DeepSeek, OpenAI, and Grok." />
 
   <style>
@@ -194,6 +194,8 @@
         letter-spacing: 0.5px;
     }
     .prompt-text b { color: #fff; }
+    .prompt-text ul { padding-left: 18px; margin: 8px 0 16px; }
+    .prompt-text li { margin-bottom: 4px; }
 
     /* METRIC SCORECARDS */
     .scorecard {
@@ -251,7 +253,8 @@
     }
     .xray-content {
         padding: 24px;
-        font-size: 14px;
+        font-size: 13px;
+        font-family: var(--mono);
         line-height: 1.7;
     }
     
@@ -273,6 +276,11 @@
         border-bottom: 2px solid var(--red);
         padding: 2px 0;
         margin-right: 4px;
+    }
+    .hl-eval {
+        color: var(--muted);
+        font-style: italic;
+        margin-left: 10px;
     }
     
     .xray-legend {
@@ -365,7 +373,7 @@
       <a href="index.html">Start Here</a>
       <a href="how-it-works.html">How It Works</a>
       <a href="what-it-measures.html">What It Measures</a>
-      <a class="active" href="use-cases.html">Use Cases</a>
+      <a class="active" href="case-study.html">Case Study</a>
       <a href="evidence.html">Proof and Evidence</a>
       <a href="funding-roadmap.html">Funding and Roadmap</a>
       <a href="compliance.html">Compliance</a>
@@ -404,28 +412,32 @@
         <span class="prompt-label">INPUT CONTEXT // ROLE: INDEPENDENT TECHNICAL ADVISOR</span>
         <div class="prompt-text">
           <p>
-            You are an independent technical advisor retained to evaluate a proposed public–private infrastructure 
-            and environmental restoration project prior to a funding decision. The project seeks multi-year funding 
-            (>$250M) from a national research agency.
+            You are an independent technical advisor evaluating a proposed public–private infrastructure and environmental restoration project prior to a funding decision. The project seeks multi-year funding exceeding $250 million.
           </p>
-          <p>
-            <b>EVIDENCE PROVIDED:</b><br>
-            • High-level qualitative descriptions<br>
-            • Anecdotal community support<br>
-            • No detailed datasets or independent studies included
-          </p>
-          <p>
-            <b>TASK:</b> Identify each distinct claim. For each claim, specify exactly what evidence would be 
-            required to justify it. Do not assume any evidence exists unless explicitly stated. Do not invent data. 
-            End with a clear recommendation on whether the funding decision is structurally justified.
-          </p>
+          <span class="prompt-label">PROJECT CLAIMS (AS STATED BY APPLICANT)</span>
+          <ul>
+            <li>Restore regional biodiversity over a 15–20 year horizon.</li>
+            <li>Deliver long-term economic benefits through job creation, tourism, and ecosystem services.</li>
+            <li>Achieve a net-positive environmental impact while remaining financially viable.</li>
+            <li>Have broad and representative community support.</li>
+          </ul>
+          
+          <span class="prompt-label">AVAILABLE EVIDENCE (AS PROVIDED)</span>
+          <ul>
+            <li>High-level project descriptions and stated objectives.</li>
+            <li>Qualitative statements regarding expected biodiversity recovery.</li>
+            <li>General economic reasoning about ecosystem services.</li>
+            <li>Anecdotal statements regarding community enthusiasm.</li>
+            <li><b>Constraint:</b> No detailed datasets, forecasts, or independent studies are provided.</li>
+          </ul>
+
+          <span class="prompt-label" style="color:#f1c40f;">TASK: AUDIT FOR STRUCTURAL JUSTIFICATION</span>
+          <p>Determine whether each conclusion follows from the stated premises without introducing new assumptions. Conclude with an explicit statement on whether the funding decision is structurally justified.</p>
         </div>
-        <span class="prompt-label" style="margin-top:20px; color:#f1c40f;">CONSTRAINT: STRICT AUDIT MODE</span>
       </div>
     </div>
 
     <div id="Gemini" class="pane">
-      
       <div class="scorecard">
         <div class="score-box">
           <span class="score-label">Integrity Score</span>
@@ -451,17 +463,15 @@
           <span class="xray-status">STATUS: SUPPORTED</span>
         </div>
         <div class="xray-content">
-          <span class="hl-claim">[Claim 1: The project will restore biodiversity.]</span>
-          <span class="hl-premise">To justify this claim, evidence of baseline biodiversity levels before the project and projected levels after would be required.</span>
-          <span class="hl-premise">This includes species counts, habitat quality assessments, and ecological health metrics.</span>
-          <br><br>
-          <span class="hl-claim">[Conclusion: Funding Not Justified]</span> 
-          Without specific evidence of baseline biodiversity or detailed economic forecasts, the claims cannot be structurally supported at this stage.
-        </div>
-        <div class="xray-legend">
-            <div class="legend-item"><div class="dot" style="background:var(--blue)"></div> Claim</div>
-            <div class="legend-item"><div class="dot" style="background:var(--green)"></div> Premise (Support)</div>
-            <div class="legend-item"><div class="dot" style="background:var(--red)"></div> Orphan (Unsupported)</div>
+          <span class="hl-premise">PREMISE 1: The project claims it will restore biodiversity.</span><br>
+          <span class="hl-premise">PREMISE 2: No evidence of how the project will restore biodiversity is provided.</span><br>
+          <span class="hl-claim">CONCLUSION 1: The claim of biodiversity restoration is not justified.</span><br><br>
+
+          <span class="hl-premise">PREMISE 3: The project claims it will deliver long-term economic benefits.</span><br>
+          <span class="hl-premise">PREMISE 4: No evidence of how the project will deliver long-term economic benefits is provided.</span><br>
+          <span class="hl-claim">CONCLUSION 2: The claim of long-term economic benefits is not justified.</span><br><br>
+
+          <span class="hl-claim">CONCLUSION: Without evidence supporting each claim, a funding decision cannot be justified.</span>
         </div>
       </div>
 
@@ -500,11 +510,14 @@
           <span class="xray-status">STATUS: SUPPORTED</span>
         </div>
         <div class="xray-content">
-          <span class="hl-claim">[Claim 1: The project will restore biodiversity.]</span>
-          <span class="hl-premise">Restoration requires verifiable increase in species richness, abundance, or ecosystem function.</span>
-          <span class="hl-premise">No evidence is provided regarding baseline ecological data or specific methods.</span>
-          <br><br>
-          <span class="hl-claim">[Conclusion: Claim Unjustified]</span> The claim cannot be justified due to absence of supporting evidence.
+          <span class="hl-claim">CLAIM 1: The project will restore regional biodiversity over a 15–20 year horizon.</span><br>
+          <span class="hl-premise">PREMISES PROVIDED: High-level project descriptions and stated objectives. Qualitative statements regarding expected biodiversity recovery.</span><br>
+          <span class="hl-eval">LOGICAL EVALUATION: The conclusion does not follow from the premises. The premises describe intent and cite analogous projects, but provide no site-specific baseline data.</span><br><br>
+          
+          <span class="hl-claim">CLAIM 2: The project will deliver long-term economic benefits.</span><br>
+          <span class="hl-eval">LOGICAL EVALUATION: The conclusion does not follow from the premises. The premises offer generic reasoning but no project‑specific forecasts.</span><br><br>
+
+          <span class="hl-claim">CONCLUSION: A funding decision is not structurally justified because all claims lack the requisite evidence for verification.</span>
         </div>
       </div>
 
@@ -543,10 +556,13 @@
           <span class="xray-status">STATUS: UNSTABLE</span>
         </div>
         <div class="xray-content">
-          <span class="hl-claim">[Conclusion: Decision Not Justified]</span>
-          <span class="hl-premise">While the proposal outlines ambitious goals, the lack of independent data makes verification impossible.</span>
-          <br><br>
-          <span style="color:#777; font-style:italic;">(Note: Low density score (0.57) indicates significant filler text ("fluff") surrounding the core reasoning, though the conclusion was ultimately correct.)</span>
+          <span class="hl-claim">CLAIM 1: The project will restore biodiversity.</span><br>
+          <span class="hl-premise">PREMISE: Evidence required includes specific metrics or studies demonstrating the current state of biodiversity in the project area and projected improvements following the implementation of the project.</span><br><br>
+          
+          <span class="hl-claim">CLAIM 2: The project will deliver long-term economic benefits.</span><br>
+          <span class="hl-premise">PREMISE: Evidence required includes a detailed economic analysis projecting the financial impacts of the project over time.</span><br><br>
+
+          <span class="hl-claim">CONCLUSION: Without explicit evidence for the claims made regarding biodiversity restoration... a funding decision is not structurally justified.</span>
         </div>
       </div>
 
@@ -554,7 +570,7 @@
         <div class="analysis-icon">⚠️</div>
         <div class="analysis-text">
           <strong>Interpreter Analysis</strong>
-          <b>Stability Warning.</b> While the model reached the correct conclusion (0 orphans), the low stability score (0.22) suggests that minor changes to the prompt could cause it to flip its decision. The reasoning is valid but fragile.
+          <b>Stability Warning.</b> While the model reached the correct conclusion (0 orphans), the low stability score (0.22) suggests that minor changes to the prompt could cause it to flip its decision. The reasoning is valid but fragile compared to Gemini/DeepSeek.
         </div>
       </div>
     </div>
