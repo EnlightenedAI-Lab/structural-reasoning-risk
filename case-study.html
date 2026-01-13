@@ -37,7 +37,7 @@
 
     a{color:inherit;text-decoration:none}
 
-    /* STANDARD TOP BAR (MATCHING INDEX.HTML) */
+    /* STANDARD TOP BAR */
     .topbar{
       border-bottom:1px solid var(--line);
       background:#fff;
@@ -195,7 +195,7 @@
     .brief-content { padding: 25px; background: #111; color: #eee; font-family: var(--mono); font-size: 12px; line-height: 1.6; white-space: pre-wrap; border-top: 1px solid var(--line); }
 
     /* DASHBOARD GRID */
-    .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
+    .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; margin-bottom: 40px; }
     
     /* SCORECARDS */
     .scorecard { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 40px; }
@@ -234,19 +234,21 @@
     .copilot { background: #f9f9f9; border: 1px solid var(--line); padding: 20px; font-size: 13px; line-height: 1.6; }
     .copilot strong { color: var(--black); font-family: var(--mono); text-transform: uppercase; font-size: 11px; display: block; margin-bottom: 5px; }
 
-    /* MODEL LINKS (The "Wiring") */
-    .model-nav { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 40px; border-top: 1px solid var(--line); padding-top: 30px; }
+    /* MODEL LINKS (THE WIRING) */
+    .section-title { font-size: 14px; font-weight: 700; text-transform: uppercase; border-bottom: 1px solid var(--line); padding-bottom: 10px; margin-bottom: 20px; }
+    .model-nav { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
     .model-btn { display: block; border: 1px solid var(--line); padding: 20px; text-decoration: none; color: inherit; transition: 0.2s; }
     .model-btn:hover { border-color: var(--black); background: #fafafa; }
     .mb-name { font-weight: 700; font-size: 13px; text-transform: uppercase; display: block; margin-bottom: 5px; }
-    .mb-score { font-size: 24px; font-weight: 700; display: block; margin-bottom: 5px; }
+    .mb-score { font-size: 28px; font-weight: 700; display: block; margin-bottom: 5px; }
     .mb-status { font-family: var(--mono); font-size: 10px; padding: 2px 6px; background: #eee; }
     .status-win { background: #eafaf1; color: var(--green); }
     .status-fail { background: #fdedec; color: var(--red); }
 
     @media(max-width: 700px){
-        .scorecard, .telemetry-grid, .heatmap { grid-template-columns: 1fr 1fr; }
-        .tabs { flex-wrap: wrap; }
+        .scorecard, .dashboard-grid, .model-nav, .heatmap { grid-template-columns: 1fr; }
+        .topbar-inner { flex-wrap: wrap; }
+        .nav { justify-content: flex-start; margin-top: 10px; }
     }
 
     /* FOOTER */
@@ -295,7 +297,7 @@
       <div class="pill light">Run ID: 2126FD14</div>
   </div>
 
-  <div style="margin-bottom: 30px;">
+  <div style="margin-bottom: 40px;">
     <h1 style="margin: 0; font-size: 28px;">$250M Funding Decision</h1>
     <p class="subtitle">
       Below is the actual forensic output from a controlled evaluation. We fed an identical <b>Public Funding Prompt</b> 
@@ -343,14 +345,7 @@ Provide the analysis in clear, professional language suitable for an audit or go
 Conclude with an explicit statement on whether the funding decision is structurally justified based solely on the stated premises.</div>
   </details>
 
-  <div class="tabs">
-    <a href="case-study.html" class="tab active">Interpreter (Synthesis)</a>
-    <a href="trace-gemini.html" class="tab">Gemini 2.0</a>
-    <a href="trace-deepseek.html" class="tab">DeepSeek</a>
-    <a href="trace-openai.html" class="tab">OpenAI</a>
-    <a href="trace-grok.html" class="tab">Grok-2</a>
-  </div>
-
+  <div class="section-title">Interpreter Synthesis</div>
   <div class="scorecard">
     <div class="score-box">
       <span class="score-label">Avg Integrity</span>
@@ -449,6 +444,7 @@ Conclude with an explicit statement on whether the funding decision is structura
 
   </div>
 
+  <div class="section-title">Select Trace Artifact</div>
   <div class="model-nav">
     <a href="trace-gemini.html" class="model-btn">
       <span class="mb-name">Gemini 2.0</span>
@@ -478,6 +474,5 @@ Conclude with an explicit statement on whether the funding decision is structura
   </div>
 
 </div>
-
 </body>
 </html>
