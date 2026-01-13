@@ -2,113 +2,166 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Reflective Diagnostics™</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="styles.css" />
+  <title>Reflective Diagnostics™ — Structural Reasoning Risk</title>
+
+  <!-- Keep your existing font + css includes exactly as your current page uses -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- IMPORTANT: keep your current stylesheet path(s) -->
+  <link rel="stylesheet" href="/assets/css/site.css" />
+  <link rel="stylesheet" href="/assets/css/structural-risk.css" />
+
+  <!-- If your current page has an audit-manifest block, keep it. -->
+  <script type="application/json" id="audit-manifest">
+  {
+    "doc_id": "EAI-STRUCTURAL-RISK",
+    "version": "1.0.0",
+    "status": "PUBLIC"
+  }
+  </script>
 </head>
 
 <body>
 
-<header class="site-header">
-  <div class="brand">
-    <h1>Reflective Diagnostics™</h1>
-    <p class="subtitle">Structural Reasoning Risk · restricted evaluation · auditable diagnostics</p>
-  </div>
+  <!-- ===== HEADER (KEEP SAME DESIGN) ===== -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-title">Reflective Diagnostics™</div>
+        <div class="brand-subtitle">Structural Reasoning Risk · restricted evaluation · auditable diagnostics</div>
+      </div>
 
-  <nav class="main-nav">
-    <a href="#start" class="active">Start Here</a>
-    <a href="#how">How It Works</a>
-    <a href="#measures">What It Measures</a>
-    <a href="#usecases">Use Cases and Value</a>
-    <a href="#proof">Proof and Evidence</a>
-    <a href="#funding">Funding and Roadmap</a>
-    <a href="#compliance">Compliance</a>
-  </nav>
-</header>
+      <nav class="nav">
+        <a class="nav-link active" href="/structural-reasoning-risk/index.html">Start Here</a>
+        <a class="nav-link" href="/structural-reasoning-risk/how-it-works.html">How It Works</a>
+        <a class="nav-link" href="/structural-reasoning-risk/what-it-measures.html">What It Measures</a>
+        <a class="nav-link" href="/structural-reasoning-risk/use-cases.html">Use Cases and Value</a>
+        <a class="nav-link" href="/structural-reasoning-risk/proof.html">Proof and Evidence</a>
 
-<section class="badges">
-  <span class="badge dark">Research Prototype v1.0</span>
-  <span class="badge">Audit Trail Enforced</span>
-  <span class="badge">Cross-Model Comparison</span>
-  <span class="badge">Deterministic Artifacts</span>
-</section>
+        <div class="nav-sub">
+          <a class="nav-link sub" href="/structural-reasoning-risk/funding.html">Funding and Roadmap</a>
+          <a class="nav-link sub" href="/structural-reasoning-risk/compliance.html">Compliance</a>
+        </div>
+      </nav>
+    </div>
+  </header>
 
-<main>
+  <main class="page">
 
-<section class="hero" id="start">
-  <h2>
-    An audit instrument that compares AI systems by the structural justification of their conclusions,
-    exposing unsupported commitments before high-stakes decisions are made.
-  </h2>
-</section>
+    <!-- ===== STATUS PILLS (KEEP SAME DESIGN, REMOVE GREEN ONE) ===== -->
+    <section class="status-strip">
+      <div class="status-pills">
+        <div class="pill pill-dark">Research Prototype v1.0</div>
+        <div class="pill">Audit Trail Enforced</div>
+        <div class="pill">Cross-Model Comparison</div>
+        <div class="pill">Deterministic Artifacts</div>
+        <!-- REMOVED: <div class="pill pill-green">Integrity Verified</div> -->
+      </div>
+    </section>
 
-<section class="cards">
+    <!-- ===== HERO (SAME STRUCTURE) ===== -->
+    <section class="hero">
+      <h1 class="hero-title">
+        An audit instrument that compares AI systems by the structural justification of their conclusions, exposing unsupported commitments before high-stakes decisions are made
+      </h1>
 
-  <div class="card">
-    <h3>THE PROBLEM</h3>
-    <ul>
-      <li>AI outputs are used to justify funding, policy, compliance, and governance decisions</li>
-      <li>Evaluation relies on trust in model providers, not verifiable reasoning structure</li>
-      <li>Models change continuously, making oversight unstable over time</li>
-      <li>The ecosystem is fragmented across vendors, versions, and deployment contexts</li>
-      <li>Coherent outputs can introduce commitments no human explicitly approved</li>
-    </ul>
-    <p class="core-risk">
-      <strong>The core risk:</strong><br />
-      Unsupported conclusions are treated as decisions without a reliable way to audit or compare them.
-    </p>
-  </div>
+      <p class="hero-subcopy">
+        This instrument evaluates whether conclusions produced by AI systems are <strong>derivable from their stated premises</strong>.
+        It does not judge factual truth, sentiment, or policy merit. It exposes unsupported commitments before high-stakes decisions are made.
+      </p>
 
-  <div class="card">
-    <h3>WHAT EXISTING TOOLS MISS</h3>
-    <ul>
-      <li>Benchmarks measure answer quality, not whether conclusions follow from stated premises</li>
-      <li>Red-teaming surfaces failures but does not enable repeatable, system-wide comparison</li>
-      <li>Output scoring judges fluency and alignment, not internal support structure</li>
-      <li>Safety layers limit content categories, not unjustified commitments</li>
-      <li>No tool establishes a stable standard across models, updates, and providers</li>
-    </ul>
-    <p class="core-risk">
-      <strong>The gap:</strong><br />
-      Existing tools evaluate performance and safety outcomes, but cannot determine whether an AI system’s
-      conclusions are structurally justified or comparable across models.
-    </p>
-  </div>
+      <div class="hero-cta-row">
+        <a class="btn btn-primary" href="/structural-reasoning-risk/how-it-works.html">How It Works</a>
+        <a class="btn" href="/structural-reasoning-risk/proof.html">Open Proof and Evidence</a>
+        <a class="btn" href="/structural-reasoning-risk/use-cases.html">Use Cases and Value</a>
+      </div>
+    </section>
 
-</section>
+    <!-- ===== TWO CARDS ROW (KEEP SAME DESIGN) ===== -->
+    <section class="cards-row">
+      <!-- THE PROBLEM -->
+      <div class="card">
+        <div class="card-title">THE PROBLEM</div>
 
-<section class="card single">
-  <h3>WHAT THIS INSTRUMENT PROVIDES</h3>
-  <p>
-    A replayable audit that reveals when AI conclusions exceed their evidence.
-  </p>
-</section>
+        <ul class="card-bullets">
+          <li>AI outputs are used to justify funding, policy, compliance, and governance decisions</li>
+          <li>Evaluation relies on trust in model providers, not verifiable reasoning structure</li>
+          <li>Models change continuously, making oversight unstable over time</li>
+          <li>The ecosystem is fragmented across vendors, versions, and deployment contexts</li>
+          <li>Coherent outputs can introduce commitments no human explicitly approved</li>
+        </ul>
 
-<section class="cards">
+        <div class="card-callout">
+          <span class="callout-bar"></span>
+          <div class="callout-text">
+            <strong>The core risk:</strong> Unsupported conclusions are treated as decisions without a reliable way to audit or compare them.
+          </div>
+        </div>
+      </div>
 
-  <div class="card">
-    <h3>WHO IT SERVES</h3>
-    <ul>
-      <li><strong>Decision authorities</strong> — funders, regulators, and auditors responsible for consequential outcomes</li>
-      <li><strong>Operators</strong> — enterprises deploying AI in compliance-sensitive environments</li>
-      <li><strong>Builders</strong> — AI labs requiring auditable proof of reasoning integrity</li>
-    </ul>
-  </div>
+      <!-- WHAT EXISTING TOOLS MISS -->
+      <div class="card">
+        <div class="card-title">WHAT EXISTING TOOLS MISS</div>
 
-  <div class="card">
-    <h3>AUTHORITY IT PROVIDES</h3>
-    <p>
-      Objective justification of AI conclusions through traceable support structure.
-    </p>
-  </div>
+        <ul class="card-bullets">
+          <li>Benchmarks measure answer quality, not whether conclusions follow from stated premises</li>
+          <li>Red-teaming surfaces failures but does not enable repeatable, system-wide comparison</li>
+          <li>Output scoring judges fluency and alignment, not internal support structure</li>
+          <li>Safety layers limit content categories, not unjustified commitments</li>
+          <li>No tool establishes a stable standard across models, updates, and providers</li>
+        </ul>
 
-</section>
+        <div class="card-callout">
+          <span class="callout-bar"></span>
+          <div class="callout-text">
+            <strong>The gap:</strong> Existing tools evaluate performance and safety outcomes, but cannot determine whether an AI system’s conclusions are structurally justified or comparable across models.
+          </div>
+        </div>
+      </div>
+    </section>
 
-</main>
+    <!-- ===== NEXT ROW / SECTIONS (KEEP SAME DESIGN STYLE) ===== -->
+    <section class="stack">
+      <div class="card">
+        <div class="card-title">WHAT THIS INSTRUMENT PROVIDES</div>
+        <div class="card-body">
+          A replayable audit that reveals when AI conclusions exceed their evidence.
+        </div>
+      </div>
 
-<footer class="site-footer">
-  <p>© Reflective Diagnostics™ — Research Prototype</p>
-</footer>
+      <div class="card">
+        <div class="card-title">WHO IT SERVES</div>
+        <ul class="card-bullets">
+          <li>Decision authorities — funders, regulators, and auditors responsible for consequential outcomes</li>
+          <li>Operators — enterprises deploying AI in compliance-sensitive environments</li>
+          <li>Builders — AI labs requiring auditable proof of reasoning integrity</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">AUTHORITY IT PROVIDES</div>
+        <div class="card-body">
+          Objective justification of AI conclusions through traceable support structure.
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- If your current page includes a footer include, keep it exactly. -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <span class="mono">Reflective Diagnostics™</span>
+      </div>
+      <div class="footer-right mono">
+        Court-grade reasoning & compliance analysis
+      </div>
+    </div>
+  </footer>
 
 </body>
 </html>
