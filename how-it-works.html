@@ -1,269 +1,394 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>How It Works — Reflective Diagnostics</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- Base styles (assumes your existing site CSS is loaded globally) -->
-  <link rel="stylesheet" href="/assets/css/main.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>How It Works · Reflective Diagnostics (BUILD vA)</title>
+  <meta name="description" content="Replayable measurement pipeline: controlled runs, deterministic artifacts, structural extraction, signals, interpreter, and evidence packet." />
 
   <style>
-    /* PAGE-SPECIFIC TUNING ONLY */
-
-    .how-title {
-      font-size: 2.2rem; /* reduced from overpowering hero size */
-      font-weight: 700;
-      line-height: 1.25;
-      margin: 1.2rem 0 0.75rem 0;
+    :root{
+      --bg:#ffffff;
+      --text:#0b0e10;
+      --muted:#5f6b76;
+      --line:#d9e0e7;
+      --black:#0b0e10;
+      --green:#2ecc71;
+      --green-soft:#e9f8f0;
+      --radius:6px;
+      --max:1100px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --sans: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
     }
 
-    .how-intro {
-      max-width: 900px;
-      font-size: 1.05rem;
-      color: #3a3a3a;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:var(--sans);
+      line-height:1.45;
     }
 
-    .badge-row {
-      display: flex;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      margin-bottom: 0.8rem;
+    a{color:inherit;text-decoration:none}
+
+    /* TOP BAR */
+    .topbar{
+      border-bottom:1px solid var(--line);
+      background:#fff;
+    }
+    .topbar-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:16px 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:20px;
+    }
+    .brand .t{
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+    .brand .s{
+      font-size:13px;
+      color:var(--muted);
+      margin-top:2px;
     }
 
-    .badge {
-      padding: 0.4rem 0.7rem;
-      border: 1px solid #d9d9d9;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      background: #fff;
+    .nav{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .nav a{
+      font-size:13px;
+      padding:6px 10px;
+      border:1px solid transparent;
+    }
+    .nav a.active{
+      border-color:var(--black);
     }
 
-    .cta-row {
-      margin: 1.2rem 0 1.8rem 0;
-      display: flex;
-      gap: 0.8rem;
-      flex-wrap: wrap;
+    /* LAYOUT */
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:40px 18px 70px;
     }
 
-    .btn.primary {
-      background: #000;
-      color: #fff;
-      border: 1px solid #000;
+    /* HERO */
+    .kickers{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+      align-items:center;
     }
 
-    .btn {
-      padding: 0.55rem 0.9rem;
-      border: 1px solid #d0d0d0;
-      border-radius: 4px;
-      font-size: 0.85rem;
-      text-decoration: none;
-      color: #000;
-      background: #fff;
+    .pill{
+      font-size:11px;
+      padding:6px 10px;
+      border:1px solid var(--black);
+      background:var(--black);
+      color:#fff;
+      border-radius:4px;
+      letter-spacing:.3px;
     }
 
-    .pipeline-block {
-      margin: 2rem 0;
-      padding: 1.2rem;
-      border: 1px solid #e2e2e2;
-      border-radius: 4px;
-      background: #fff;
+    .pill.light{
+      background:#fff;
+      color:var(--text);
+      border-color:var(--line);
     }
 
-    .pipeline-steps {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.85rem;
+    .pill.green{
+      background:var(--green-soft);
+      color:#145c38;
+      border-color:var(--green);
+      font-weight:600;
     }
 
-    .step {
-      padding: 0.4rem 0.6rem;
-      border: 1px solid #cfcfcf;
-      border-radius: 4px;
-      background: #fafafa;
-      white-space: nowrap;
+    h1{
+      font-size:32px;
+      line-height:1.15;
+      margin:0 0 14px;
     }
 
-    .arrow {
-      color: #888;
+    .subtitle{
+      max-width:900px;
+      font-size:16px;
+      color:var(--muted);
+      margin-bottom:26px;
     }
 
-    .pipeline-note {
-      margin-top: 0.7rem;
-      font-size: 0.8rem;
-      color: #555;
-      border-left: 3px solid #000;
-      padding-left: 0.6rem;
+    /* BUTTONS */
+    .btnrow{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
     }
 
-    .grid.two-col {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.2rem;
-      margin-top: 1.6rem;
+    .btn{
+      padding:10px 14px;
+      font-size:13px;
+      border:1px solid var(--line);
+      background:#fff;
+      cursor:pointer;
+      display:inline-block;
     }
 
-    .card {
-      border: 1px solid #e0e0e0;
-      border-radius: 4px;
-      padding: 1.1rem;
-      background: #fff;
+    .btn.primary{
+      background:var(--black);
+      color:#fff;
+      border-color:var(--black);
     }
 
-    .card h3 {
-      margin-top: 0;
-      font-size: 1.05rem;
+    /* GRID / CARDS */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:18px;
+      margin-top:40px;
     }
 
-    .card ul {
-      padding-left: 1.1rem;
-      margin: 0.6rem 0 0 0;
+    .card{
+      grid-column:span 12;
+      border:1px solid var(--line);
+      padding:18px 18px 16px;
+      background:#fff;
     }
 
-    .card li {
-      margin-bottom: 0.4rem;
-      font-size: 0.9rem;
+    .card h2{
+      font-size:14px;
+      margin:0 0 10px;
+      letter-spacing:.2px;
     }
 
-    .note {
-      font-size: 0.8rem;
-      color: #555;
-      margin-top: 0.5rem;
+    .card p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      max-width:900px;
     }
+
+    .card ul{
+      margin:10px 0 0 18px;
+      color:var(--muted);
+      font-size:14px;
+      padding-left:14px;
+    }
+
+    .card li{margin:6px 0}
+
+    .accent{
+      border-left:3px solid var(--green);
+      padding-left:12px;
+      margin-top:12px;
+      color:#145c38;
+      font-size:14px;
+    }
+
+    @media(min-width:900px){
+      .two .card{grid-column:span 6}
+      .three .card{grid-column:span 4}
+    }
+
+    /* PIPELINE STRIP */
+    .pipeline{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      margin-top:14px;
+    }
+    .step{
+      border:1px solid var(--line);
+      padding:8px 10px;
+      font-size:12px;
+      background:#fff;
+      font-family:var(--mono);
+      border-radius:0; /* square boxes as requested */
+    }
+    .arrow{
+      color:var(--muted);
+      font-family:var(--mono);
+      font-size:12px;
+    }
+
+    /* FOOTER */
+    .footer{
+      margin-top:60px;
+      padding-top:18px;
+      border-top:1px solid var(--line);
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:12px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .mono{font-family:var(--mono)}
   </style>
 </head>
 
 <body>
+<!-- BUILD MARKER: HOW-IT-WORKS vA -->
 
-  <!-- HEADER / NAV -->
-  <header class="site-header">
-    <div class="container nav">
-      <div class="brand">
-        <strong>Reflective Diagnostics™</strong><br />
-        <span class="tagline">Structural Reasoning Risk · restricted evaluation · auditable diagnostics</span>
-      </div>
-
-      <nav>
-        <a href="/index.html">Start Here</a>
-        <a href="/structural-reasoning-risk/how-it-works.html" class="active">How It Works</a>
-        <a href="/structural-reasoning-risk/what-it-measures.html">What It Measures</a>
-        <a href="/structural-reasoning-risk/use-cases.html">Use Cases and Value</a>
-        <a href="/structural-reasoning-risk/proof-and-evidence.html">Proof and Evidence</a>
-        <a href="/funding-and-roadmap.html">Funding and Roadmap</a>
-        <a href="/compliance.html">Compliance</a>
-      </nav>
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="t">Reflective Diagnostics™</div>
+      <div class="s">Structural Reasoning Risk · restricted evaluation · auditable diagnostics</div>
     </div>
-  </header>
+    <div class="nav">
+      <a href="index.html">Start Here</a>
+      <a class="active" href="how-it-works.html">How It Works</a>
+      <a href="what-it-measures.html">What It Measures</a>
+      <a href="use-cases.html">Use Cases and Value</a>
+      <a href="evidence.html">Proof and Evidence</a>
+      <a href="funding-roadmap.html">Funding and Roadmap</a>
+      <a href="compliance.html">Compliance</a>
+    </div>
+  </div>
+</div>
 
-  <!-- MAIN -->
-  <main class="container">
+<div class="wrap">
 
-    <div class="badge-row">
-      <span class="badge">Research Prototype v1.0</span>
-      <span class="badge">Deterministic Artifacts</span>
-      <span class="badge">Cross-Model Comparison</span>
-      <span class="badge">Evidence Locked</span>
+  <section>
+    <div class="kickers">
+      <div class="pill">Research Prototype v1.0</div>
+      <div class="pill light">Deterministic Artifacts</div>
+      <div class="pill light">Cross-Model Comparison</div>
+      <div class="pill light">Evidence Locked</div>
+      <div class="pill light">Replayable Runs</div>
     </div>
 
-    <h1 class="how-title">
-      How it works: a replayable measurement pipeline for structural support in AI reasoning
-    </h1>
+    <h1>How it works: a replayable measurement pipeline for structural support.</h1>
 
-    <p class="how-intro">
-      Reflective Diagnostics measures whether an AI system’s conclusions are
-      <strong>structurally supported by its stated premises</strong>.
-      It does not grade quality, truth, or preference.
-      It produces a replayable evidence record suitable for audit and external review.
+    <p class="subtitle">
+      Reflective Diagnostics converts AI output into an <b>inspectable support structure</b>
+      (claims → premises → conclusions), computes <b>structural signals</b> (coverage, orphans, stability, integrity),
+      and produces a <b>replayable evidence record</b> suitable for audit and external review.
+      <span class="mono">Non-goal: truth verification.</span>
     </p>
 
-    <div class="cta-row">
-      <a class="btn primary" href="/structural-reasoning-risk/proof-and-evidence.html">Open Proof and Evidence</a>
-      <a class="btn" href="/structural-reasoning-risk/what-it-measures.html">Read Metric Definitions</a>
-      <a class="btn" href="/compliance.html">See Regime Mapping</a>
+    <div class="btnrow">
+      <a class="btn primary" href="evidence.html">Open Proof and Evidence</a>
+      <a class="btn" href="what-it-measures.html">Read Metric Definitions</a>
+      <a class="btn" href="compliance.html">See Regime Mapping</a>
     </div>
+  </section>
 
-    <div class="pipeline-block">
-      <h2>End-to-End Measurement Flow</h2>
-
-      <div class="pipeline-steps">
-        <span class="step">Input</span><span class="arrow">→</span>
-        <span class="step">Controlled Run</span><span class="arrow">→</span>
-        <span class="step">Artifact Capture</span><span class="arrow">→</span>
-        <span class="step">Structural Extraction</span><span class="arrow">→</span>
-        <span class="step">Signal Computation</span><span class="arrow">→</span>
-        <span class="step">Interpreter</span><span class="arrow">→</span>
-        <span class="step">Evidence Packet</span>
-      </div>
-
-      <p class="pipeline-note">
-        No hidden rewrites. No silent retries. No adaptive steering.
+  <section class="grid">
+    <div class="card">
+      <h2>END-TO-END MEASUREMENT FLOW</h2>
+      <p>
+        Outputs from each stage become fixed inputs to the next stage.
+        The instrument is designed to prevent hidden changes that would break auditability.
       </p>
+
+      <div class="pipeline" aria-label="Pipeline steps">
+        <div class="step">Input</div><div class="arrow">→</div>
+        <div class="step">Controlled Run</div><div class="arrow">→</div>
+        <div class="step">Artifact Capture</div><div class="arrow">→</div>
+        <div class="step">Structural Extraction</div><div class="arrow">→</div>
+        <div class="step">Signal Computation</div><div class="arrow">→</div>
+        <div class="step">Interpreter</div><div class="arrow">→</div>
+        <div class="step">Evidence Packet</div>
+      </div>
+
+      <div class="accent">
+        No hidden rewrites. No silent retries. No adaptive steering.
+      </div>
+    </div>
+  </section>
+
+  <section class="grid two">
+    <div class="card">
+      <h2>1) CONTROLLED RUN (COMPARABILITY)</h2>
+      <ul>
+        <li>Same input, same constraints, across models</li>
+        <li>Model identity and version recorded</li>
+        <li>No prompt rewriting or hidden retries</li>
+      </ul>
+      <div class="accent">
+        Differences observed are attributable to the model, not shifting conditions.
+      </div>
     </div>
 
-    <div class="grid two-col">
-
-      <div class="card">
-        <h3>Controlled Run</h3>
-        <ul>
-          <li>Same input and constraints across models</li>
-          <li>Model identity and version recorded</li>
-          <li>No retries or prompt rewriting</li>
-        </ul>
+    <div class="card">
+      <h2>2) ARTIFACT CAPTURE (SOURCE OF RECORD)</h2>
+      <ul>
+        <li>Raw outputs stored verbatim</li>
+        <li>Run metadata captured (timestamps, run ID, model selection)</li>
+        <li>Hashes generated to prevent silent alteration</li>
+      </ul>
+      <div class="accent">
+        A run can be audited by someone who did not witness it.
       </div>
+    </div>
+  </section>
 
-      <div class="card">
-        <h3>Artifact Capture</h3>
-        <ul>
-          <li>Raw model outputs stored verbatim</li>
-          <li>Run metadata captured</li>
-          <li>Hashes prevent silent alteration</li>
-        </ul>
+  <section class="grid two">
+    <div class="card">
+      <h2>3) STRUCTURAL EXTRACTION (SUPPORT GRAPH)</h2>
+      <ul>
+        <li>Claims, premises, and conclusions explicitly identified</li>
+        <li>Support relationships made visible</li>
+        <li>Orphaned (unsupported) conclusions surfaced</li>
+      </ul>
+      <div class="accent">
+        Narrative output becomes inspectable structure.
       </div>
-
-      <div class="card">
-        <h3>Structural Extraction</h3>
-        <ul>
-          <li>Claims, premises, conclusions identified</li>
-          <li>Support relationships made visible</li>
-          <li>Orphaned conclusions exposed</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <h3>Signal Computation</h3>
-        <ul>
-          <li>Coverage</li>
-          <li>Orphan rate</li>
-          <li>Stability</li>
-          <li>Integrity</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <h3>Interpreter</h3>
-        <ul>
-          <li>Cross-model synthesis</li>
-          <li>Divergence and consistency surfaced</li>
-          <li>Failure modes tied to artifacts</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <h3>Evidence Packet</h3>
-        <ul>
-          <li>Replayable forensic record</li>
-          <li>Exportable audit exhibit</li>
-          <li>Designed for governance and funding review</li>
-        </ul>
-      </div>
-
     </div>
 
-  </main>
+    <div class="card">
+      <h2>4) SIGNAL COMPUTATION (STRUCTURAL METRICS)</h2>
+      <ul>
+        <li><b>Coverage</b>: how much of the conclusion is supported</li>
+        <li><b>Orphan rate</b>: unsupported commitments</li>
+        <li><b>Stability</b>: consistency under controlled variation</li>
+        <li><b>Integrity</b>: internal coherence of the support chain</li>
+      </ul>
+      <div class="accent">
+        Signals are derived from structure — not preference or outcome grading.
+      </div>
+    </div>
+  </section>
 
+  <section class="grid two">
+    <div class="card">
+      <h2>5) INTERPRETER (CROSS-MODEL SYNTHESIS)</h2>
+      <ul>
+        <li>Cross-model comparison under identical constraints</li>
+        <li>Divergence and consistency made explicit</li>
+        <li>Failure modes shown with supporting artifacts</li>
+      </ul>
+      <div class="accent">
+        This is how evaluation becomes decision-grade, not subjective.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>6) EVIDENCE PACKET (EXPORTABLE EXHIBIT)</h2>
+      <ul>
+        <li>Replayable record: inputs, outputs, and computed signals</li>
+        <li>Exportable forensic exhibit format</li>
+        <li>Designed for audit, governance, and funding review</li>
+      </ul>
+      <div class="accent">
+        The output is not a score — it’s a case file.
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    <div>Contact: <span class="mono">research@enlightenedai.ai</span></div>
+    <div class="mono">Build: Research Prototype v1.0 · Reflective Diagnostics™ · restricted evaluation</div>
+  </div>
+
+</div>
 </body>
 </html>
