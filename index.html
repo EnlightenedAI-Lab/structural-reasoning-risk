@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Reflective Diagnostics — Structural Reasoning Risk</title>
-  <meta name="description" content="Decision-grade structural reasoning diagnostics with auditable traceability." />
+  <title>How It Works · Reflective Diagnostics (BUILD vA)</title>
+  <meta name="description" content="Replayable measurement pipeline: controlled runs, deterministic artifacts, structural extraction, signals, interpreter, and evidence packet." />
 
   <style>
     :root{
@@ -110,13 +110,13 @@
     }
 
     h1{
-      font-size:36px;
+      font-size:32px;
       line-height:1.15;
       margin:0 0 14px;
     }
 
     .subtitle{
-      max-width:820px;
+      max-width:900px;
       font-size:16px;
       color:var(--muted);
       margin-bottom:26px;
@@ -135,6 +135,7 @@
       border:1px solid var(--line);
       background:#fff;
       cursor:pointer;
+      display:inline-block;
     }
 
     .btn.primary{
@@ -164,10 +165,18 @@
       letter-spacing:.2px;
     }
 
+    .card p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      max-width:900px;
+    }
+
     .card ul{
       margin:10px 0 0 18px;
       color:var(--muted);
       font-size:14px;
+      padding-left:14px;
     }
 
     .card li{margin:6px 0}
@@ -183,6 +192,28 @@
     @media(min-width:900px){
       .two .card{grid-column:span 6}
       .three .card{grid-column:span 4}
+    }
+
+    /* PIPELINE STRIP */
+    .pipeline{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      margin-top:14px;
+    }
+    .step{
+      border:1px solid var(--line);
+      padding:8px 10px;
+      font-size:12px;
+      background:#fff;
+      font-family:var(--mono);
+      border-radius:0; /* square boxes as requested */
+    }
+    .arrow{
+      color:var(--muted);
+      font-family:var(--mono);
+      font-size:12px;
     }
 
     /* FOOTER */
@@ -203,8 +234,8 @@
 </head>
 
 <body>
+<!-- BUILD MARKER: HOW-IT-WORKS vA -->
 
-<!-- TOP BAR -->
 <div class="topbar">
   <div class="topbar-inner">
     <div class="brand">
@@ -212,8 +243,8 @@
       <div class="s">Structural Reasoning Risk · restricted evaluation · auditable diagnostics</div>
     </div>
     <div class="nav">
-      <a class="active" href="index.html">Start Here</a>
-      <a href="how-it-works.html">How It Works</a>
+      <a href="index.html">Start Here</a>
+      <a class="active" href="how-it-works.html">How It Works</a>
       <a href="what-it-measures.html">What It Measures</a>
       <a href="use-cases.html">Use Cases and Value</a>
       <a href="evidence.html">Proof and Evidence</a>
@@ -225,106 +256,134 @@
 
 <div class="wrap">
 
-  <!-- HERO -->
   <section>
     <div class="kickers">
       <div class="pill">Research Prototype v1.0</div>
-      <div class="pill light">Audit Trail Enforced</div>
-      <div class="pill light">Cross-Model Comparison</div>
       <div class="pill light">Deterministic Artifacts</div>
-      <div class="pill green">Integrity Verified</div>
+      <div class="pill light">Cross-Model Comparison</div>
+      <div class="pill light">Evidence Locked</div>
+      <div class="pill light">Replayable Runs</div>
     </div>
 
-    <h1>Measure whether AI conclusions are structurally justified with an audit trail.</h1>
+    <h1>How it works: a replayable measurement pipeline for structural support.</h1>
 
     <p class="subtitle">
-      This instrument evaluates whether conclusions produced by AI systems are
-      <b>derivable from their stated premises</b>. It does not judge factual truth,
-      sentiment, or policy merit. It exposes unsupported commitments before
-      high-stakes decisions are made.
+      Reflective Diagnostics converts AI output into an <b>inspectable support structure</b>
+      (claims → premises → conclusions), computes <b>structural signals</b> (coverage, orphans, stability, integrity),
+      and produces a <b>replayable evidence record</b> suitable for audit and external review.
+      <span class="mono">Non-goal: truth verification.</span>
     </p>
 
     <div class="btnrow">
       <a class="btn primary" href="evidence.html">Open Proof and Evidence</a>
-      <a class="btn" href="use-cases.html">Use Cases and Value</a>
-      <a class="btn" href="funding-roadmap.html">Funding and Roadmap</a>
+      <a class="btn" href="what-it-measures.html">Read Metric Definitions</a>
+      <a class="btn" href="compliance.html">See Regime Mapping</a>
     </div>
   </section>
 
-  <!-- PROBLEM / GAP -->
-  <section class="grid two">
-    <div class="card">
-      <h2>THE PROBLEM</h2>
-      <ul>
-        <li>AI analyses are used in funding, policy, compliance, and governance.</li>
-        <li>Outputs can sound coherent while being structurally unsupported.</li>
-        <li>Human review is inconsistent and costly.</li>
-      </ul>
-      <div class="accent">
-        The core risk is unsupported commitment packaged as reasoning.
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>WHAT EXISTING TOOLS MISS</h2>
-      <ul>
-        <li>Accuracy benchmarks do not verify derivability.</li>
-        <li>Red-teaming is not audit-grade or replayable.</li>
-        <li>Rubric scoring evaluates outputs, not support structure.</li>
-      </ul>
-      <div class="accent">
-        This instrument measures structure, not preference.
-      </div>
-    </div>
-  </section>
-
-  <!-- DEFINITION / AUTHORITY -->
-  <section class="grid three">
-    <div class="card">
-      <h2>WHAT THIS IS</h2>
-      <p>
-        A decision-grade measurement instrument converting AI analysis into
-        inspectable structure and replayable evidence.
-      </p>
-      <p class="mono">Non-goal: truth verification.</p>
-    </div>
-
-    <div class="card">
-      <h2>WHO IT SERVES</h2>
-      <ul>
-        <li>Public funders</li>
-        <li>Regulators and auditors</li>
-        <li>Enterprises</li>
-        <li>AI labs</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2>AUTHORITY IT PROVIDES</h2>
-      <p>
-        Demonstrable, evidence-backed structural justification.
-      </p>
-      <div class="accent">
-        Show the support chain, not just the output.
-      </div>
-    </div>
-  </section>
-
-  <!-- WHERE TO START -->
   <section class="grid">
     <div class="card">
-      <h2>WHERE TO START</h2>
-      <ul>
-        <li><b>How It Works</b>: probe → artifacts → metrics → interpreter</li>
-        <li><b>What It Measures</b>: coverage, orphans, stability, integrity</li>
-        <li><b>Use Cases and Value</b>: cost avoidance and governance logic</li>
-        <li><b>Proof and Evidence</b>: 10-screenshot live instrument record</li>
-        <li><b>Compliance</b>: forthcoming regime-mapping module</li>
-      </ul>
+      <h2>END-TO-END MEASUREMENT FLOW</h2>
+      <p>
+        Outputs from each stage become fixed inputs to the next stage.
+        The instrument is designed to prevent hidden changes that would break auditability.
+      </p>
+
+      <div class="pipeline" aria-label="Pipeline steps">
+        <div class="step">Input</div><div class="arrow">→</div>
+        <div class="step">Controlled Run</div><div class="arrow">→</div>
+        <div class="step">Artifact Capture</div><div class="arrow">→</div>
+        <div class="step">Structural Extraction</div><div class="arrow">→</div>
+        <div class="step">Signal Computation</div><div class="arrow">→</div>
+        <div class="step">Interpreter</div><div class="arrow">→</div>
+        <div class="step">Evidence Packet</div>
+      </div>
+
+      <div class="accent">
+        No hidden rewrites. No silent retries. No adaptive steering.
+      </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <section class="grid two">
+    <div class="card">
+      <h2>1) CONTROLLED RUN (COMPARABILITY)</h2>
+      <ul>
+        <li>Same input, same constraints, across models</li>
+        <li>Model identity and version recorded</li>
+        <li>No prompt rewriting or hidden retries</li>
+      </ul>
+      <div class="accent">
+        Differences observed are attributable to the model, not shifting conditions.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>2) ARTIFACT CAPTURE (SOURCE OF RECORD)</h2>
+      <ul>
+        <li>Raw outputs stored verbatim</li>
+        <li>Run metadata captured (timestamps, run ID, model selection)</li>
+        <li>Hashes generated to prevent silent alteration</li>
+      </ul>
+      <div class="accent">
+        A run can be audited by someone who did not witness it.
+      </div>
+    </div>
+  </section>
+
+  <section class="grid two">
+    <div class="card">
+      <h2>3) STRUCTURAL EXTRACTION (SUPPORT GRAPH)</h2>
+      <ul>
+        <li>Claims, premises, and conclusions explicitly identified</li>
+        <li>Support relationships made visible</li>
+        <li>Orphaned (unsupported) conclusions surfaced</li>
+      </ul>
+      <div class="accent">
+        Narrative output becomes inspectable structure.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>4) SIGNAL COMPUTATION (STRUCTURAL METRICS)</h2>
+      <ul>
+        <li><b>Coverage</b>: how much of the conclusion is supported</li>
+        <li><b>Orphan rate</b>: unsupported commitments</li>
+        <li><b>Stability</b>: consistency under controlled variation</li>
+        <li><b>Integrity</b>: internal coherence of the support chain</li>
+      </ul>
+      <div class="accent">
+        Signals are derived from structure — not preference or outcome grading.
+      </div>
+    </div>
+  </section>
+
+  <section class="grid two">
+    <div class="card">
+      <h2>5) INTERPRETER (CROSS-MODEL SYNTHESIS)</h2>
+      <ul>
+        <li>Cross-model comparison under identical constraints</li>
+        <li>Divergence and consistency made explicit</li>
+        <li>Failure modes shown with supporting artifacts</li>
+      </ul>
+      <div class="accent">
+        This is how evaluation becomes decision-grade, not subjective.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>6) EVIDENCE PACKET (EXPORTABLE EXHIBIT)</h2>
+      <ul>
+        <li>Replayable record: inputs, outputs, and computed signals</li>
+        <li>Exportable forensic exhibit format</li>
+        <li>Designed for audit, governance, and funding review</li>
+      </ul>
+      <div class="accent">
+        The output is not a score — it’s a case file.
+      </div>
+    </div>
+  </section>
+
   <div class="footer">
     <div>Contact: <span class="mono">research@enlightenedai.ai</span></div>
     <div class="mono">Build: Research Prototype v1.0 · Reflective Diagnostics™ · restricted evaluation</div>
