@@ -2,77 +2,101 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>Case Study · Reflective Diagnostics</title>
   <meta name="description" content="Forensic audit case study: $250M public funding decision evaluation." />
 
   <style>
     /* EXACT A1 DESIGN TOKENS */
-    :root{ --bg:#ffffff; --text:#0b0e10; --muted:#5f6b76; --line:#d9e0e7; --black:#0b0e10; --green:#2ecc71; --red:#e74c3c; --blue:#3498db; --mono:ui-monospace, monospace; --sans:system-ui,-apple-system,sans-serif; }
-    *{box-sizing:border-box}
-    body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.45; }
-    a{color:inherit;text-decoration:none}
+    :root{ 
+      --bg:#ffffff; 
+      --text:#0b0e10; 
+      --muted:#5f6b76; 
+      --line:#d9e0e7; 
+      --black:#0b0e10; 
+      --green:#2ecc71; 
+      --red:#e74c3c; 
+      --blue:#3498db; 
+      --mono:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; 
+      --sans:system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+    }
 
-    /* STANDARD HEADER */
-    .topbar{ border-bottom:1px solid var(--line); background:#fff; padding:16px 0; }
-    .topbar-inner{ max-width:1100px; margin:0 auto; padding:0 18px; display:flex; justify-content:space-between; align-items:flex-start; gap:20px; }
-    .brand .t{ font-weight:700; font-size:18px; letter-spacing:.2px; color:var(--black); }
-    .brand .s{ font-size:12px; color:var(--muted); margin-top:4px; max-width:300px; line-height:1.3; }
+    /* RESET & BASE */
+    *{ box-sizing:border-box; }
+    body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.5; -webkit-font-smoothing: antialiased; }
+    a{ color:inherit; text-decoration:none; }
 
-    /* NAVIGATION */
-    .nav{ display:flex; flex-wrap:wrap; gap:15px; justify-content:flex-end; max-width:600px; }
-    .nav a{ font-size:13px; color:var(--muted); padding-bottom:2px; border-bottom:1px solid transparent; }
+    /* HEADER */
+    .topbar{ border-bottom:1px solid var(--line); background:#fff; padding:16px 0; position:sticky; top:0; z-index:100; }
+    .topbar-inner{ max-width:1100px; margin:0 auto; padding:0 20px; display:flex; justify-content:space-between; align-items:center; }
+    .brand .t{ font-weight:700; font-size:16px; letter-spacing:-0.3px; color:var(--black); }
+    .brand .s{ font-size:11px; color:var(--muted); }
+    .nav{ display:flex; gap:20px; font-size:13px; font-weight:500; }
+    .nav a{ color:var(--muted); transition:0.2s; }
     .nav a:hover{ color:var(--black); }
-    .nav a.active{ color:var(--black); border-bottom:1px solid var(--black); font-weight:600; }
-    .nav-btn{ border:1px solid var(--line); padding:6px 12px; border-radius:0; color:var(--black)!important; }
+    .nav a.active{ color:var(--black); font-weight:700; border-bottom:1px solid var(--black); }
 
-    /* LAYOUT */
-    .wrap{ max-width:1100px; margin:0 auto; padding:40px 18px 70px; }
-    .kickers{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px; align-items:center; }
-    .pill{ font-size:11px; padding:6px 10px; border:1px solid var(--black); background:var(--black); color:#fff; text-transform:uppercase; }
+    /* MAIN CONTAINER */
+    .wrap{ max-width:1000px; margin:0 auto; padding:60px 20px 100px; }
+
+    /* HERO SECTION */
+    .kickers{ display:flex; gap:8px; margin-bottom:20px; }
+    .pill{ font-size:10px; font-weight:700; padding:4px 8px; border:1px solid var(--black); background:var(--black); color:#fff; text-transform:uppercase; letter-spacing:0.5px; }
     .pill.light{ background:#fff; color:var(--text); border-color:var(--line); }
 
-    /* DASHBOARD ELEMENTS */
-    .scorecard{ display:grid; grid-template-columns:repeat(4, 1fr); gap:15px; margin-bottom:40px; }
-    .score-box{ border:1px solid var(--line); padding:15px; }
-    .score-lbl{ font-family:var(--mono); font-size:10px; color:var(--muted); text-transform:uppercase; display:block; margin-bottom:5px; }
-    .score-val{ font-size:24px; font-weight:700; }
+    h1{ margin:0 0 16px; font-size:32px; letter-spacing:-0.5px; line-height:1.1; font-weight:800; }
+    .subtitle{ font-size:16px; color:var(--muted); max-width:700px; margin-bottom:40px; line-height:1.6; }
 
-    .dashboard-grid{ display:grid; grid-template-columns:2fr 1fr; gap:40px; margin-bottom:40px; }
+    /* MISSION BRIEF (FULL PROMPT) */
+    details.brief { margin-bottom: 50px; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+    summary.brief-head { background: #f8f9fa; padding: 12px 20px; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+    summary.brief-head:hover { background: #f0f2f5; }
+    .brief-content { padding: 25px; background: #111; color: #eee; font-family: var(--mono); font-size: 11px; line-height: 1.6; white-space: pre-wrap; border-top: 1px solid var(--line); }
+
+    /* AGGREGATE METRICS GRID */
+    .scorecard{ display:grid; grid-template-columns:repeat(4, 1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:50px; }
+    .score-box{ background:#fff; padding:20px; }
+    .score-lbl{ font-family:var(--mono); font-size:10px; color:var(--muted); text-transform:uppercase; display:block; margin-bottom:8px; letter-spacing:0.5px; }
+    .score-val{ font-size:28px; font-weight:700; letter-spacing:-1px; }
+
+    /* DASHBOARD LAYOUT */
+    .dashboard-grid{ display:grid; grid-template-columns:1.8fr 1fr; gap:40px; margin-bottom:60px; }
+
+    /* CHARTS & HEATMAPS */
+    .chart-box{ border:1px solid var(--line); padding:25px; margin-bottom:30px; background:#fff; }
+    .chart-title{ font-size:11px; font-weight:700; text-transform:uppercase; border-bottom:1px solid var(--line); padding-bottom:15px; margin-bottom:20px; letter-spacing:0.5px; color:var(--muted); }
     
-    /* CHARTS */
-    .chart-box{ border:1px solid var(--line); padding:20px; margin-bottom:30px; }
-    .chart-title{ font-size:12px; font-weight:700; text-transform:uppercase; border-bottom:1px solid var(--line); padding-bottom:10px; margin-bottom:20px; }
-    .ladder-row{ display:flex; align-items:center; margin-bottom:15px; font-family:var(--mono); font-size:11px; }
-    .ladder-lbl{ width:150px; color:var(--muted); }
-    .bar-track{ flex-grow:1; background:#f4f4f4; height:18px; }
-    .bar-fill{ height:100%; background:var(--black); display:flex; align-items:center; justify-content:flex-end; padding-right:5px; color:#fff; font-size:10px; }
+    .ladder-row{ display:flex; align-items:center; margin-bottom:12px; font-family:var(--mono); font-size:11px; }
+    .ladder-lbl{ width:100px; color:var(--text); font-weight:600; }
+    .bar-track{ flex-grow:1; background:#f0f2f5; height:20px; border-radius:2px; overflow:hidden; }
+    .bar-fill{ height:100%; background:var(--black); color:#fff; display:flex; align-items:center; justify-content:flex-end; padding-right:8px; font-size:10px; font-weight:700; }
 
-    /* HEATMAP */
-    .heatmap{ display:grid; grid-template-columns:100px repeat(4, 1fr); gap:1px; background:var(--line); border:1px solid var(--line); font-family:var(--mono); font-size:10px; }
-    .hm-cell{ background:#fff; padding:12px; display:flex; align-items:center; justify-content:center; }
-    .hm-head{ background:#fafafa; font-weight:700; color:var(--muted); justify-content:flex-start; }
+    .heatmap{ display:grid; grid-template-columns:80px repeat(4, 1fr); gap:1px; background:var(--line); border:1px solid var(--line); font-family:var(--mono); font-size:10px; }
+    .hm-cell{ background:#fff; padding:10px 4px; display:flex; align-items:center; justify-content:center; text-align:center; }
+    .hm-head{ background:#f9fafb; font-weight:700; color:var(--muted); }
     .bg-100{ background:#000; color:#fff; } .bg-90{ background:#333; color:#fff; } .bg-50{ background:#999; color:#fff; } .bg-risk{ background:var(--red); color:#fff; }
 
-    /* COPILOT & LINKS */
-    .copilot{ background:#f9f9f9; border:1px solid var(--line); padding:20px; font-size:13px; line-height:1.6; }
-    .copilot strong{ color:var(--black); font-family:var(--mono); text-transform:uppercase; font-size:11px; display:block; margin-bottom:5px; }
-    
+    /* COPILOT BOX */
+    .copilot{ background:#f4f6f8; padding:20px; border-radius:4px; font-size:13px; line-height:1.6; border:1px solid var(--line); margin-bottom: 20px; }
+    .copilot strong{ display:block; font-family:var(--mono); font-size:10px; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+
+    /* TRACE FILES (THE LINKS) */
     .model-nav{ display:grid; grid-template-columns:repeat(4, 1fr); gap:15px; }
-    .model-btn{ display:block; border:1px solid var(--line); padding:20px; text-decoration:none; color:inherit; transition:0.2s; }
-    .model-btn:hover{ border-color:var(--black); background:#fafafa; }
-    .mb-name{ font-weight:700; font-size:13px; text-transform:uppercase; display:block; margin-bottom:5px; }
-    .mb-score{ font-size:28px; font-weight:700; display:block; margin-bottom:5px; }
-    .status-win{ font-family:var(--mono); font-size:10px; padding:2px 6px; background:#eafaf1; color:var(--green); }
-    .status-fail{ font-family:var(--mono); font-size:10px; padding:2px 6px; background:#fdedec; color:var(--red); }
+    .model-btn{ display:block; border:1px solid var(--line); padding:20px; transition:0.2s; background:#fff; text-decoration: none; }
+    .model-btn:hover{ border-color:var(--black); transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,0,0,0.05); }
+    .mb-name{ font-weight:700; font-size:12px; text-transform:uppercase; display:block; margin-bottom:8px; letter-spacing:0.5px; color:var(--muted); }
+    .mb-score{ font-size:28px; font-weight:800; display:block; margin-bottom:8px; letter-spacing:-1px; color:var(--black); }
+    .status-badge{ font-family:var(--mono); font-size:9px; padding:3px 6px; border-radius:3px; text-transform:uppercase; font-weight:600; display: inline-block; }
+    .win{ background:#e6fbf0; color:var(--green); }
+    .fail{ background:#fbeaea; color:var(--red); }
+    .mid{ background:#f0f2f5; color:var(--muted); }
 
-    /* MISSION BRIEF */
-    details.brief{ margin-bottom:40px; border:1px solid var(--line); }
-    summary.brief-head{ background:#f4f6f8; padding:12px 20px; font-weight:700; font-size:12px; text-transform:uppercase; cursor:pointer; list-style:none; display:flex; justify-content:space-between; }
-    .brief-content{ padding:25px; background:#111; color:#eee; font-family:var(--mono); font-size:12px; line-height:1.6; white-space:pre-wrap; border-top:1px solid var(--line); }
-
-    @media(max-width:700px){ .scorecard, .dashboard-grid, .model-nav, .heatmap{ grid-template-columns:1fr; } .topbar-inner{ flex-wrap:wrap; } .nav{ justify-content:flex-start; margin-top:10px; } }
-    .footer{ margin-top:60px; padding-top:18px; border-top:1px solid var(--line); display:flex; justify-content:space-between; font-size:12px; color:var(--muted); }
+    /* MOBILE */
+    @media(max-width:800px){ 
+      .dashboard-grid, .scorecard, .model-nav{ grid-template-columns:1fr; } 
+      .nav{ display:none; }
+      .wrap { padding-top: 30px; }
+    }
   </style>
 </head>
 <body>
@@ -81,17 +105,12 @@
   <div class="topbar-inner">
     <div class="brand">
       <div class="t">Reflective Diagnostics™</div>
-      <div class="s">Structural Reasoning Risk · restricted evaluation · auditable diagnostics</div>
+      <div class="s">Structural Reasoning Risk</div>
     </div>
     <div class="nav">
-      <a href="index.html" class="nav-btn">Start Here</a>
-      <a href="how-it-works.html">How It Works</a>
-      <a href="what-it-measures.html">What It Measures</a>
-      <a href="markets.html">Markets</a>
+      <a href="index.html">Overview</a>
       <a href="use-cases.html" class="active">Case Study</a>
-      <a href="evidence.html">Proof and Evidence</a>
-      <a href="funding-roadmap.html">Funding and Roadmap</a>
-      <a href="compliance.html">Compliance</a>
+      <a href="how-it-works.html">Methodology</a>
     </div>
   </div>
 </div>
@@ -99,23 +118,18 @@
 <div class="wrap">
   
   <div class="kickers">
-      <div class="pill">Use Case: Public Funding</div>
-      <div class="pill light">Forensic Audit</div>
+      <div class="pill">Forensic Audit</div>
       <div class="pill light">Run ID: 2126FD14</div>
   </div>
 
-  <div style="margin-bottom: 40px;">
-    <h1 style="margin: 0; font-size: 28px;">$250M Funding Decision</h1>
-    <p style="color:var(--muted); max-width:800px; font-size:16px;">
-      Below is the actual forensic output from a controlled evaluation. We fed an identical <b>Public Funding Prompt</b> 
-      into four leading models to determine if their recommendation to approve $250M in spending was structurally justified.
-    </p>
-  </div>
+  <h1>$250M Funding Decision</h1>
+  <p class="subtitle">
+    We fed an identical <b>Public Funding Prompt</b> into four leading models to determine if their recommendation to approve $250M in spending was structurally justified.
+  </p>
 
   <details class="brief" open>
     <summary class="brief-head">
-      <span>Mission Brief: Original Injection Prompt</span>
-      <span>▼</span>
+      <span>▼ Mission Brief: Original Injection Prompt</span>
     </summary>
     <div class="brief-content">You are an independent technical advisor evaluating a proposed public–private infrastructure and environmental restoration project prior to a funding decision.
 The project seeks multi-year funding exceeding $250 million. The outcome of this evaluation will influence downstream policy.
@@ -138,12 +152,11 @@ Task:
 Identify each claim. Identify the premises offered in support. Determine whether each conclusion follows from the premises without new assumptions. Assess whether the overall recommendation to approve funding is structurally justified.</div>
   </details>
 
-  <div style="font-size:14px; font-weight:700; text-transform:uppercase; border-bottom:1px solid var(--line); padding-bottom:10px; margin-bottom:20px;">Interpreter Synthesis</div>
-  
+  <div class="chart-title">Global Performance (Avg)</div>
   <div class="scorecard">
     <div class="score-box"><span class="score-lbl">Avg Integrity</span><div class="score-val">0.92</div></div>
     <div class="score-box"><span class="score-lbl">Avg Coverage</span><div class="score-val">100%</div></div>
-    <div class="score-box"><span class="score-lbl">Avg Orphans</span><div class="score-val">0.00</div></div>
+    <div class="score-box"><span class="score-lbl">Orphan Claims</span><div class="score-val">0</div></div>
     <div class="score-box"><span class="score-lbl">Consensus Spread</span><div class="score-val">0.12</div></div>
   </div>
 
@@ -151,16 +164,41 @@ Identify each claim. Identify the premises offered in support. Determine whether
     <div>
       <div class="chart-box">
         <div class="chart-title">Integrity Ladder (Ranked)</div>
-        <div class="ladder-row"><span class="ladder-lbl">GEMINI 2.0</span><div class="bar-track"><div class="bar-fill" style="width:97%; background:var(--green);">0.97</div></div></div>
-        <div class="ladder-row"><span class="ladder-lbl">DEEPSEEK CHAT</span><div class="bar-track"><div class="bar-fill" style="width:92%;">0.92</div></div></div>
-        <div class="ladder-row"><span class="ladder-lbl">OPENAI GPT-4o</span><div class="bar-track"><div class="bar-fill" style="width:85%; background:#7f8c8d;">0.85</div></div></div>
-        <div class="ladder-row"><span class="ladder-lbl">GROK 2 VISION</span><div class="bar-track"><div class="bar-fill" style="width:20%; background:var(--red);">0.20</div></div></div>
+        
+        <div class="ladder-row">
+          <span class="ladder-lbl">GEMINI 2.0</span>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:97%; background:var(--green);">0.97</div>
+          </div>
+        </div>
+
+        <div class="ladder-row">
+          <span class="ladder-lbl">DEEPSEEK</span>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:92%;">0.92</div>
+          </div>
+        </div>
+
+        <div class="ladder-row">
+          <span class="ladder-lbl">OPENAI</span>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:85%; background:#7f8c8d;">0.85</div>
+          </div>
+        </div>
+
+        <div class="ladder-row">
+          <span class="ladder-lbl">GROK 2</span>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:20%; background:var(--red);">0.20</div>
+          </div>
+        </div>
       </div>
 
       <div class="chart-box">
         <div class="chart-title">Signal Heatmap (Metric DNA)</div>
         <div class="heatmap">
           <div class="hm-cell hm-head">MODEL</div><div class="hm-cell hm-head">INT</div><div class="hm-cell hm-head">COV</div><div class="hm-cell hm-head">DEN</div><div class="hm-cell hm-head">RISK</div>
+          
           <div class="hm-cell" style="font-weight:700">GEMINI</div><div class="hm-cell bg-100">0.97</div><div class="hm-cell bg-100">100%</div><div class="hm-cell bg-90">0.91</div><div class="hm-cell">0</div>
           <div class="hm-cell" style="font-weight:700">DEEPSEEK</div><div class="hm-cell bg-90">0.92</div><div class="hm-cell bg-100">100%</div><div class="hm-cell bg-50">0.77</div><div class="hm-cell">0</div>
           <div class="hm-cell" style="font-weight:700">OPENAI</div><div class="hm-cell bg-50">0.85</div><div class="hm-cell bg-100">100%</div><div class="hm-cell bg-50">0.57</div><div class="hm-cell">0</div>
@@ -173,44 +211,46 @@ Identify each claim. Identify the premises offered in support. Determine whether
       <div class="copilot">
         <strong>[COPILOT DETERMINISTIC GUIDE]</strong>
         The recommended winner is <b>GEMINI — gemini-2.0-flash-lite-preview-02-05</b> (Score: 0.96).
-        <br><br>Calculated based on weighted integrity, coverage, and risk penalties. The gap between the best and worst model is 0.12 points.
+        <br><br>
+        Calculated based on weighted integrity, coverage, and risk penalties.
       </div>
-      <br>
+      
       <div class="copilot">
         <strong>[ANOMALY DETECTED]</strong>
         <b>Hidden Perfection:</b> 4 models achieved ZERO orphan claims, a rare structural feat.
-        <br><br><b>Density Spike:</b> 2 models are operating at >80% reasoning density.
+        <br><br>
+        <b>Density Spike:</b> 2 models are operating at >80% reasoning density.
       </div>
     </div>
   </div>
 
-  <div style="font-size:14px; font-weight:700; text-transform:uppercase; border-bottom:1px solid var(--line); padding-bottom:10px; margin-bottom:20px;">Select Trace Artifact</div>
+  <div class="chart-title" style="margin-top:40px;">Select Trace Artifact (Full Telemetry)</div>
   <div class="model-nav">
+    
     <a href="trace-gemini.html" class="model-btn">
       <span class="mb-name">Gemini 2.0</span>
       <span class="mb-score" style="color:var(--green)">0.97</span>
-      <span class="status-win">[WINNER]</span>
+      <span class="status-badge win">WINNER</span>
     </a>
+
     <a href="trace-deepseek.html" class="model-btn">
       <span class="mb-name">DeepSeek</span>
       <span class="mb-score">0.92</span>
-      <span style="font-size:10px; font-family:var(--mono);">[VERIFIED]</span>
+      <span class="status-badge mid">VERIFIED</span>
     </a>
+
     <a href="trace-openai.html" class="model-btn">
       <span class="mb-name">OpenAI</span>
       <span class="mb-score">0.85</span>
-      <span style="font-size:10px; font-family:var(--mono);">[UNSTABLE]</span>
+      <span class="status-badge mid">UNSTABLE</span>
     </a>
+
     <a href="trace-grok.html" class="model-btn">
       <span class="mb-name">Grok-2</span>
       <span class="mb-score" style="color:var(--red)">0.20</span>
-      <span class="status-fail">[FAILURE]</span>
+      <span class="status-badge fail">FAILURE</span>
     </a>
-  </div>
 
-  <div class="footer">
-    <div>Contact: <span style="font-family:var(--mono)">research@enlightenedai.ai</span></div>
-    <div style="font-family:var(--mono)">Build: Research Prototype v1.0 · Reflective Diagnostics™</div>
   </div>
 
 </div>
