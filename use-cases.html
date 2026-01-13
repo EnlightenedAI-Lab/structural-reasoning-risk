@@ -26,7 +26,7 @@
     body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.5; -webkit-font-smoothing: antialiased; }
     a{ color:inherit; text-decoration:none; }
 
-    /* FULL NAVIGATION RESTORED */
+    /* FULL NAVIGATION */
     .topbar{ border-bottom:1px solid var(--line); background:#fff; padding:16px 0; position:sticky; top:0; z-index:100; }
     .topbar-inner{ max-width:1100px; margin:0 auto; padding:0 20px; display:flex; justify-content:space-between; align-items:flex-start; gap:20px; }
     .brand .t{ font-weight:700; font-size:18px; letter-spacing:-0.3px; color:var(--black); }
@@ -36,7 +36,6 @@
     .nav a{ font-size:13px; color:var(--muted); padding-bottom:2px; border-bottom:1px solid transparent; transition:0.2s; }
     .nav a:hover{ color:var(--black); }
     .nav a.active{ color:var(--black); border-bottom:1px solid var(--black); font-weight:600; }
-    
     .nav-btn{ border:1px solid var(--line); padding:6px 12px; border-radius:0; color:var(--black)!important; font-weight: 500; }
     .nav-btn:hover{ background:#fafafa; border-color:#000; }
 
@@ -52,10 +51,15 @@
     .subtitle{ font-size:16px; color:var(--muted); max-width:700px; margin-bottom:40px; line-height:1.6; }
 
     /* MISSION BRIEF (COLLAPSIBLE) */
-    details.brief { margin-bottom: 40px; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+    details.brief { margin-bottom: 20px; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
     summary.brief-head { background: #f8f9fa; padding: 12px 20px; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
     summary.brief-head:hover { background: #f0f2f5; }
     .brief-content { padding: 25px; background: #111; color: #eee; font-family: var(--mono); font-size: 11px; line-height: 1.6; white-space: pre-wrap; border-top: 1px solid var(--line); }
+
+    /* SYSTEM STATE STRIP (THE VERTICALITY SIGNAL) */
+    .system-state { display: flex; gap: 20px; margin-bottom: 40px; padding: 10px 0; border-bottom: 1px dotted var(--line); font-family: var(--mono); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; align-items: center; }
+    .state-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; display: inline-block; margin-right: 5px; }
+    .state-item b { color: var(--black); }
 
     /* FRAMING BLOCK (EPISTEMIC GROUNDING) */
     .framing-block { background: #fffbe6; border: 1px solid #ffe58f; padding: 15px 20px; margin-bottom: 40px; font-size: 13px; color: #595028; border-radius: 4px; }
@@ -108,6 +112,7 @@
     @media(max-width:800px){ 
       .dashboard-grid, .scorecard, .tabs-grid{ grid-template-columns:1fr; } 
       .topbar-inner{ flex-wrap:wrap; }
+      .system-state{ flex-wrap:wrap; }
       .nav{ justify-content:flex-start; margin-top:10px; }
       .wrap { padding-top: 30px; }
     }
@@ -172,13 +177,20 @@ Task:
 Identify each claim. Identify the premises offered in support. Determine whether each conclusion follows from the premises without new assumptions. Assess whether the overall recommendation to approve funding is structurally justified.</div>
   </details>
 
-  <div class="framing-block">
-    <strong>Methodology Note</strong>
-    The following metrics are structural measurements derived from explicit claim–premise analysis. 
-    They do not reflect fluency, confidence, or persuasion — only evidentiary support.
+  <div class="system-state">
+    <div class="state-item"><span class="state-dot"></span>L2 TOPOLOGY: <b>ACTIVE</b></div>
+    <div class="state-item"><span class="state-dot"></span>DRIFT DYNAMICS: <b>MONITORING</b></div>
+    <div class="state-item"><span class="state-dot"></span>EVIDENCE MAPPING: <b>COMPLETE</b></div>
+    <div class="state-item" style="color:var(--black);">VIEW: <b>EXECUTIVE COMPRESSION (L1)</b></div>
   </div>
 
-  <div class="section-head">Primary Metrics</div>
+  <div class="framing-block">
+    <strong>Architectural Note</strong>
+    The metrics below are <b>compressed projections</b> derived from the underlying L2 Structural Reasoning engine. 
+    They synthesize deep topology and inference chain analysis not fully rendered in this executive brief.
+  </div>
+
+  <div class="section-head">Primary Telemetry (Aggregated)</div>
   <div class="scorecard">
     <div class="score-box">
       <span class="score-lbl">Avg Integrity</span>
@@ -206,7 +218,7 @@ Identify each claim. Identify the premises offered in support. Determine whether
     
     <div>
       <div class="chart-box">
-        <div class="section-head">Integrity Ladder (Ranked)</div>
+        <div class="section-head">Comparative Projection (Ranked)</div>
         
         <div class="ladder-row">
           <span class="ladder-lbl">GEMINI 2.0</span>
@@ -230,7 +242,7 @@ Identify each claim. Identify the premises offered in support. Determine whether
 
     <div>
       <div class="chart-box">
-        <div class="section-head">Signal Heatmap (Metric DNA)</div>
+        <div class="section-head">Metric DNA (Compressed)</div>
         <div class="heatmap">
           <div class="hm-cell hm-head">MODEL</div><div class="hm-cell hm-head">INT</div><div class="hm-cell hm-head">COV</div><div class="hm-cell hm-head">DEN</div><div class="hm-cell hm-head">RISK</div>
           
@@ -254,7 +266,7 @@ Identify each claim. Identify the premises offered in support. Determine whether
     </div>
   </div>
 
-  <div class="section-head" style="margin-top:60px;">Select Trace Artifact</div>
+  <div class="section-head" style="margin-top:60px;">Select Trace Artifact (Deep Diagnostics)</div>
   <div class="tabs-grid">
     
     <a href="trace-gemini.html" class="tab-card">
