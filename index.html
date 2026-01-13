@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Start Here · Reflective Diagnostics (BUILD vA)</title>
-  <meta name="description" content="Audit instrument for comparing AI systems by structural justification, exposing unsupported commitments before high-stakes decisions are made." />
+  <meta name="description" content="An audit instrument that compares AI systems by the structural justification of their conclusions, exposing unsupported commitments before high-stakes decisions are made." />
 
   <style>
     :root{
@@ -102,8 +102,7 @@
       border-color:var(--line);
     }
 
-    /* NOTE: green pill style kept for site-wide consistency,
-       but we simply do not use it on Start Here (per request). */
+    /* kept for consistency, not used on this page */
     .pill.green{
       background:var(--green-soft);
       color:#145c38;
@@ -117,12 +116,8 @@
       margin:0 0 14px;
     }
 
-    .subtitle{
-      max-width:900px;
-      font-size:16px;
-      color:var(--muted);
-      margin-bottom:26px;
-    }
+    /* removed: subtitle block on Start Here for tighter layout */
+    .subtitle{display:none;}
 
     /* BUTTONS */
     .btnrow{
@@ -174,25 +169,14 @@
       max-width:900px;
     }
 
-    /* Bullet style: concise, no em-dashes, clean spacing */
     .card ul{
-      margin:10px 0 0 0;
-      padding-left:0;
-      list-style:none;
+      margin:10px 0 0 18px;
       color:var(--muted);
       font-size:14px;
-    }
-    .card li{
-      margin:6px 0;
       padding-left:14px;
-      position:relative;
     }
-    .card li:before{
-      content:"•";
-      position:absolute;
-      left:0;
-      color:var(--muted);
-    }
+
+    .card li{margin:6px 0}
 
     .accent{
       border-left:3px solid var(--green);
@@ -227,6 +211,11 @@
 <body>
 <!-- BUILD MARKER: START-HERE vA -->
 
+<!-- DEBUG BADGE: remove after verifying correct deploy -->
+<div style="position:fixed;bottom:10px;right:10px;padding:6px 10px;border:1px solid #000;background:#fff;z-index:9999;font-family:monospace;font-size:12px;">
+  START-HERE TEST 2026-01-13
+</div>
+
 <div class="topbar">
   <div class="topbar-inner">
     <div class="brand">
@@ -253,17 +242,11 @@
       <div class="pill light">Audit Trail Enforced</div>
       <div class="pill light">Cross-Model Comparison</div>
       <div class="pill light">Deterministic Artifacts</div>
-      <!-- Removed: green Integrity Verified pill -->
     </div>
 
     <h1>
-      An audit instrument that compares AI systems by the structural justification of their conclusions, exposing unsupported commitments before high-stakes decisions are made.
+      An audit instrument that compares AI systems by the structural justification of their conclusions, exposing unsupported commitments before high-stakes decisions are made
     </h1>
-
-    <p class="subtitle">
-      This instrument evaluates whether conclusions produced by AI systems are <b>derivable from their stated premises</b>.
-      It does not judge factual truth, sentiment, or policy merit. It exposes unsupported commitments before high-stakes decisions are made.
-    </p>
 
     <div class="btnrow">
       <a class="btn primary" href="how-it-works.html">How It Works</a>
@@ -297,7 +280,7 @@
         <li>No tool establishes a stable standard across models, updates, and providers</li>
       </ul>
       <div class="accent">
-        The gap: Existing tools evaluate outcomes, but cannot determine whether conclusions are structurally justified or comparable across models.
+        The gap: Existing tools evaluate performance and safety outcomes, but cannot determine whether an AI system’s conclusions are structurally justified or comparable across models.
       </div>
     </div>
   </section>
@@ -305,25 +288,21 @@
   <section class="grid three">
     <div class="card">
       <h2>WHAT THIS INSTRUMENT PROVIDES</h2>
-      <p>
-        A replayable audit that reveals when AI conclusions exceed their evidence.
-      </p>
+      <p>A replayable audit that reveals when AI conclusions exceed their evidence.</p>
     </div>
 
     <div class="card">
       <h2>WHO IT SERVES</h2>
       <ul>
-        <li>Decision authorities — funders, regulators, and auditors</li>
-        <li>Operators — enterprises in compliance-sensitive environments</li>
-        <li>Builders — AI labs requiring auditable proof of reasoning integrity</li>
+        <li>Decision authorities funders, regulators, and auditors responsible for consequential outcomes</li>
+        <li>Operators enterprises deploying AI in compliance-sensitive environments</li>
+        <li>Builders AI labs requiring auditable proof of reasoning integrity</li>
       </ul>
     </div>
 
     <div class="card">
       <h2>AUTHORITY IT PROVIDES</h2>
-      <p>
-        Objective justification of AI conclusions through traceable support structure.
-      </p>
+      <p>Objective justification of AI conclusions through traceable support structure</p>
     </div>
   </section>
 
