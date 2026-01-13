@@ -4,10 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>Case Study · Reflective Diagnostics</title>
-  <meta name="description" content="Forensic audit case study: $250M public funding decision evaluation." />
+  <meta name="description" content="Forensic audit executive brief: $250M public funding decision." />
 
   <style>
-    /* DESIGN TOKENS */
+    /* EXECUTIVE DESIGN TOKENS */
     :root{ 
       --bg:#ffffff; 
       --text:#0b0e10; 
@@ -21,25 +21,25 @@
       --sans:system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
     }
 
-    /* RESET & BASE */
+    /* BASE RESET */
     *{ box-sizing:border-box; }
     body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.5; -webkit-font-smoothing: antialiased; }
     a{ color:inherit; text-decoration:none; }
 
-    /* HEADER */
+    /* NAVIGATION */
     .topbar{ border-bottom:1px solid var(--line); background:#fff; padding:16px 0; position:sticky; top:0; z-index:100; }
     .topbar-inner{ max-width:1100px; margin:0 auto; padding:0 20px; display:flex; justify-content:space-between; align-items:center; }
-    .brand .t{ font-weight:700; font-size:16px; letter-spacing:-0.3px; color:var(--black); }
-    .brand .s{ font-size:11px; color:var(--muted); }
+    .brand .t{ font-weight:700; font-size:18px; letter-spacing:-0.3px; color:var(--black); }
+    .brand .s{ font-size:12px; color:var(--muted); margin-top:2px; }
     .nav{ display:flex; gap:20px; font-size:13px; font-weight:500; }
     .nav a{ color:var(--muted); transition:0.2s; }
     .nav a:hover{ color:var(--black); }
     .nav a.active{ color:var(--black); font-weight:700; border-bottom:1px solid var(--black); }
 
-    /* MAIN CONTAINER */
+    /* LAYOUT CONTAINER */
     .wrap{ max-width:1000px; margin:0 auto; padding:60px 20px 100px; }
 
-    /* HERO SECTION */
+    /* A. HEADER / CONTEXT BLOCK */
     .kickers{ display:flex; gap:8px; margin-bottom:20px; }
     .pill{ font-size:10px; font-weight:700; padding:4px 8px; border:1px solid var(--black); background:var(--black); color:#fff; text-transform:uppercase; letter-spacing:0.5px; }
     .pill.light{ background:#fff; color:var(--text); border-color:var(--line); }
@@ -47,54 +47,54 @@
     h1{ margin:0 0 16px; font-size:32px; letter-spacing:-0.5px; line-height:1.1; font-weight:800; }
     .subtitle{ font-size:16px; color:var(--muted); max-width:700px; margin-bottom:40px; line-height:1.6; }
 
-    /* MISSION BRIEF (FULL PROMPT) */
+    /* B. MISSION BRIEF (COLLAPSIBLE) */
     details.brief { margin-bottom: 50px; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
     summary.brief-head { background: #f8f9fa; padding: 12px 20px; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
     summary.brief-head:hover { background: #f0f2f5; }
     .brief-content { padding: 25px; background: #111; color: #eee; font-family: var(--mono); font-size: 11px; line-height: 1.6; white-space: pre-wrap; border-top: 1px solid var(--line); }
 
-    /* METRICS GRID */
+    /* C. GLOBAL PERFORMANCE SUMMARY */
+    .section-head{ font-size:11px; font-weight:700; text-transform:uppercase; color:var(--muted); letter-spacing:0.5px; margin-bottom:15px; border-bottom:1px solid var(--line); padding-bottom:10px; }
+    
     .scorecard{ display:grid; grid-template-columns:repeat(4, 1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:50px; }
     .score-box{ background:#fff; padding:20px; }
     .score-lbl{ font-family:var(--mono); font-size:10px; color:var(--muted); text-transform:uppercase; display:block; margin-bottom:8px; letter-spacing:0.5px; }
-    .score-val{ font-size:28px; font-weight:700; letter-spacing:-1px; }
+    .score-val{ font-size:28px; font-weight:700; letter-spacing:-1px; margin-bottom: 8px; }
+    .score-cap{ font-size:11px; color:var(--muted); line-height:1.3; }
 
-    /* DASHBOARD LAYOUT */
-    .dashboard-grid{ display:grid; grid-template-columns:1.8fr 1fr; gap:40px; margin-bottom:60px; }
-
-    /* CHARTS */
+    /* DASHBOARD GRID (LADDER & HEATMAP) */
+    .dashboard-grid{ display:grid; grid-template-columns:1.5fr 1fr; gap:40px; margin-bottom:60px; }
     .chart-box{ border:1px solid var(--line); padding:25px; margin-bottom:30px; background:#fff; }
-    .chart-title{ font-size:11px; font-weight:700; text-transform:uppercase; border-bottom:1px solid var(--line); padding-bottom:15px; margin-bottom:20px; letter-spacing:0.5px; color:var(--muted); }
     
+    /* D. INTEGRITY LADDER */
     .ladder-row{ display:flex; align-items:center; margin-bottom:12px; font-family:var(--mono); font-size:11px; }
     .ladder-lbl{ width:100px; color:var(--text); font-weight:600; }
     .bar-track{ flex-grow:1; background:#f0f2f5; height:20px; border-radius:2px; overflow:hidden; }
     .bar-fill{ height:100%; background:var(--black); color:#fff; display:flex; align-items:center; justify-content:flex-end; padding-right:8px; font-size:10px; font-weight:700; }
+    .caption{ font-size:11px; color:var(--muted); font-style:italic; margin-top:15px; }
 
-    /* HEATMAP */
+    /* E. HEATMAP */
     .heatmap{ display:grid; grid-template-columns:80px repeat(4, 1fr); gap:1px; background:var(--line); border:1px solid var(--line); font-family:var(--mono); font-size:10px; }
     .hm-cell{ background:#fff; padding:10px 4px; display:flex; align-items:center; justify-content:center; text-align:center; }
     .hm-head{ background:#f9fafb; font-weight:700; color:var(--muted); }
     .bg-100{ background:#000; color:#fff; } .bg-90{ background:#333; color:#fff; } .bg-50{ background:#999; color:#fff; } .bg-risk{ background:var(--red); color:#fff; }
 
-    /* COPILOT BOX */
-    .copilot{ background:#f4f6f8; padding:20px; border-radius:4px; font-size:13px; line-height:1.6; border:1px solid var(--line); margin-bottom: 20px; }
-    .copilot strong{ display:block; font-family:var(--mono); font-size:10px; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+    /* F. VERDICT */
+    .verdict-box{ background:#f4f6f8; padding:25px; border-radius:4px; border:1px solid var(--line); margin-bottom: 50px; }
+    .verdict-lbl{ font-family:var(--mono); font-size:10px; text-transform:uppercase; color:var(--muted); margin-bottom:10px; letter-spacing:0.5px; font-weight:700; }
+    .verdict-text{ font-size:14px; line-height:1.6; color:var(--text); max-width:800px; }
 
-    /* TRACE FILES (LINKS) */
-    .model-nav{ display:grid; grid-template-columns:repeat(4, 1fr); gap:15px; }
-    .model-btn{ display:block; border:1px solid var(--line); padding:20px; transition:0.2s; background:#fff; text-decoration: none; }
-    .model-btn:hover{ border-color:var(--black); transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,0,0,0.05); }
-    .mb-name{ font-weight:700; font-size:12px; text-transform:uppercase; display:block; margin-bottom:8px; letter-spacing:0.5px; color:var(--muted); }
-    .mb-score{ font-size:28px; font-weight:800; display:block; margin-bottom:8px; letter-spacing:-1px; color:var(--black); }
-    .status-badge{ font-family:var(--mono); font-size:9px; padding:3px 6px; border-radius:3px; text-transform:uppercase; font-weight:600; display: inline-block; }
-    .win{ background:#e6fbf0; color:var(--green); }
-    .fail{ background:#fbeaea; color:var(--red); }
-    .mid{ background:#f0f2f5; color:var(--muted); }
+    /* MODEL SPECIFIC TABS */
+    .tabs-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:15px; }
+    .tab-card{ border:1px solid var(--line); padding:20px; transition:0.2s; background:#fff; text-decoration: none; display:flex; flex-direction:column; justify-content:space-between; height:100%; }
+    .tab-card:hover{ border-color:var(--black); transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,0,0,0.05); }
+    .tab-head{ font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.5px; color:var(--black); margin-bottom:10px; border-bottom:1px solid var(--line); padding-bottom:10px; display:flex; justify-content:space-between; }
+    .tab-body{ font-size:12px; color:var(--muted); line-height:1.4; margin-bottom:15px; }
+    .tab-act{ font-family:var(--mono); font-size:10px; text-transform:uppercase; color:var(--blue); font-weight:600; }
 
     /* MOBILE */
     @media(max-width:800px){ 
-      .dashboard-grid, .scorecard, .model-nav{ grid-template-columns:1fr; } 
+      .dashboard-grid, .scorecard, .tabs-grid{ grid-template-columns:1fr; } 
       .nav{ display:none; }
       .wrap { padding-top: 30px; }
     }
@@ -112,6 +112,7 @@
       <a href="index.html">Overview</a>
       <a href="use-cases.html" class="active">Case Study</a>
       <a href="how-it-works.html">Methodology</a>
+      <a href="evidence.html">Evidence</a>
     </div>
   </div>
 </div>
@@ -125,12 +126,13 @@
 
   <h1>$250M Funding Decision</h1>
   <p class="subtitle">
-    We fed an identical <b>Public Funding Prompt</b> into four leading models to determine if their recommendation to approve $250M in spending was structurally justified.
+    Evaluation of a proposed public–private infrastructure and environmental restoration project. 
+    We assessed whether the recommendation to approve funding is structurally justified by the provided evidence.
   </p>
 
-  <details class="brief" open>
+  <details class="brief">
     <summary class="brief-head">
-      <span>▼ Mission Brief: Original Injection Prompt</span>
+      <span>▼ Original Injection Prompt (Evidence Input)</span>
     </summary>
     <div class="brief-content">You are an independent technical advisor evaluating a proposed public–private infrastructure and environmental restoration project prior to a funding decision.
 The project seeks multi-year funding exceeding $250 million. The outcome of this evaluation will influence downstream policy.
@@ -153,50 +155,59 @@ Task:
 Identify each claim. Identify the premises offered in support. Determine whether each conclusion follows from the premises without new assumptions. Assess whether the overall recommendation to approve funding is structurally justified.</div>
   </details>
 
-  <div class="chart-title">Global Performance (Avg)</div>
+  <div class="section-head">Primary Metrics</div>
   <div class="scorecard">
-    <div class="score-box"><span class="score-lbl">Avg Integrity</span><div class="score-val">0.92</div></div>
-    <div class="score-box"><span class="score-lbl">Avg Coverage</span><div class="score-val">100%</div></div>
-    <div class="score-box"><span class="score-lbl">Orphan Claims</span><div class="score-val">0</div></div>
-    <div class="score-box"><span class="score-lbl">Consensus Spread</span><div class="score-val">0.12</div></div>
+    <div class="score-box">
+      <span class="score-lbl">Avg Integrity</span>
+      <div class="score-val">0.92</div>
+      <div class="score-cap">Degree to which conclusions follow explicitly from stated premises. Higher = lower risk.</div>
+    </div>
+    <div class="score-box">
+      <span class="score-lbl">Avg Coverage</span>
+      <div class="score-val">100%</div>
+      <div class="score-cap">Percentage of claims that are directly supported by evidence. 100% = no hidden assumptions.</div>
+    </div>
+    <div class="score-box">
+      <span class="score-lbl">Orphan Claims</span>
+      <div class="score-val">0</div>
+      <div class="score-cap">Number of conclusions not supported by premises or evidence. Orphans represent structural risk.</div>
+    </div>
+    <div class="score-box">
+      <span class="score-lbl">Consensus Spread</span>
+      <div class="score-val">0.12</div>
+      <div class="score-cap">Degree of divergence across structurally constrained models. Lower = higher stability.</div>
+    </div>
   </div>
 
   <div class="dashboard-grid">
+    
     <div>
       <div class="chart-box">
-        <div class="chart-title">Integrity Ladder (Ranked)</div>
+        <div class="section-head">Integrity Ladder (Ranked)</div>
         
         <div class="ladder-row">
           <span class="ladder-lbl">GEMINI 2.0</span>
-          <div class="bar-track">
-            <div class="bar-fill" style="width:97%; background:var(--green);">0.97</div>
-          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:97%; background:var(--green);">0.97</div></div>
         </div>
-
         <div class="ladder-row">
           <span class="ladder-lbl">DEEPSEEK</span>
-          <div class="bar-track">
-            <div class="bar-fill" style="width:92%;">0.92</div>
-          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:92%;">0.92</div></div>
         </div>
-
         <div class="ladder-row">
           <span class="ladder-lbl">OPENAI</span>
-          <div class="bar-track">
-            <div class="bar-fill" style="width:85%; background:#7f8c8d;">0.85</div>
-          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:85%; background:#7f8c8d;">0.85</div></div>
         </div>
-
         <div class="ladder-row">
           <span class="ladder-lbl">GROK 2</span>
-          <div class="bar-track">
-            <div class="bar-fill" style="width:20%; background:var(--red);">0.20</div>
-          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:20%; background:var(--red);">0.20</div></div>
         </div>
+        <div class="caption">Models are ranked solely on structural integrity — not eloquence, verbosity, or persuasion.</div>
       </div>
+    </div>
 
+    <div>
       <div class="chart-box">
-        <div class="chart-title">Signal Heatmap (Metric DNA)</div>
+        <div class="section-head">Signal Heatmap (Metric DNA)</div>
         <div class="heatmap">
           <div class="hm-cell hm-head">MODEL</div><div class="hm-cell hm-head">INT</div><div class="hm-cell hm-head">COV</div><div class="hm-cell hm-head">DEN</div><div class="hm-cell hm-head">RISK</div>
           
@@ -205,51 +216,66 @@ Identify each claim. Identify the premises offered in support. Determine whether
           <div class="hm-cell" style="font-weight:700">OPENAI</div><div class="hm-cell bg-50">0.85</div><div class="hm-cell bg-100">100%</div><div class="hm-cell bg-50">0.57</div><div class="hm-cell">0</div>
           <div class="hm-cell" style="font-weight:700">GROK</div><div class="hm-cell">0.20</div><div class="hm-cell">0%</div><div class="hm-cell">N/A</div><div class="hm-cell bg-risk">100%</div>
         </div>
+        <div class="caption">Darker cells indicate stronger structural performance. Light or broken rows indicate instability or unsupported reasoning.</div>
       </div>
     </div>
 
-    <div>
-      <div class="copilot">
-        <strong>[COPILOT DETERMINISTIC GUIDE]</strong>
-        The recommended winner is <b>GEMINI — gemini-2.0-flash-lite-preview-02-05</b> (Score: 0.96).
-        <br><br>
-        Calculated based on weighted integrity, coverage, and risk penalties.
-      </div>
-      
-      <div class="copilot">
-        <strong>[ANOMALY DETECTED]</strong>
-        <b>Hidden Perfection:</b> 4 models achieved ZERO orphan claims, a rare structural feat.
-        <br><br>
-        <b>Density Spike:</b> 2 models are operating at >80% reasoning density.
-      </div>
+  </div>
+
+  <div class="verdict-box">
+    <div class="verdict-lbl">Deterministic Structural Verdict</div>
+    <div class="verdict-text">
+      The recommended winner is <b>GEMINI — gemini-2.0-flash-lite-preview-02-05</b> (Score: 0.96). 
+      Calculated based on weighted integrity, coverage, and risk penalties. 
+      The model demonstrated zero orphan claims and the highest reasoning density (0.91) among all evaluated systems.
     </div>
   </div>
 
-  <div class="chart-title" style="margin-top:40px;">Select Trace Artifact (Full Telemetry)</div>
-  <div class="model-nav">
+  <div class="section-head" style="margin-top:60px;">Model-Specific Structural Analysis</div>
+  <div class="tabs-grid">
     
-    <a href="trace-gemini.html" class="model-btn">
-      <span class="mb-name">Gemini 2.0</span>
-      <span class="mb-score" style="color:var(--green)">0.97</span>
-      <span class="status-badge win">WINNER</span>
+    <a href="trace-gemini.html" class="tab-card">
+      <div>
+        <div class="tab-head">
+          <span>Gemini 2.0</span>
+          <span style="color:var(--green)">0.97</span>
+        </div>
+        <div class="tab-body">View full structural trace, evidence mapping, and diagnostics for this model.</div>
+      </div>
+      <div class="tab-act">View Trace →</div>
     </a>
 
-    <a href="trace-deepseek.html" class="model-btn">
-      <span class="mb-name">DeepSeek</span>
-      <span class="mb-score">0.92</span>
-      <span class="status-badge mid">VERIFIED</span>
+    <a href="trace-deepseek.html" class="tab-card">
+      <div>
+        <div class="tab-head">
+          <span>DeepSeek</span>
+          <span>0.92</span>
+        </div>
+        <div class="tab-body">View full structural trace, evidence mapping, and diagnostics for this model.</div>
+      </div>
+      <div class="tab-act">View Trace →</div>
     </a>
 
-    <a href="trace-openai.html" class="model-btn">
-      <span class="mb-name">OpenAI</span>
-      <span class="mb-score">0.85</span>
-      <span class="status-badge mid">UNSTABLE</span>
+    <a href="trace-openai.html" class="tab-card">
+      <div>
+        <div class="tab-head">
+          <span>OpenAI</span>
+          <span>0.85</span>
+        </div>
+        <div class="tab-body">View full structural trace, evidence mapping, and diagnostics for this model.</div>
+      </div>
+      <div class="tab-act">View Trace →</div>
     </a>
 
-    <a href="trace-grok.html" class="model-btn">
-      <span class="mb-name">Grok-2</span>
-      <span class="mb-score" style="color:var(--red)">0.20</span>
-      <span class="status-badge fail">FAILURE</span>
+    <a href="trace-grok.html" class="tab-card">
+      <div>
+        <div class="tab-head">
+          <span>Grok-2</span>
+          <span style="color:var(--red)">0.20</span>
+        </div>
+        <div class="tab-body">View full structural trace, evidence mapping, and diagnostics for this model.</div>
+      </div>
+      <div class="tab-act">View Trace →</div>
     </a>
 
   </div>
