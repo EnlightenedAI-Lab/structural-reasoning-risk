@@ -56,12 +56,12 @@
     summary.brief-head:hover { background: #f0f2f5; }
     .brief-content { padding: 25px; background: #111; color: #eee; font-family: var(--mono); font-size: 11px; line-height: 1.6; white-space: pre-wrap; border-top: 1px solid var(--line); }
 
-    /* SYSTEM STATE STRIP (THE VERTICALITY SIGNAL) */
+    /* SYSTEM STATE */
     .system-state { display: flex; gap: 20px; margin-bottom: 40px; padding: 10px 0; border-bottom: 1px dotted var(--line); font-family: var(--mono); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; align-items: center; }
-    .state-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; display: inline-block; margin-right: 5px; }
     .state-item b { color: var(--black); }
+    .state-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; display: inline-block; margin-right: 5px; }
 
-    /* FRAMING BLOCK (EPISTEMIC GROUNDING) */
+    /* FRAMING BLOCK */
     .framing-block { background: #fffbe6; border: 1px solid #ffe58f; padding: 15px 20px; margin-bottom: 40px; font-size: 13px; color: #595028; border-radius: 4px; }
     .framing-block strong { font-weight: 700; color: #2b250c; text-transform: uppercase; font-size: 11px; display: block; margin-bottom: 4px; }
 
@@ -73,6 +73,18 @@
     .score-lbl{ font-family:var(--mono); font-size:10px; color:var(--muted); text-transform:uppercase; display:block; margin-bottom:8px; letter-spacing:0.5px; }
     .score-val{ font-size:28px; font-weight:700; letter-spacing:-1px; margin-bottom: 8px; }
     .score-cap{ font-size:11px; color:var(--muted); line-height:1.3; }
+
+    /* MODEL ARTIFACT TABS (MOVED UP) */
+    .tabs-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:15px; margin-bottom: 60px; }
+    .tab-card{ border:1px solid var(--line); padding:20px; transition:0.2s; background:#fff; text-decoration: none; display:flex; flex-direction:column; justify-content:space-between; height:100%; position:relative; overflow:hidden; }
+    .tab-card:hover{ border-color:var(--black); transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,0,0,0.05); }
+    .tab-head{ font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.5px; color:var(--black); margin-bottom:10px; border-bottom:1px solid var(--line); padding-bottom:10px; display:flex; justify-content:space-between; }
+    .tab-body{ font-size:12px; color:var(--muted); line-height:1.4; margin-bottom:15px; }
+    .status-tag{ font-family:var(--mono); font-size:9px; text-transform:uppercase; padding:3px 6px; border-radius:3px; display:inline-block; margin-top: auto; }
+    
+    .tag-green{ background:#e6fbf0; color:var(--green); }
+    .tag-red{ background:#fbeaea; color:var(--red); }
+    .tag-gray{ background:#f0f2f5; color:var(--muted); }
 
     /* DASHBOARD GRID */
     .dashboard-grid{ display:grid; grid-template-columns:1.5fr 1fr; gap:40px; margin-bottom:60px; }
@@ -95,18 +107,6 @@
     .verdict-box{ background:#f4f6f8; padding:25px; border-radius:4px; border:1px solid var(--line); margin-bottom: 50px; }
     .verdict-lbl{ font-family:var(--mono); font-size:10px; text-transform:uppercase; color:var(--muted); margin-bottom:10px; letter-spacing:0.5px; font-weight:700; }
     .verdict-text{ font-size:14px; line-height:1.6; color:var(--text); max-width:800px; }
-
-    /* MODEL ARTIFACT TABS */
-    .tabs-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:15px; }
-    .tab-card{ border:1px solid var(--line); padding:20px; transition:0.2s; background:#fff; text-decoration: none; display:flex; flex-direction:column; justify-content:space-between; height:100%; }
-    .tab-card:hover{ border-color:var(--black); transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,0,0,0.05); }
-    .tab-head{ font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.5px; color:var(--black); margin-bottom:10px; border-bottom:1px solid var(--line); padding-bottom:10px; display:flex; justify-content:space-between; }
-    .tab-body{ font-size:12px; color:var(--muted); line-height:1.4; margin-bottom:15px; }
-    .status-tag{ font-family:var(--mono); font-size:9px; text-transform:uppercase; padding:3px 6px; border-radius:3px; display:inline-block; margin-top: auto; }
-    
-    .tag-green{ background:#e6fbf0; color:var(--green); }
-    .tag-red{ background:#fbeaea; color:var(--red); }
-    .tag-gray{ background:#f0f2f5; color:var(--muted); }
 
     /* MOBILE */
     @media(max-width:800px){ 
@@ -214,6 +214,55 @@ Identify each claim. Identify the premises offered in support. Determine whether
     </div>
   </div>
 
+  <div class="section-head" style="color:var(--black); border-bottom:2px solid var(--black);">Select Trace Artifact (Deep Diagnostics)</div>
+  <div class="tabs-grid">
+    
+    <a href="trace-gemini.html" class="tab-card">
+      <div>
+        <div class="tab-head">
+          <span>Gemini 2.0</span>
+          <span>0.97</span>
+        </div>
+        <div class="tab-body">Structural trace, evidence mapping, and diagnostics.</div>
+      </div>
+      <div class="status-tag tag-green">SUPPORTED</div>
+    </a>
+
+    <a href="trace-deepseek.html" class="tab-card">
+      <div>
+        <div class="tab-head">
+          <span>DeepSeek</span>
+          <span>0.92</span>
+        </div>
+        <div class="tab-body">Structural trace, evidence mapping, and diagnostics.</div>
+      </div>
+      <div class="status-tag tag-gray">VERIFIED</div>
+    </a>
+
+    <a href="trace-openai.html" class="tab-card">
+      <div>
+        <div class="tab-head">
+          <span>OpenAI</span>
+          <span>0.85</span>
+        </div>
+        <div class="tab-body">Structural trace, evidence mapping, and diagnostics.</div>
+      </div>
+      <div class="status-tag tag-gray">UNSTABLE</div>
+    </a>
+
+    <a href="trace-grok.html" class="tab-card">
+      <div>
+        <div class="tab-head">
+          <span>Grok-2</span>
+          <span>0.20</span>
+        </div>
+        <div class="tab-body">Structural trace, evidence mapping, and diagnostics.</div>
+      </div>
+      <div class="status-tag tag-red">FAILURE</div>
+    </a>
+
+  </div>
+
   <div class="dashboard-grid">
     
     <div>
@@ -264,55 +313,6 @@ Identify each claim. Identify the premises offered in support. Determine whether
       This conclusion is based on weighted integrity, coverage, and risk penalties. 
       It is the only system to demonstrate zero orphan claims while maintaining high reasoning density (0.91).
     </div>
-  </div>
-
-  <div class="section-head" style="margin-top:60px;">Select Trace Artifact (Deep Diagnostics)</div>
-  <div class="tabs-grid">
-    
-    <a href="trace-gemini.html" class="tab-card">
-      <div>
-        <div class="tab-head">
-          <span>Gemini 2.0</span>
-          <span>0.97</span>
-        </div>
-        <div class="tab-body">Structural trace, evidence mapping, and diagnostics.</div>
-      </div>
-      <div class="status-tag tag-green">SUPPORTED</div>
-    </a>
-
-    <a href="trace-deepseek.html" class="tab-card">
-      <div>
-        <div class="tab-head">
-          <span>DeepSeek</span>
-          <span>0.92</span>
-        </div>
-        <div class="tab-body">Structural trace, evidence mapping, and diagnostics.</div>
-      </div>
-      <div class="status-tag tag-gray">VERIFIED</div>
-    </a>
-
-    <a href="trace-openai.html" class="tab-card">
-      <div>
-        <div class="tab-head">
-          <span>OpenAI</span>
-          <span>0.85</span>
-        </div>
-        <div class="tab-body">Structural trace, evidence mapping, and diagnostics.</div>
-      </div>
-      <div class="status-tag tag-gray">UNSTABLE</div>
-    </a>
-
-    <a href="trace-grok.html" class="tab-card">
-      <div>
-        <div class="tab-head">
-          <span>Grok-2</span>
-          <span>0.20</span>
-        </div>
-        <div class="tab-body">Structural trace, evidence mapping, and diagnostics.</div>
-      </div>
-      <div class="status-tag tag-red">FAILURE</div>
-    </a>
-
   </div>
 
 </div>
