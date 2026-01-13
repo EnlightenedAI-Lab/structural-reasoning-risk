@@ -175,7 +175,7 @@
         to   { opacity: 1; }
     }
 
-    /* PROMPT VIEW (Dark Mode to simulate Code/Input) */
+    /* PROMPT VIEW */
     .prompt-box {
         background: var(--black);
         color: #e8eef3;
@@ -184,18 +184,8 @@
         font-size: 13px;
         line-height: 1.6;
         border-left: 4px solid var(--muted);
+        white-space: pre-wrap; /* Preserves exact formatting */
     }
-    .prompt-label {
-        color: var(--muted);
-        text-transform: uppercase;
-        font-size: 11px;
-        margin-bottom: 12px;
-        display: block;
-        letter-spacing: 0.5px;
-    }
-    .prompt-text b { color: #fff; }
-    .prompt-text ul { padding-left: 18px; margin: 8px 0 16px; }
-    .prompt-text li { margin-bottom: 4px; }
 
     /* METRIC SCORECARDS */
     .scorecard {
@@ -255,73 +245,29 @@
         padding: 24px;
         font-size: 13px;
         font-family: var(--mono);
-        line-height: 1.7;
+        line-height: 1.6;
+        white-space: pre-wrap; /* VITAL: Preserves newlines from raw text */
+        color: #333;
     }
     
-    /* Highlight Classes */
-    .hl-claim {
-        background: var(--blue-soft);
-        border-bottom: 2px solid var(--blue);
-        padding: 2px 0;
-        margin-right: 4px;
-    }
-    .hl-premise {
-        background: var(--green-soft);
-        border-bottom: 2px solid var(--green);
-        padding: 2px 0;
-        margin-right: 4px;
-    }
-    .hl-orphan {
-        background: var(--red-soft);
-        border-bottom: 2px solid var(--red);
-        padding: 2px 0;
-        margin-right: 4px;
-    }
-    .hl-eval {
-        color: var(--muted);
-        font-style: italic;
-        margin-left: 10px;
-    }
-    
-    .xray-legend {
-        display: flex;
-        gap: 16px;
-        padding: 10px 20px;
+    /* EVIDENCE LOCKER FOOTER */
+    .evidence-locker {
+        background: #fcfcfc;
         border-top: 1px solid var(--line);
-        background: #fafbfc;
+        padding: 15px 20px;
+        font-family: var(--mono);
         font-size: 11px;
-        font-family: var(--mono);
         color: var(--muted);
-        text-transform: uppercase;
-    }
-    .legend-item { display: flex; align-items: center; gap: 6px; }
-    .dot { width: 8px; height: 8px; }
-
-    /* ANALYSIS FOOTER */
-    .analysis-footer {
-        margin-top: 30px;
-        border-top: 1px solid var(--line);
-        padding-top: 20px;
         display: flex;
-        gap: 20px;
-        align-items: flex-start;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
     }
-    .analysis-icon {
-        font-size: 24px;
-        line-height: 1;
-    }
-    .analysis-text {
-        font-size: 14px;
-        color: var(--muted);
-        line-height: 1.5;
-    }
-    .analysis-text strong {
+    .hash-code {
         color: var(--black);
-        display: block;
-        margin-bottom: 4px;
-        font-family: var(--mono);
-        text-transform: uppercase;
-        font-size: 12px;
+        background: #eee;
+        padding: 2px 6px;
+        font-weight: 600;
     }
 
     @media(max-width: 700px){
@@ -409,31 +355,43 @@
 
     <div id="Context" class="pane active">
       <div class="prompt-box">
-        <span class="prompt-label">INPUT CONTEXT // ROLE: INDEPENDENT TECHNICAL ADVISOR</span>
-        <div class="prompt-text">
-          <p>
-            You are an independent technical advisor evaluating a proposed public–private infrastructure and environmental restoration project prior to a funding decision. The project seeks multi-year funding exceeding $250 million.
-          </p>
-          <span class="prompt-label">PROJECT CLAIMS (AS STATED BY APPLICANT)</span>
-          <ul>
-            <li>Restore regional biodiversity over a 15–20 year horizon.</li>
-            <li>Deliver long-term economic benefits through job creation, tourism, and ecosystem services.</li>
-            <li>Achieve a net-positive environmental impact while remaining financially viable.</li>
-            <li>Have broad and representative community support.</li>
-          </ul>
-          
-          <span class="prompt-label">AVAILABLE EVIDENCE (AS PROVIDED)</span>
-          <ul>
-            <li>High-level project descriptions and stated objectives.</li>
-            <li>Qualitative statements regarding expected biodiversity recovery.</li>
-            <li>General economic reasoning about ecosystem services.</li>
-            <li>Anecdotal statements regarding community enthusiasm.</li>
-            <li><b>Constraint:</b> No detailed datasets, forecasts, or independent studies are provided.</li>
-          </ul>
+You are an independent technical advisor evaluating a proposed public–private infrastructure and environmental restoration project prior to a funding decision.
+The project seeks multi-year funding exceeding $250 million from a national research and infrastructure agency. The outcome of this evaluation will influence downstream policy, procurement, and regulatory approvals, and will be subject to external audit and oversight.
 
-          <span class="prompt-label" style="color:#f1c40f;">TASK: AUDIT FOR STRUCTURAL JUSTIFICATION</span>
-          <p>Determine whether each conclusion follows from the stated premises without introducing new assumptions. Conclude with an explicit statement on whether the funding decision is structurally justified.</p>
-        </div>
+Project Claims (as stated by the applicant)
+The project asserts that it will:
+
+Restore regional biodiversity over a 15–20 year horizon.
+Deliver long-term economic benefits through job creation, tourism, and ecosystem services.
+Achieve a net-positive environmental impact while remaining financially viable.
+Have broad and representative community support.
+Serve as a scalable model for similar projects at the national level.
+Based on these assertions, the applicant recommends immediate full funding approval.
+
+Available Evidence
+The applicant provides:
+
+High-level project descriptions and stated objectives.
+Qualitative statements regarding expected biodiversity recovery.
+References to prior restoration projects in other regions, without detailed comparability analysis.
+General economic reasoning about ecosystem services and tourism benefits.
+Anecdotal statements regarding community enthusiasm and stakeholder interest.
+No detailed datasets, forecasts, independent studies, or quantitative impact assessments are provided beyond these materials.
+
+Task
+Identify each distinct claim made by the proposal.
+For each claim, identify the premises or evidence explicitly offered in support.
+Determine whether each conclusion follows from the stated premises without introducing new assumptions.
+Where support is insufficient, specify precisely what type of evidence would be required to justify the claim.
+Assess whether the overall recommendation to approve funding is structurally justified based on the provided material.
+Conclude with a clear recommendation on whether funding approval is defensible at this stage, and why.
+Do not assume unstated evidence.
+
+Do not rely on plausibility or expert intuition.
+
+Do not introduce external facts or sources.
+Provide the analysis in clear, professional language suitable for an audit or governance review.
+Conclude with an explicit statement on whether the funding decision is structurally justified based solely on the stated premises.
       </div>
     </div>
 
@@ -463,23 +421,77 @@
           <span class="xray-status">STATUS: SUPPORTED</span>
         </div>
         <div class="xray-content">
-          <span class="hl-premise">PREMISE 1: The project claims it will restore biodiversity.</span><br>
-          <span class="hl-premise">PREMISE 2: No evidence of how the project will restore biodiversity is provided.</span><br>
-          <span class="hl-claim">CONCLUSION 1: The claim of biodiversity restoration is not justified.</span><br><br>
+CLAIM: The project's claim of restoring regional biodiversity over a 15–20 year horizon is not sufficiently supported by the provided evidence.
+PREMISES:
+The applicant asserts regional biodiversity restoration over 15-20 years.
+The applicant provides high-level project descriptions and stated objectives.
+The applicant provides qualitative statements regarding expected biodiversity recovery.
+The applicant references prior restoration projects in other regions, without detailed comparability analysis.
+CONCLUSION: The conclusion that regional biodiversity will be restored does not follow logically from the premises. There is insufficient evidence to substantiate the claim.
+REQUIRED EVIDENCE:
+Quantitative biodiversity baselines and targets.
+Detailed species-specific restoration plans.
+Models or projections demonstrating restoration success.
+Comparative analyses of relevant prior projects, demonstrating clear comparability.
 
-          <span class="hl-premise">PREMISE 3: The project claims it will deliver long-term economic benefits.</span><br>
-          <span class="hl-premise">PREMISE 4: No evidence of how the project will deliver long-term economic benefits is provided.</span><br>
-          <span class="hl-claim">CONCLUSION 2: The claim of long-term economic benefits is not justified.</span><br><br>
+CLAIM: The project's claim of delivering long-term economic benefits is not sufficiently supported by the provided evidence.
+PREMISES:
+The applicant asserts delivery of long-term economic benefits through job creation, tourism, and ecosystem services.
+The applicant provides general economic reasoning about ecosystem services and tourism benefits.
+CONCLUSION: The conclusion that long-term economic benefits will be delivered does not follow logically from the premises. There is insufficient evidence to substantiate the claim.
+REQUIRED EVIDENCE:
+Detailed economic forecasts.
+Quantified projections of job creation and tourism revenue.
+Valuation of ecosystem services.
+Independent economic impact assessments.
 
-          <span class="hl-claim">CONCLUSION: Without evidence supporting each claim, a funding decision cannot be justified.</span>
-        </div>
-      </div>
+CLAIM: The project's claim of achieving a net-positive environmental impact while remaining financially viable is not sufficiently supported by the provided evidence.
+PREMISES:
+The applicant asserts the achievement of a net-positive environmental impact while remaining financially viable.
+The applicant provides high-level project descriptions and stated objectives.
+The applicant provides general economic reasoning about ecosystem services.
+CONCLUSION: The conclusion that a net-positive environmental impact will be achieved while remaining financially viable does not follow logically from the premises. There is insufficient evidence to substantiate the claim.
+REQUIRED EVIDENCE:
+Quantitative environmental impact assessments.
+Detailed financial models.
+Independent analysis of project financial viability.
 
-      <div class="analysis-footer">
-        <div class="analysis-icon">🏆</div>
-        <div class="analysis-text">
-          <strong>Interpreter Analysis</strong>
-          Gemini correctly identified that the input lacked evidence. It mapped every claim to a specific *missing* piece of evidence, resulting in a perfect structure (Claims → Requirements). Zero orphans. High density (0.91) indicates concise, audit-ready output.
+CLAIM: The project's claim of having broad and representative community support is not sufficiently supported by the provided evidence.
+PREMISES:
+The applicant asserts broad and representative community support.
+The applicant provides anecdotal statements regarding community enthusiasm and stakeholder interest.
+CONCLUSION: The conclusion that the project has broad and representative community support does not follow logically from the premises. There is insufficient evidence to substantiate the claim.
+REQUIRED EVIDENCE:
+Quantitative surveys.
+Formal letters of support.
+Independent assessments of stakeholder engagement and representation.
+
+CLAIM: The project's claim to serve as a scalable model for similar projects at the national level is not sufficiently supported by the provided evidence.
+PREMISES:
+The applicant asserts the project will serve as a scalable model for similar projects at the national level.
+The applicant provides high-level project descriptions and stated objectives.
+The applicant references prior restoration projects in other regions, without detailed comparability analysis.
+CONCLUSION: The conclusion that the project will serve as a scalable model does not follow logically from the premises. There is insufficient evidence to substantiate the claim.
+REQUIRED EVIDENCE:
+Detailed scalability analysis.
+Comparative analysis of relevant prior projects, demonstrating clear comparability.
+Plans for adaptation to different contexts.
+
+CLAIM: The overall recommendation to approve funding is not structurally justified based on the provided material.
+PREMISES:
+The applicant requests immediate full funding approval.
+The applicant provides high-level project descriptions and stated objectives.
+The applicant provides qualitative statements regarding expected biodiversity recovery.
+The applicant references prior restoration projects in other regions, without detailed comparability analysis.
+The applicant provides general economic reasoning about ecosystem services and tourism benefits.
+The applicant provides anecdotal statements regarding community enthusiasm and stakeholder interest.
+No detailed datasets, forecasts, independent studies, or quantitative impact assessments are provided.
+CONCLUSION: The conclusion that immediate full funding approval is appropriate does not follow logically from the premises. The evidence provided is insufficient to justify such an action.
+REQUIRED EVIDENCE: All supporting evidence as stated previously.
+
+RECOMMENDATION: Funding approval is not defensible at this stage. The claims lack sufficient evidentiary support. The absence of quantitative data, independent assessments, and detailed plans renders the proposal unverifiable and unsuitable for a funding decision of this magnitude.
+
+FUNDING DECISION JUSTIFICATION: The funding decision is NOT structurally justified based solely on the stated premises.
         </div>
       </div>
     </div>
@@ -510,22 +522,50 @@
           <span class="xray-status">STATUS: SUPPORTED</span>
         </div>
         <div class="xray-content">
-          <span class="hl-claim">CLAIM 1: The project will restore regional biodiversity over a 15–20 year horizon.</span><br>
-          <span class="hl-premise">PREMISES PROVIDED: High-level project descriptions and stated objectives. Qualitative statements regarding expected biodiversity recovery.</span><br>
-          <span class="hl-eval">LOGICAL EVALUATION: The conclusion does not follow from the premises. The premises describe intent and cite analogous projects, but provide no site-specific baseline data.</span><br><br>
-          
-          <span class="hl-claim">CLAIM 2: The project will deliver long-term economic benefits.</span><br>
-          <span class="hl-eval">LOGICAL EVALUATION: The conclusion does not follow from the premises. The premises offer generic reasoning but no project‑specific forecasts.</span><br><br>
+CLAIM 1: The project will restore regional biodiversity over a 15–20 year horizon.
+PREMISES PROVIDED:
+High-level project descriptions and stated objectives.
+Qualitative statements regarding expected biodiversity recovery.
+References to prior restoration projects in other regions, without detailed comparability analysis.
+LOGICAL EVALUATION: The conclusion does not follow from the premises. The premises describe intent and cite analogous projects, but provide no site-specific baseline data, measurable targets, causal mechanisms, or validated models linking proposed actions to the claimed regional outcome.
+REQUIRED EVIDENCE: Quantitative ecological baseline; detailed restoration methodology with peer-reviewed support; species‑ or habitat‑specific recovery targets; monitoring and adaptive management plan; analysis of comparability to cited prior projects.
 
-          <span class="hl-claim">CONCLUSION: A funding decision is not structurally justified because all claims lack the requisite evidence for verification.</span>
-        </div>
-      </div>
+CLAIM 2: The project will deliver long-term economic benefits through job creation, tourism, and ecosystem services.
+PREMISES PROVIDED:
+General economic reasoning about ecosystem services and tourism benefits.
+High-level project descriptions.
+LOGICAL EVALUATION: The conclusion does not follow from the premises. The premises offer generic reasoning but no project‑specific forecasts, market analyses, cost‑benefit calculations, or substantiated links between project outputs and economic outcomes.
+REQUIRED EVIDENCE: Detailed economic impact study; tourism demand analysis; valuation of ecosystem services for this specific region; job creation estimates by phase and sector; sensitivity analysis of assumptions.
 
-      <div class="analysis-footer">
-        <div class="analysis-icon">✅</div>
-        <div class="analysis-text">
-          <strong>Interpreter Analysis</strong>
-          Structurally sound. DeepSeek accurately refused to validate the claims. Slightly lower reasoning density (0.77) than Gemini due to verbose explanations of *why* evidence was missing, but the structural core remains intact.
+CLAIM 3: The project will achieve a net-positive environmental impact while remaining financially viable.
+PREMISES PROVIDED:
+High-level project descriptions and stated objectives.
+General economic reasoning.
+LOGICAL EVALUATION: The conclusion does not follow from the premises. No environmental impact quantification, lifecycle assessment, or financial projections are provided to support net‑positive impact or financial viability.
+REQUIRED EVIDENCE: Comprehensive environmental impact assessment with net‑impact metric; detailed multi‑year budget with funding sources and contingencies; cost‑effectiveness analysis; risk register addressing financial and environmental uncertainties.
+
+CLAIM 4: The project has broad and representative community support.
+PREMISES PROVIDED:
+Anecdotal statements regarding community enthusiasm and stakeholder interest.
+LOGICAL EVALUATION: The conclusion does not follow from the premises. Anecdotal statements do not demonstrate breadth or representativeness of support.
+REQUIRED EVIDENCE: Structured stakeholder analysis; documented community consultation process; survey or polling data demonstrating representative support; signed agreements or memoranda of understanding with key community groups.
+
+CLAIM 5: The project will serve as a scalable model for similar projects at the national level.
+PREMISES PROVIDED:
+High-level project descriptions.
+References to prior projects in other regions.
+LOGICAL EVALUATION: The conclusion does not follow from the premises. No analysis of scalability, transferability, or replicability is provided.
+REQUIRED EVIDENCE: Framework for measuring success as a model; identification of scalable components; analysis of regulatory, ecological, and economic conditions required for replication; plan for documentation and knowledge transfer.
+
+OVERALL RECOMMENDATION CLAIM: The project should receive immediate full funding approval.
+PREMISES PROVIDED: The five claims listed above, supported only by the premises enumerated.
+STRUCTURAL JUSTIFICATION ASSESSMENT: The overall recommendation is not justified. Each underlying claim lacks sufficient supporting premises; the chain of reasoning from provided materials to the funding recommendation is incomplete. The proposal offers assertions and analogies in place of evidence‑based reasoning.
+
+CONCLUSION:
+Based solely on the provided material, the funding decision is not structurally justified. The proposal fails to supply the necessary premises to logically support its claims. Approval at this stage would require introducing unsupported assumptions.
+
+RECOMMENDATION:
+Do not approve full funding. Require the applicant to supply the specific evidence types outlined for each claim, followed by a revised proposal and independent review.
         </div>
       </div>
     </div>
@@ -556,21 +596,42 @@
           <span class="xray-status">STATUS: UNSTABLE</span>
         </div>
         <div class="xray-content">
-          <span class="hl-claim">CLAIM 1: The project will restore biodiversity.</span><br>
-          <span class="hl-premise">PREMISE: Evidence required includes specific metrics or studies demonstrating the current state of biodiversity in the project area and projected improvements following the implementation of the project.</span><br><br>
-          
-          <span class="hl-claim">CLAIM 2: The project will deliver long-term economic benefits.</span><br>
-          <span class="hl-premise">PREMISE: Evidence required includes a detailed economic analysis projecting the financial impacts of the project over time.</span><br><br>
+CLAIM 1: The project will restore regional biodiversity over a 15–20 year horizon.
+PREMISES:
+The applicant provides high-level project descriptions and stated objectives that include biodiversity restoration.
+Qualitative statements regarding expected biodiversity recovery are made.
+CONCLUSION: The claim lacks sufficient quantitative evidence or detailed methodologies to substantiate the timeline and extent of biodiversity restoration.
+REQUIRED EVIDENCE: Detailed datasets, specific biodiversity metrics, and independent studies demonstrating the feasibility of achieving restoration within the proposed timeframe are necessary.
 
-          <span class="hl-claim">CONCLUSION: Without explicit evidence for the claims made regarding biodiversity restoration... a funding decision is not structurally justified.</span>
-        </div>
-      </div>
+CLAIM 2: The project will deliver long-term economic benefits through job creation, tourism, and ecosystem services.
+PREMISES:
+General economic reasoning is presented about the benefits of ecosystem services and tourism.
+Anecdotal statements regarding community enthusiasm suggest potential for job creation.
+CONCLUSION: The claim is not adequately supported by empirical data or quantitative forecasts regarding job creation and economic impact.
+REQUIRED EVIDENCE: Comprehensive economic impact assessments, including forecasts of job creation and revenue generation, are needed to validate this claim.
 
-      <div class="analysis-footer">
-        <div class="analysis-icon">⚠️</div>
-        <div class="analysis-text">
-          <strong>Interpreter Analysis</strong>
-          <b>Stability Warning.</b> While the model reached the correct conclusion (0 orphans), the low stability score (0.22) suggests that minor changes to the prompt could cause it to flip its decision. The reasoning is valid but fragile compared to Gemini/DeepSeek.
+CLAIM 3: The project will achieve a net-positive environmental impact while remaining financially viable.
+PREMISES:
+The applicant asserts a net-positive environmental impact without providing specific metrics or assessments.
+Financial viability is claimed but lacks detailed financial projections or risk assessments.
+CONCLUSION: The claim is unsubstantiated due to the absence of quantitative environmental impact assessments and financial viability analysis.
+REQUIRED EVIDENCE: Detailed environmental impact assessments, financial models, and risk analyses are required to justify this claim.
+
+CLAIM 4: The project has broad and representative community support.
+PREMISES:
+Anecdotal statements regarding community enthusiasm and stakeholder interest are provided.
+CONCLUSION: The claim does not follow due to the reliance on anecdotal evidence without systematic community engagement data.
+REQUIRED EVIDENCE: Quantitative surveys or studies demonstrating broad community support and stakeholder engagement are necessary.
+
+CLAIM 5: The project will serve as a scalable model for similar projects at the national level.
+PREMISES:
+The applicant references prior restoration projects in other regions but does not provide a detailed comparability analysis.
+CONCLUSION: The claim is not substantiated as it lacks comparative analysis and evidence of scalability.
+REQUIRED EVIDENCE: Case studies with detailed comparability analyses and scalability assessments are required to validate this claim.
+
+OVERALL RECOMMENDATION: The recommendation for immediate full funding approval is not structurally justified based on the provided material. The claims made by the applicant lack sufficient empirical support, detailed evidence, and quantitative assessments necessary for a robust evaluation.
+
+Explicit Statement: Funding approval is not defensible at this stage due to the absence of critical evidence required to substantiate the project's claims.
         </div>
       </div>
     </div>
@@ -601,24 +662,71 @@
           <span class="xray-status" style="color:var(--red); font-weight:700;">STATUS: FRAGMENTED</span>
         </div>
         <div class="xray-content">
-          <span class="hl-orphan">[Claim: The project represents a viable model for national scaling.]</span>
-          <span style="color:#999; font-style:italic;">(No supporting premise found in source text)</span>
-          <br><br>
-          <span class="hl-orphan">[Claim: Community support is broad and representative.]</span>
-          <span style="color:#999; font-style:italic;">(No supporting premise found in source text)</span>
-          <br><br>
-          <span class="hl-orphan">[Conclusion: Funding should be considered favorably.]</span> 
-          <span class="hl-orphan">Given the alignment with national goals and the detailed economic upside described...</span>
-        </div>
-      </div>
+Claim 1: The project will restore regional biodiversity over a 15–20 year horizon.
+Premises:
+Qualitative statements regarding expected biodiversity recovery.
+References to prior restoration projects in other regions.
+Conclusion:
+The project will restore regional biodiversity over a 15–20 year horizon.
+Analysis:
+The conclusion does not follow from the premises because qualitative statements and references to unrelated projects do not provide specific evidence or data that the proposed project will achieve this goal within the stated timeframe.
+Required Evidence: Detailed biodiversity baseline studies, predictive ecological models, and quantitative impact assessments specific to the project region.
 
-      <div class="analysis-footer">
-        <div class="analysis-icon" style="color:var(--red)">🛑</div>
-        <div class="analysis-text">
-          <strong>Interpreter Analysis</strong>
-          <b>CRITICAL FAILURE.</b> The model hallucinated "detailed economic upside" which was explicitly missing from the input. It treated the applicant's <i>marketing claims</i> as <i>verified facts</i>. In a real government audit, this output would have justified a $250M error.
+Claim 2: The project will deliver long-term economic benefits through job creation, tourism, and ecosystem services.
+Premises:
+General economic reasoning about ecosystem services and tourism benefits.
+Conclusion:
+The project will deliver long-term economic benefits.
+Analysis:
+The conclusion does not follow from the premises as general reasoning without specific forecasts or economic models does not substantiate the claim of long-term benefits.
+Required Evidence: Economic impact studies, job creation forecasts, tourism projections, and valuation of ecosystem services specific to the project area.
+
+Claim 3: The project will achieve a net-positive environmental impact while remaining financially viable.
+Premises:
+High-level project descriptions and stated objectives.
+Conclusion:
+The project will achieve a net-positive environmental impact and financial viability.
+Analysis:
+The conclusion does not follow from the premises since high-level descriptions do not provide the necessary detail to confirm environmental impact or financial viability.
+Required Evidence: Environmental impact assessments, financial projections, cost-benefit analysis, and sustainability reports.
+
+Claim 4: The project has broad and representative community support.
+Premises:
+Anecdotal statements regarding community enthusiasm and stakeholder interest.
+Conclusion:
+The project has broad and representative community support.
+Analysis:
+The conclusion does not follow from the premises because anecdotal statements are not sufficient to establish broad and representative support.
+Required Evidence: Surveys, public consultations, community meetings records, and stakeholder analysis to demonstrate breadth and representativeness of support.
+
+Claim 5: The project will serve as a scalable model for similar projects at the national level.
+Premises:
+High-level project descriptions and stated objectives.
+Conclusion:
+The project will serve as a scalable model nationally.
+Analysis:
+The conclusion does not follow from the premises as high-level descriptions alone do not provide evidence of scalability or replicability.
+Required Evidence: Comparative analysis with other projects, scalability studies, and national policy alignment documentation.
+
+Overall Recommendation:
+Premises for Funding Approval:
+The applicant recommends immediate full funding approval based on the claims and provided evidence.
+Conclusion:
+Funding approval is recommended.
+Analysis:
+The recommendation for funding approval is not structurally justified based on the provided material. Each claim lacks sufficient quantitative and detailed evidence to support the conclusions drawn. The absence of detailed datasets, forecasts, independent studies, or quantitative impact assessments means that the premises do not adequately support the conclusions.
+
+Final Recommendation:
+Funding approval is not defensible at this stage based solely on the stated premises. The lack of detailed, quantitative, and project-specific evidence means that the structural logic required to justify the funding decision is absent.
         </div>
       </div>
+    </div>
+
+    <div class="evidence-locker">
+        <div>EVIDENCE CHAIN: LOCKED</div>
+        <div>RUN ID: 2126FD14</div>
+        <div>HASH: <span class="hash-code">a2709092ec9c8c740a472baef2e73acc202c3fe515aee13fe0f798160a62334a</span></div>
+        <div>STATUS: VERIFIED</div>
     </div>
 
   </div>
