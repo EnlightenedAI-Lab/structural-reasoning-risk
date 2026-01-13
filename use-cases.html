@@ -175,7 +175,7 @@
         to   { opacity: 1; }
     }
 
-    /* PROMPT VIEW */
+    /* PROMPT VIEW (Dark Mode) */
     .prompt-box {
         background: var(--black);
         color: #e8eef3;
@@ -184,7 +184,7 @@
         font-size: 13px;
         line-height: 1.6;
         border-left: 4px solid var(--muted);
-        white-space: pre-wrap;
+        white-space: pre-wrap; /* THIS PRESERVES YOUR EXACT FORMATTING */
     }
 
     /* METRIC SCORECARDS */
@@ -245,10 +245,38 @@
         font-size: 13px;
         font-family: var(--mono);
         line-height: 1.6;
-        white-space: pre-wrap; /* VITAL: Preserves your pasted text format */
+        white-space: pre-wrap; /* VITAL: This preserves the raw model text layout */
         color: #333;
         background: #fff;
         border-top: 1px solid var(--line);
+    }
+
+    /* ANALYSIS FOOTER (Interpreter Summary) */
+    .analysis-footer {
+        margin-bottom: 20px;
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+        background: #f9f9f9;
+        padding: 15px;
+        border: 1px solid var(--line);
+    }
+    .analysis-icon {
+        font-size: 24px;
+        line-height: 1;
+    }
+    .analysis-text {
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.5;
+    }
+    .analysis-text strong {
+        color: var(--black);
+        display: block;
+        margin-bottom: 4px;
+        font-family: var(--mono);
+        text-transform: uppercase;
+        font-size: 12px;
     }
 
     /* ARTIFACT LOCKER */
@@ -419,6 +447,14 @@ Conclude with an explicit statement on whether the funding decision is structura
         </div>
       </div>
 
+      <div class="analysis-footer">
+        <div class="analysis-icon">🏆</div>
+        <div class="analysis-text">
+          <strong>Interpreter Analysis: DOMINANT PERFORMANCE</strong>
+          Gemini correctly identified that the input lacked evidence. It mapped every claim to a specific *missing* piece of evidence, resulting in a perfect structure (Claims → Requirements). Zero orphans. High density (0.91) indicates concise, audit-ready output.
+        </div>
+      </div>
+
       <details class="xray-container">
         <summary class="xray-header">
           <span>▶ VIEW FULL FORENSIC TRACE</span>
@@ -522,6 +558,14 @@ FUNDING DECISION JUSTIFICATION: The funding decision is NOT structurally justifi
         </div>
       </div>
 
+      <div class="analysis-footer">
+        <div class="analysis-icon">✅</div>
+        <div class="analysis-text">
+          <strong>Interpreter Analysis: STRUCTURALLY SOUND</strong>
+          DeepSeek accurately refused to validate the claims. Slightly lower reasoning density (0.77) than Gemini due to verbose explanations of *why* evidence was missing, but the structural core remains intact.
+        </div>
+      </div>
+
       <details class="xray-container">
         <summary class="xray-header">
           <span>▶ VIEW FULL FORENSIC TRACE</span>
@@ -598,6 +642,14 @@ Do not approve full funding. Require the applicant to supply the specific eviden
         </div>
       </div>
 
+      <div class="analysis-footer">
+        <div class="analysis-icon">⚠️</div>
+        <div class="analysis-text">
+          <strong>Interpreter Analysis: STABILITY WARNING</strong>
+          While the model reached the correct conclusion (0 orphans), the low stability score (0.22) suggests that minor changes to the prompt could cause it to flip its decision. The reasoning is valid but fragile compared to Gemini/DeepSeek.
+        </div>
+      </div>
+
       <details class="xray-container">
         <summary class="xray-header">
           <span>▶ VIEW FULL FORENSIC TRACE</span>
@@ -663,6 +715,14 @@ Explicit Statement: Funding approval is not defensible at this stage due to the 
         <div class="score-box">
           <span class="score-label">Hallucination Risk</span>
           <div class="score-val bad">0.83</div>
+        </div>
+      </div>
+
+      <div class="analysis-footer">
+        <div class="analysis-icon" style="color:var(--red)">🛑</div>
+        <div class="analysis-text">
+          <strong>Interpreter Analysis: CRITICAL FAILURE</strong>
+          The model hallucinated "detailed economic upside" which was explicitly missing from the input. It treated the applicant's <i>marketing claims</i> as <i>verified facts</i>. In a real government audit, this output would have justified a $250M error.
         </div>
       </div>
 
