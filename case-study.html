@@ -3,24 +3,191 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>L2 Structural Analysis · Reflective Diagnostics</title>
+  <title>Case Study · Reflective Diagnostics (BUILD vA)</title>
+  <meta name="description" content="Forensic audit case study: $250M public funding decision evaluation across Gemini, DeepSeek, OpenAI, and Grok." />
+
   <style>
-    :root {
-      --bg: #ffffff; --text: #0b0e10; --line: #e0e0e0; --mono: ui-monospace, monospace;
-      --black: #0b0e10; --muted: #666;
-      --green: #2ecc71; --red: #e74c3c; --blue: #3498db; --gold: #f1c40f;
+    /* EXACT A1 DESIGN TOKENS */
+    :root{
+      --bg:#ffffff;
+      --text:#0b0e10;
+      --muted:#5f6b76;
+      --line:#d9e0e7;
+      --black:#0b0e10;
+      --green:#2ecc71;
+      --green-soft:#e9f8f0;
+      --red:#e74c3c;
+      --red-soft:#fdedec;
+      --blue:#3498db;
+      --blue-soft:#ebf5fb;
+      --radius:0px; /* SHARP CORNERS */
+      --max:1100px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --sans: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
     }
-    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); }
-    
-    /* NAV */
-    .topbar { border-bottom: 1px solid var(--line); padding: 15px 20px; display: flex; justify-content: space-between; }
-    .brand { font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .nav a { margin-left: 20px; text-decoration: none; color: var(--muted); font-size: 12px; }
-    .nav a.active { color: var(--black); font-weight: 600; }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:var(--sans);
+      line-height:1.45;
+    }
+
+    a{color:inherit;text-decoration:none}
+
+    /* STANDARD TOP BAR (MATCHING INDEX.HTML) */
+    .topbar{
+      border-bottom:1px solid var(--line);
+      background:#fff;
+      padding: 16px 0;
+    }
+    .topbar-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:0 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:20px;
+    }
+    .brand .t{
+      font-weight:700;
+      font-size: 18px;
+      letter-spacing:.2px;
+      color: var(--black);
+    }
+    .brand .s{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:4px;
+      max-width: 300px;
+      line-height: 1.3;
+    }
+
+    /* NAVIGATION GRID */
+    .nav{
+      display:flex;
+      flex-wrap:wrap;
+      gap:15px;
+      justify-content: flex-end;
+      max-width: 600px;
+    }
+    .nav a{
+      font-size:13px;
+      color: var(--muted);
+      padding-bottom: 2px;
+      border-bottom: 1px solid transparent;
+    }
+    .nav a:hover {
+      color: var(--black);
+    }
+    .nav a.active{
+      color: var(--black);
+      border-bottom: 1px solid var(--black);
+      font-weight: 600;
+    }
+    .nav-btn {
+      border: 1px solid var(--line);
+      padding: 6px 12px;
+      border-radius: 0;
+      color: var(--black) !important;
+    }
 
     /* LAYOUT */
-    .wrap { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:40px 18px 70px;
+    }
+
+    /* HERO */
+    .kickers{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+      align-items:center;
+    }
+
+    .pill{
+      font-size:11px;
+      padding:6px 10px;
+      border:1px solid var(--black);
+      background:var(--black);
+      color:#fff;
+      border-radius:var(--radius);
+      letter-spacing:.3px;
+      text-transform: uppercase;
+    }
     
+    .pill.light{
+      background:#fff;
+      color:var(--text);
+      border-color:var(--line);
+    }
+
+    h1{
+      font-size:32px;
+      line-height:1.15;
+      margin:0 0 14px;
+    }
+
+    .subtitle{
+      max-width:900px;
+      font-size:16px;
+      color:var(--muted);
+      margin-bottom:26px;
+    }
+
+    /* INTERACTIVE CASE FILE CONTAINER */
+    .case-file {
+        border: 1px solid var(--line);
+        background: #fff;
+        margin-top: 40px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+
+    /* TABS */
+    .tabs {
+        display: flex;
+        border-bottom: 1px solid var(--line);
+        background: #f8f9fa;
+        overflow-x: auto;
+    }
+    .tab {
+        padding: 14px 24px;
+        font-family: var(--mono);
+        font-size: 12px;
+        cursor: pointer;
+        border-right: 1px solid var(--line);
+        background: #f8f9fa;
+        color: var(--muted);
+        text-transform: uppercase;
+        font-weight: 600;
+        transition: all 0.2s;
+        white-space: nowrap;
+        text-decoration: none;
+    }
+    .tab:hover {
+        background: #fff;
+        color: var(--black);
+    }
+    .tab.active {
+        background: #fff;
+        color: var(--black);
+        border-bottom: 2px solid #fff;
+        margin-bottom: -1px;
+        box-shadow: inset 0 3px 0 var(--black);
+    }
+    
+    /* CONTENT PANES */
+    .pane {
+        padding: 30px;
+        display: block; /* Always show since we use hrefs now */
+    }
+
     /* MISSION BRIEF (PROMPT) */
     details.brief { margin-bottom: 40px; border: 1px solid var(--line); }
     summary.brief-head { background: #f4f6f8; padding: 12px 20px; font-weight: 700; font-size: 12px; text-transform: uppercase; cursor: pointer; list-style: none; display: flex; justify-content: space-between; }
@@ -77,23 +244,63 @@
     .status-win { background: #eafaf1; color: var(--green); }
     .status-fail { background: #fdedec; color: var(--red); }
 
+    @media(max-width: 700px){
+        .scorecard, .telemetry-grid, .heatmap { grid-template-columns: 1fr 1fr; }
+        .tabs { flex-wrap: wrap; }
+    }
+
+    /* FOOTER */
+    .footer{
+      margin-top:60px;
+      padding-top:18px;
+      border-top:1px solid var(--line);
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:12px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .mono{font-family:var(--mono)}
   </style>
 </head>
+
 <body>
 
 <div class="topbar">
-  <div class="brand">L2 Structural Analysis</div>
-  <div class="nav">
-    <a href="index.html">Home</a>
-    <a href="case-study.html" class="active">Case Study</a>
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="t">Reflective Diagnostics™</div>
+      <div class="s">Structural Reasoning Risk · restricted evaluation · auditable diagnostics</div>
+    </div>
+    <div class="nav">
+      <a href="index.html" class="nav-btn">Start Here</a>
+      <a href="how-it-works.html">How It Works</a>
+      <a href="what-it-measures.html">What It Measures</a>
+      <a href="markets.html">Markets</a>
+      <a href="case-study.html" class="active">Case Study</a>
+      <a href="evidence.html">Proof and Evidence</a>
+      <a href="funding-roadmap.html">Funding and Roadmap</a>
+      <a href="compliance.html">Compliance</a>
+    </div>
   </div>
 </div>
 
 <div class="wrap">
   
+  <div class="kickers">
+      <div class="pill">Use Case: Public Funding</div>
+      <div class="pill light">Forensic Audit</div>
+      <div class="pill light">Run ID: 2126FD14</div>
+  </div>
+
   <div style="margin-bottom: 30px;">
-    <div style="font-family: var(--mono); font-size: 11px; color: var(--muted); margin-bottom: 5px;">RUN ID: 2126FD14 // FORENSIC AUDIT</div>
     <h1 style="margin: 0; font-size: 28px;">$250M Funding Decision</h1>
+    <p class="subtitle">
+      Below is the actual forensic output from a controlled evaluation. We fed an identical <b>Public Funding Prompt</b> 
+      into four leading models to determine if their recommendation to approve $250M in spending was structurally justified.
+    </p>
   </div>
 
   <details class="brief" open>
@@ -135,6 +342,14 @@ Do not introduce external facts or sources.
 Provide the analysis in clear, professional language suitable for an audit or governance review.
 Conclude with an explicit statement on whether the funding decision is structurally justified based solely on the stated premises.</div>
   </details>
+
+  <div class="tabs">
+    <a href="case-study.html" class="tab active">Interpreter (Synthesis)</a>
+    <a href="trace-gemini.html" class="tab">Gemini 2.0</a>
+    <a href="trace-deepseek.html" class="tab">DeepSeek</a>
+    <a href="trace-openai.html" class="tab">OpenAI</a>
+    <a href="trace-grok.html" class="tab">Grok-2</a>
+  </div>
 
   <div class="scorecard">
     <div class="score-box">
@@ -255,6 +470,11 @@ Conclude with an explicit statement on whether the funding decision is structura
       <span class="mb-score" style="color:var(--red)">0.20</span>
       <span class="mb-status status-fail">[FAILURE]</span>
     </a>
+  </div>
+
+  <div class="footer">
+    <div>Contact: <span class="mono">research@enlightenedai.ai</span></div>
+    <div class="mono">Build: Research Prototype v1.0 · Reflective Diagnostics™ · restricted evaluation</div>
   </div>
 
 </div>
