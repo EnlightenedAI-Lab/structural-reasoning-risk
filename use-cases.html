@@ -175,7 +175,7 @@
         to   { opacity: 1; }
     }
 
-    /* PROMPT VIEW */
+    /* PROMPT VIEW (Dark Mode to simulate Code/Input) */
     .prompt-box {
         background: var(--black);
         color: #e8eef3;
@@ -248,26 +248,29 @@
         line-height: 1.6;
         white-space: pre-wrap; /* VITAL: Preserves newlines from raw text */
         color: #333;
+        background: #fff;
     }
     
-    /* EVIDENCE LOCKER FOOTER */
-    .evidence-locker {
-        background: #fcfcfc;
-        border-top: 1px solid var(--line);
-        padding: 15px 20px;
+    /* ARTIFACT LOCKER FOOTER */
+    .artifact-locker {
+        background: #111;
+        color: #0f0;
         font-family: var(--mono);
         font-size: 11px;
-        color: var(--muted);
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 10px;
+        padding: 20px;
+        border-top: 1px solid var(--line);
+        margin-top: 30px;
+        overflow-x: auto;
     }
-    .hash-code {
-        color: var(--black);
-        background: #eee;
-        padding: 2px 6px;
-        font-weight: 600;
+    .artifact-header {
+        border-bottom: 1px solid #333;
+        padding-bottom: 8px;
+        margin-bottom: 12px;
+        font-weight: 700;
+        color: #fff;
+    }
+    .json-blob {
+        color: #aaa;
     }
 
     @media(max-width: 700px){
@@ -722,11 +725,21 @@ Funding approval is not defensible at this stage based solely on the stated prem
       </div>
     </div>
 
-    <div class="evidence-locker">
-        <div>EVIDENCE CHAIN: LOCKED</div>
-        <div>RUN ID: 2126FD14</div>
-        <div>HASH: <span class="hash-code">a2709092ec9c8c740a472baef2e73acc202c3fe515aee13fe0f798160a62334a</span></div>
-        <div>STATUS: VERIFIED</div>
+    <div class="artifact-locker">
+        <div class="artifact-header">EVIDENCE LOCKER v10.1</div>
+        <div style="margin-bottom:10px;">
+            <span>EV-1768225429-0</span> | 
+            <span>CALIBRATION: UNKNOWN</span> | 
+            <span>HASH: a2709092ec9c8c740a472baef2e73acc202c3fe515aee13fe0f798160a62334a</span>
+        </div>
+        <div class="json-blob">
+            [
+            0:{ "provider":"GEMINI", "model":"gemini-2.0-flash-lite-preview-02-05", "latency_s":1.9031, "status":"success" },
+            1:{ "provider":"OPENAI", "model":"gpt-4o-mini", "latency_s":4.1246, "status":"success" },
+            2:{ "provider":"GROK", "model":"grok-2-vision-1212", "latency_s":5.0413, "status":"success" },
+            3:{ "provider":"DEEPSEEK", "model":"deepseek-chat", "latency_s":10.5563, "status":"success" }
+            ]
+        </div>
     </div>
 
   </div>
