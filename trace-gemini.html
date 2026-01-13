@@ -30,10 +30,13 @@
     .wrap{ max-width:1000px; margin:0 auto; padding:40px 20px 80px; }
 
     /* A) HEADER */
-    .artifact-header{ margin-bottom: 40px; border-bottom:1px solid var(--line); padding-bottom:20px; }
+    .artifact-header{ margin-bottom: 30px; border-bottom:1px solid var(--line); padding-bottom:20px; }
     .meta-row{ font-family:var(--mono); font-size:11px; color:var(--muted); text-transform:uppercase; margin-bottom:10px; word-spacing: 5px; }
     h1{ margin:0 0 10px; font-size:24px; letter-spacing:-0.5px; font-weight:800; color:var(--black); }
-    .status-pill{ display:inline-block; padding:4px 8px; border-radius:4px; font-size:10px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; background:#e6fbf0; color:var(--green); border:1px solid #bef0d6; }
+    
+    .status-pill{ display:inline-block; padding:6px 10px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; background:#e6fbf0; color:var(--green); border:1px solid #bef0d6; }
+    
+    .scope-disclaimer{ margin-top:15px; font-size:12px; color:var(--muted); font-style:italic; border-left:2px solid var(--amber); padding-left:10px; }
 
     /* B) TIER 1 METRICS */
     .t1-grid{ display:grid; grid-template-columns:repeat(5, 1fr); gap:15px; margin-bottom:15px; }
@@ -50,19 +53,31 @@
     .val-warn{ color:var(--amber); }
     .val-risk{ color:var(--red); }
 
-    .verdict-rule{ font-size:11px; color:var(--muted); margin-bottom:50px; border-top:1px solid var(--line); padding-top:10px; font-style:italic; }
+    .verdict-rule{ font-size:11px; color:var(--muted); margin-bottom:50px; border-top:1px solid var(--line); padding-top:10px; }
 
     /* C) DEEP METRICS */
-    .section-title{ font-size:12px; font-weight:700; text-transform:uppercase; border-bottom:2px solid var(--black); padding-bottom:8px; margin-bottom:20px; letter-spacing:0.5px; }
+    .section-title{ font-size:12px; font-weight:700; text-transform:uppercase; border-bottom:2px solid var(--black); padding-bottom:8px; margin-bottom:20px; letter-spacing:0.5px; margin-top:50px; }
+    .subsection-label{ font-family:var(--mono); font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:10px; display:block; }
     
-    .deep-table{ width:100%; border-collapse:collapse; margin-bottom:50px; font-size:11px; }
-    .deep-table td{ border-bottom:1px solid var(--line); padding:12px 0; vertical-align:top; }
-    .dt-name{ font-family:var(--mono); font-weight:700; width:15%; color:var(--black); }
-    .dt-val{ width:10%; font-weight:700; font-size:14px; }
-    .dt-meta{ width:75%; }
-    .dt-def{ color:#333; margin-bottom:4px; }
-    .dt-band{ font-family:var(--mono); color:var(--muted); font-size:9px; }
-    .dt-dir{ font-size:9px; text-transform:uppercase; font-weight:600; color:var(--muted); margin-right:8px; }
+    .deep-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:40px; margin-bottom:40px; }
+    .deep-group{ display:flex; flex-direction:column; }
+    
+    .deep-row{ display:flex; justify-content:space-between; border-bottom:1px solid var(--line); padding:10px 0; align-items:flex-start; }
+    .deep-meta{ max-width:70%; }
+    .dm-name{ font-family:var(--mono); font-weight:700; font-size:11px; color:var(--black); }
+    .dm-def{ font-size:11px; color:var(--muted); line-height:1.4; margin-top:2px; }
+    .dm-bands{ font-family:var(--mono); font-size:9px; color:#999; margin-top:4px; }
+    
+    .deep-stat{ text-align:right; }
+    .ds-val{ font-size:16px; font-weight:700; }
+    .ds-dir{ font-size:9px; text-transform:uppercase; color:var(--muted); font-weight:600; }
+
+    /* AUDIT REFERENCE BLOCK */
+    .audit-ref{ background:#fafafa; border:1px solid var(--line); padding:20px; margin-bottom:50px; border-radius:4px; }
+    .ar-title{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; margin-bottom:15px; color:var(--black); border-bottom:1px solid var(--line); padding-bottom:10px; }
+    .ar-item{ margin-bottom:15px; font-size:11px; line-height:1.5; color:#333; }
+    .ar-item strong{ font-family:var(--mono); color:var(--black); font-weight:700; font-size:11px; }
+    .ar-val-ctx{ color:var(--muted); margin-top:2px; display:block; font-style:italic; }
 
     /* D) INDEX */
     .index-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:50px; }
@@ -92,8 +107,7 @@
     /* RESPONSIVE */
     @media(max-width:800px){
       .t1-grid{ grid-template-columns:1fr 1fr; }
-      .deep-table td{ display:block; width:100%; padding:4px 0; }
-      .deep-table tr{ display:block; padding:10px 0; border-bottom:1px solid var(--line); }
+      .deep-grid{ grid-template-columns:1fr; }
     }
   </style>
 </head>
@@ -113,7 +127,10 @@
       ARTIFACT ID: 2126-GEM &nbsp;&nbsp; MODEL: GEMINI 2.0 FLASH LITE &nbsp;&nbsp; DATE: 2026-01-13
     </div>
     <h1>Structural Trace Analysis</h1>
-    <span class="status-pill">SUPPORTED</span>
+    <span class="status-pill">STRUCTURAL VERDICT: DO NOT FUND (SUPPORTED)</span>
+    <div class="scope-disclaimer">
+      This analysis evaluates structural justification only. It does not assess moral value, policy desirability, or real-world outcomes.
+    </div>
   </div>
 
   <div class="t1-grid">
@@ -164,70 +181,157 @@
     </div>
   </div>
   <div class="verdict-rule">
-    Verdict is computed from Integrity + Coverage + Orphans. SSM is an auxiliary stability warning.
+    Verdict is computed from Integrity + Coverage + Orphans. SSM below 0.70 indicates sensitivity to prompt phrasing. Core conclusion remains stable; auxiliary phrasing may vary.
   </div>
 
   <div class="section-title">Deep Metrics (Telemetry)</div>
-  <table class="deep-table">
-    <tbody>
-      <tr>
-        <td class="dt-name">SCI</td>
-        <td class="dt-val val-good">0.00</td>
-        <td class="dt-meta">
-          <div class="dt-def">Support Concentration. Measures reliance on single evidence pillars.</div>
-          <div class="dt-band"><span class="dt-dir">LOWER BETTER</span> OK ≤ 0.30 | Watch 0.31–0.60 | Risk > 0.60</div>
-        </td>
-      </tr>
-      <tr>
-        <td class="dt-name">APC</td>
-        <td class="dt-val val-good">6.00</td>
-        <td class="dt-meta">
-          <div class="dt-def">Avg Premises/Claim. Depth of evidentiary support per claim.</div>
-          <div class="dt-band"><span class="dt-dir">HIGHER BETTER</span> OK ≥ 2.0 | Watch 1.0–1.9 | Risk < 1.0</div>
-        </td>
-      </tr>
-      <tr>
-        <td class="dt-name">PDI</td>
-        <td class="dt-val val-good">0.50</td>
-        <td class="dt-meta">
-          <div class="dt-def">Premise Depth. Syntactic richness of premises.</div>
-          <div class="dt-band"><span class="dt-dir">HIGHER BETTER</span> OK ≥ 0.50 | Watch 0.30–0.49 | Risk < 0.30</div>
-        </td>
-      </tr>
-      <tr>
-        <td class="dt-name">PRR</td>
-        <td class="dt-val val-good">0.67</td>
-        <td class="dt-meta">
-          <div class="dt-def">Premise Re-Use. Connectivity of evidence across conclusions.</div>
-          <div class="dt-band"><span class="dt-dir">HIGHER BETTER</span> OK ≥ 0.60 | Watch 0.40–0.59 | Risk < 0.40</div>
-        </td>
-      </tr>
-      <tr>
-        <td class="dt-name">HRP</td>
-        <td class="dt-val val-good">0.03</td>
-        <td class="dt-meta">
-          <div class="dt-def">Hallucination Risk Proxy. Composite signal for unsupported assertions.</div>
-          <div class="dt-band"><span class="dt-dir">LOWER BETTER</span> OK < 0.10 | Watch 0.10–0.19 | Risk ≥ 0.20</div>
-        </td>
-      </tr>
-      <tr>
-        <td class="dt-name">OG</td>
-        <td class="dt-val val-good">0.00</td>
-        <td class="dt-meta">
-          <div class="dt-def">Overconfidence Gap. Delta between confidence and evidence.</div>
-          <div class="dt-band"><span class="dt-dir">LOWER BETTER</span> OK < 0.10 | Watch 0.10–0.19 | Risk ≥ 0.20</div>
-        </td>
-      </tr>
-      <tr>
-        <td class="dt-name">SSM</td>
-        <td class="dt-val val-risk">0.65</td>
-        <td class="dt-meta">
-          <div class="dt-def">Stability Margin. Topological consistency across re-runs.</div>
-          <div class="dt-band"><span class="dt-dir">HIGHER BETTER</span> OK ≥ 0.80 | Watch 0.70–0.79 | Risk < 0.70</div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  
+  <div class="deep-grid">
+    <div class="deep-group">
+      <span class="subsection-label">Evidence Quality</span>
+      <div class="deep-row">
+        <div class="deep-meta">
+          <div class="dm-name">SCI (Support Concentration)</div>
+          <div class="dm-def">Measures reliance on single evidence pillars.</div>
+          <div class="dm-bands">OK ≤ 0.30 | Watch 0.31–0.60 | Risk > 0.60</div>
+        </div>
+        <div class="deep-stat">
+          <div class="ds-val val-good">0.00</div>
+          <div class="ds-dir">Lower better</div>
+        </div>
+      </div>
+      <div class="deep-row">
+        <div class="deep-meta">
+          <div class="dm-name">APC (Avg Premises/Claim)</div>
+          <div class="dm-def">Depth of evidentiary support per claim.</div>
+          <div class="dm-bands">OK ≥ 2.0 | Watch 1.0–1.9 | Risk < 1.0</div>
+        </div>
+        <div class="deep-stat">
+          <div class="ds-val val-good">6.00</div>
+          <div class="ds-dir">Higher better</div>
+        </div>
+      </div>
+      <div class="deep-row">
+        <div class="deep-meta">
+          <div class="dm-name">PDI (Premise Depth)</div>
+          <div class="dm-def">Syntactic richness of premises.</div>
+          <div class="dm-bands">OK ≥ 0.50 | Watch 0.30–0.49 | Risk < 0.30</div>
+        </div>
+        <div class="deep-stat">
+          <div class="ds-val val-good">0.50</div>
+          <div class="ds-dir">Higher better</div>
+        </div>
+      </div>
+      <div class="deep-row">
+        <div class="deep-meta">
+          <div class="dm-name">PRR (Premise Re-Use)</div>
+          <div class="dm-def">Connectivity of evidence across conclusions.</div>
+          <div class="dm-bands">OK ≥ 0.60 | Watch 0.40–0.59 | Risk < 0.40</div>
+        </div>
+        <div class="deep-stat">
+          <div class="ds-val val-good">0.67</div>
+          <div class="ds-dir">Higher better</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="deep-group">
+      <span class="subsection-label">Risk Signals</span>
+      <div class="deep-row">
+        <div class="deep-meta">
+          <div class="dm-name">HRP (Hallucination Risk)</div>
+          <div class="dm-def">Composite signal for unsupported assertions.</div>
+          <div class="dm-bands">OK < 0.10 | Watch 0.10–0.19 | Risk ≥ 0.20</div>
+        </div>
+        <div class="deep-stat">
+          <div class="ds-val val-good">0.03</div>
+          <div class="ds-dir">Lower better</div>
+        </div>
+      </div>
+      <div class="deep-row">
+        <div class="deep-meta">
+          <div class="dm-name">OG (Overconfidence Gap)</div>
+          <div class="dm-def">Delta between confidence and evidence.</div>
+          <div class="dm-bands">OK < 0.10 | Watch 0.10–0.19 | Risk ≥ 0.20</div>
+        </div>
+        <div class="deep-stat">
+          <div class="ds-val val-good">0.00</div>
+          <div class="ds-dir">Lower better</div>
+        </div>
+      </div>
+      <div class="deep-row">
+        <div class="deep-meta">
+          <div class="dm-name">SSM (Stability Margin)</div>
+          <div class="dm-def">Topological consistency across re-runs.</div>
+          <div class="dm-bands">OK ≥ 0.80 | Watch 0.70–0.79 | Risk < 0.70</div>
+        </div>
+        <div class="deep-stat">
+          <div class="ds-val val-risk">0.65</div>
+          <div class="ds-dir">Higher better</div>
+        </div>
+      </div>
+      <div class="deep-row" style="border-bottom:none;">
+        <div class="deep-meta">
+          <div class="dm-name">DIAGNOSIS</div>
+          <div class="dm-def">Final algorithmic determination.</div>
+        </div>
+        <div class="deep-stat">
+          <div class="ds-val val-good">SUPPORTED</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="audit-ref">
+    <div class="ar-title">Metric Definitions (Audit Reference)</div>
+    
+    <div class="ar-item">
+      <strong>SCI — Support Concentration Index</strong><br>
+      Measures how evenly evidentiary support is distributed across premises. Lower values indicate diversified support; higher values indicate reliance on a single evidentiary pillar.
+      <span class="ar-val-ctx">SCI = 0.00 indicates balanced distribution with no single point of failure.</span>
+    </div>
+
+    <div class="ar-item">
+      <strong>APC — Average Premises per Claim</strong><br>
+      Measures evidentiary depth by counting distinct premises supporting each claim. Higher values indicate multi-source substantiation rather than single-assertion reasoning.
+      <span class="ar-val-ctx">APC = 6.00 indicates unusually strong evidentiary depth per claim.</span>
+    </div>
+
+    <div class="ar-item">
+      <strong>PDI — Premise Depth Index</strong><br>
+      Measures the syntactic and semantic richness of premises, filtering out trivial or circular statements. Higher values indicate meaningful explanatory structure rather than surface justification.
+      <span class="ar-val-ctx">PDI = 0.50 indicates moderate to strong premise construction.</span>
+    </div>
+
+    <div class="ar-item">
+      <strong>PRR — Premise Re-Use Ratio</strong><br>
+      Measures how often premises support multiple conclusions, indicating structural cohesion. Higher values indicate integrated reasoning rather than isolated argument fragments.
+      <span class="ar-val-ctx">PRR = 0.67 indicates a cohesive evidentiary structure.</span>
+    </div>
+
+    <div class="ar-item">
+      <strong>HRP — Hallucination Risk Proxy</strong><br>
+      Composite risk signal combining orphaned conclusions and low reasoning density. Lower values indicate low likelihood of unsupported assertions.
+      <span class="ar-val-ctx">HRP = 0.03 indicates very low hallucination risk.</span>
+    </div>
+
+    <div class="ar-item">
+      <strong>OG — Overconfidence Gap</strong><br>
+      Measures the delta between claim volume (assertiveness) and evidentiary coverage. Higher values indicate confidence exceeding substantiation.
+      <span class="ar-val-ctx">OG = 0.00 indicates no overconfidence relative to evidence.</span>
+    </div>
+
+    <div class="ar-item">
+      <strong>SSM — Structural Stability Margin</strong><br>
+      Measures topological consistency of reasoning across prompt variations. Lower values indicate sensitivity to phrasing; higher values indicate robustness.
+      <span class="ar-val-ctx">SSM = 0.65 indicates mild sensitivity to prompt phrasing, without destabilizing the core conclusion.</span>
+    </div>
+
+    <div class="ar-item">
+      <strong>Structural Diagnosis: SUPPORTED</strong><br>
+      Indicates that conclusions follow from stated premises without unsupported inference. This label refers to structural validity, not endorsement of the proposal outcome.
+    </div>
+  </div>
 
   <div class="section-title">Artifact Index</div>
   <div class="index-grid">
