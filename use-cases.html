@@ -3,295 +3,440 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Use Cases & Value · Structural Reasoning Risk Instrument</title>
+  <title>Use Cases & Value · Reflective Diagnostics (BUILD vA)</title>
   <meta name="description" content="Decision contexts, buyers, value creation, and why structural reasoning diagnostics reduce institutional risk." />
 
   <style>
+    /* EXACT A1 DESIGN TOKENS - SHARP & CLEAN */
     :root{
-      --bg:#0b0e10;
-      --panel:#101417;
-      --panel2:#0f1316;
-      --text:#e8eef3;
-      --muted:#a9b4bf;
-      --line:#1c242b;
-      --accent:#29ff7a;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius:14px;
-      --max:1040px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --bg:#ffffff;
+      --text:#0b0e10;
+      --muted:#5f6b76;
+      --line:#d9e0e7;
+      --black:#0b0e10;
+      --green:#2ecc71;
+      --green-soft:#e9f8f0;
+      --radius:0px; /* SHARP CORNERS */
+      --max:1100px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       --sans: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
     }
+
     *{box-sizing:border-box}
     body{
       margin:0;
-      background: radial-gradient(1200px 600px at 20% -10%, rgba(41,255,122,.10), transparent 60%),
-                  var(--bg);
+      background:var(--bg);
       color:var(--text);
       font-family:var(--sans);
       line-height:1.45;
     }
-    a{color:var(--text); text-decoration:none}
-    a:hover{color:var(--accent)}
-    .wrap{max-width:var(--max); margin:0 auto; padding:26px 18px 70px}
 
+    a{color:inherit;text-decoration:none}
+
+    /* TOP BAR */
     .topbar{
-      position:sticky; top:0; z-index:50;
-      backdrop-filter: blur(10px);
-      background: rgba(11,14,16,.72);
       border-bottom:1px solid var(--line);
+      background:#fff;
     }
     .topbar-inner{
       max-width:var(--max);
       margin:0 auto;
-      padding:14px 18px;
+      padding:16px 18px;
       display:flex;
-      gap:14px;
-      align-items:center;
       justify-content:space-between;
+      align-items:flex-start;
+      gap:20px;
     }
-    .brand .t{font-weight:650; font-size:14px}
-    .brand .s{font-size:12px; color:var(--muted)}
-    .nav{display:flex; gap:10px; flex-wrap:wrap}
-    .nav a{
-      font-size:12px; color:var(--muted);
-      padding:8px 10px; border-radius:999px;
-      border:1px solid transparent;
+    .brand .t{
+      font-weight:700;
+      letter-spacing:.2px;
     }
-    .nav a:hover{border-color:rgba(41,255,122,.35); color:var(--text)}
-    .nav a.active{border-color:rgba(41,255,122,.55); color:var(--text)}
-
-    h1{font-size:30px; margin:14px 0 6px}
-    .subtitle{color:var(--muted); max-width:920px; font-size:14px}
-
-    .grid{display:grid; grid-template-columns:repeat(12,1fr); gap:14px; margin-top:18px}
-    .card{
-      grid-column:span 12;
-      background: linear-gradient(180deg, rgba(16,20,23,.85), rgba(15,19,22,.85));
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:16px;
-    }
-    @media(min-width:860px){
-      .half{grid-column:span 6}
-      .third{grid-column:span 4}
-    }
-    h2{font-size:14px; margin:0 0 8px}
-    p{margin:0 0 10px; color:var(--muted); font-size:13px}
-    ul{margin:10px 0 0 18px; color:var(--muted); font-size:13px}
-    li{margin:6px 0}
-    .callout{
-      border-left:2px solid rgba(41,255,122,.65);
-      padding-left:12px;
-      color:var(--muted);
+    .brand .s{
       font-size:13px;
-      margin-top:8px;
-    }
-    .kpi{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:10px;
-      margin-top:10px;
-    }
-    @media(min-width:860px){
-      .kpi{grid-template-columns: 1fr 1fr 1fr}
-    }
-    .kpi .box{
-      border:1px solid var(--line);
-      border-radius:12px;
-      padding:12px;
-      background: rgba(10,14,16,.35);
-    }
-    .kpi .box .t{font-size:12px; color:var(--muted); margin-bottom:6px}
-    .kpi .box .v{font-size:13px; color:var(--text); font-weight:600}
-    .mono{font-family:var(--mono); font-size:12px; color:var(--muted)}
-    .usecase{
-      border:1px solid var(--line);
-      border-radius:12px;
-      padding:12px;
-      background: rgba(10,14,16,.35);
-      margin-top:12px;
-    }
-    .usecase .head{
-      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
-      font-weight:650; font-size:13px;
-    }
-    .usecase .tag{
-      font-family:var(--mono);
-      font-size:11px;
       color:var(--muted);
-      border:1px solid var(--line);
-      padding:4px 8px;
-      border-radius:999px;
-      background: rgba(16,20,23,.55);
+      margin-top:2px;
     }
-    .usecase ul{margin-top:8px}
-    .footer{
-      margin-top:32px;
-      padding-top:16px;
-      border-top:1px solid var(--line);
-      color:var(--muted);
-      font-size:12px;
+
+    .nav{
       display:flex;
-      justify-content:space-between;
       flex-wrap:wrap;
       gap:10px;
     }
+    .nav a{
+      font-size:13px;
+      padding:6px 10px;
+      border:1px solid transparent;
+    }
+    .nav a.active{
+      border-color:var(--black);
+    }
+
+    /* LAYOUT */
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:40px 18px 70px;
+    }
+
+    /* HERO */
+    .kickers{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+      align-items:center;
+    }
+
+    .pill{
+      font-size:11px;
+      padding:6px 10px;
+      border:1px solid var(--black);
+      background:var(--black);
+      color:#fff;
+      border-radius:var(--radius);
+      letter-spacing:.3px;
+    }
+    
+    .pill.light{
+      background:#fff;
+      color:var(--text);
+      border-color:var(--line);
+    }
+
+    h1{
+      font-size:32px;
+      line-height:1.15;
+      margin:0 0 14px;
+    }
+
+    .subtitle{
+      max-width:900px;
+      font-size:16px;
+      color:var(--muted);
+      margin-bottom:26px;
+    }
+
+    /* GRID SYSTEM */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:18px;
+      margin-top:40px;
+    }
+    
+    .card{
+      grid-column:span 12;
+      border:1px solid var(--line);
+      padding:20px;
+      background:#fff;
+      border-radius:var(--radius);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Card Typography */
+    .card h2{
+      font-size:13px;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin:0 0 16px;
+      letter-spacing:.5px;
+      color:var(--black);
+      border-bottom:1px solid var(--line);
+      padding-bottom:8px;
+    }
+    
+    .card h3{
+      font-size:14px;
+      font-weight:600;
+      margin:16px 0 8px;
+    }
+
+    .card p{
+      margin:0 0 12px;
+      color:var(--muted);
+      font-size:14px;
+      line-height: 1.5;
+    }
+
+    /* KPI BOXES (Who This Is For) */
+    .kpi-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+    .kpi-box {
+        border: 1px solid var(--line);
+        background: #fcfcfc;
+        padding: 12px;
+    }
+    .kpi-label {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 6px;
+    }
+    .kpi-value {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--black);
+    }
+
+    /* LISTS */
+    .tech-list {
+        font-family: var(--mono);
+        font-size: 12px;
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+    }
+    .tech-list li {
+        margin-bottom: 8px;
+        display: flex;
+        gap: 8px;
+    }
+    .tech-list li::before {
+        content: "»";
+        color: var(--black);
+    }
+    .tech-list b {
+        color: var(--black);
+    }
+
+    /* USE CASE ITEMS */
+    .use-case-item {
+        margin-bottom: 24px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 24px;
+    }
+    .use-case-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    .uc-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .uc-title {
+        font-weight: 700;
+        font-size: 14px;
+    }
+    .uc-tag {
+        font-family: var(--mono);
+        font-size: 10px;
+        border: 1px solid var(--line);
+        padding: 2px 6px;
+        text-transform: uppercase;
+        color: var(--muted);
+    }
+
+    /* ACCENTS */
+    .accent{
+      border-left:3px solid var(--green);
+      padding-left:12px;
+      margin-top:auto;
+      padding-top: 12px;
+      color:#145c38;
+      font-size:13px;
+      font-weight: 500;
+    }
+
+    @media(min-width:900px){
+      .two .card{grid-column:span 6}
+      .three .card{grid-column:span 4}
+      .eight .card{grid-column:span 8}
+      .four .card{grid-column:span 4}
+    }
+    
+    @media(max-width: 700px){
+        .kpi-row { grid-template-columns: 1fr; }
+    }
+
+    /* FOOTER */
+    .footer{
+      margin-top:60px;
+      padding-top:18px;
+      border-top:1px solid var(--line);
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:12px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .mono{font-family:var(--mono)}
   </style>
 </head>
 
 <body>
-  <!-- Top Nav -->
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">
-        <div class="t">Structural Reasoning Risk Instrument</div>
-        <div class="s">Restricted evaluation site · decision-grade diagnostics</div>
-      </div>
-      <div class="nav">
-        <a href="index.html">Start Here</a>
-        <a href="how-it-works.html">How It Works</a>
-        <a href="what-it-measures.html">What It Measures</a>
-        <a class="active" href="use-cases.html">Use Cases & Value</a>
-        <a href="evidence.html">Proof & Evidence</a>
-        <a href="funding-roadmap.html">Funding & Roadmap</a>
-      </div>
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="t">Reflective Diagnostics™</div>
+      <div class="s">Structural Reasoning Risk · restricted evaluation · auditable diagnostics</div>
+    </div>
+    <div class="nav">
+      <a href="index.html">Start Here</a>
+      <a href="how-it-works.html">How It Works</a>
+      <a href="what-it-measures.html">What It Measures</a>
+      <a class="active" href="use-cases.html">Use Cases and Value</a>
+      <a href="evidence.html">Proof and Evidence</a>
+      <a href="funding-roadmap.html">Funding and Roadmap</a>
+      <a href="compliance.html">Compliance</a>
     </div>
   </div>
+</div>
 
-  <div class="wrap">
+<div class="wrap">
+
+  <section>
+    <div class="kickers">
+      <div class="pill">Strategic Value</div>
+      <div class="pill light">Risk Reduction</div>
+      <div class="pill light">Audit Efficiency</div>
+    </div>
+
     <h1>Use Cases & Value</h1>
     <p class="subtitle">
       The instrument is designed for environments where decisions must be defensible. It reduces the risk of
       committing to AI-generated conclusions that cannot be structurally supported in later audit, review, or governance processes.
     </p>
+  </section>
 
-    <section class="grid">
-      <div class="card">
-        <h2>Who This Is For (Markets & Buyers)</h2>
-        <div class="kpi">
-          <div class="box">
-            <div class="t">Primary users</div>
-            <div class="v">Analysts, reviewers, evaluators, governance teams</div>
-          </div>
-          <div class="box">
-            <div class="t">Primary buyers</div>
-            <div class="v">Public agencies, compliance teams, AI governance leads</div>
-          </div>
-          <div class="box">
-            <div class="t">Budget fit</div>
-            <div class="v">Risk, audit, compliance, procurement, model evaluation</div>
-          </div>
+  <section class="grid">
+    <div class="card">
+      <h2>WHO THIS IS FOR (MARKETS & BUYERS)</h2>
+      <div class="kpi-row">
+        <div class="kpi-box">
+          <span class="kpi-label">Primary Users</span>
+          <div class="kpi-value">Analysts, reviewers, evaluators, governance teams</div>
         </div>
-
-        <div class="callout">
-          In practice, the buyer is the team responsible for defensible decisions; the user is the team producing or reviewing the analysis.
+        <div class="kpi-box">
+          <span class="kpi-label">Primary Buyers</span>
+          <div class="kpi-value">Public agencies, compliance leads, AI oversight</div>
+        </div>
+        <div class="kpi-box">
+          <span class="kpi-label">Budget Fit</span>
+          <div class="kpi-value">Risk, audit, procurement, model evaluation</div>
         </div>
       </div>
-    </section>
-
-    <section class="grid">
-      <div class="card half">
-        <h2>What Value It Creates</h2>
-        <ul>
-          <li><b>Prevents unsupported commitment:</b> identifies orphan claims and missing premises before decisions are finalized.</li>
-          <li><b>Reduces review cost:</b> turns long narrative outputs into inspectable structure with prioritized load-bearing premises.</li>
-          <li><b>Improves audit readiness:</b> produces replayable artifacts and exportable evidence packets.</li>
-          <li><b>Enables model governance:</b> compares models under identical constraints and quantifies structural divergence.</li>
-        </ul>
+      <div class="accent">
+        In practice, the buyer is the team responsible for defensible decisions; the user is the team producing or reviewing the analysis.
       </div>
-
-      <div class="card half">
-        <h2>Economic Logic (Why This Is Rational)</h2>
-        <ul>
-          <li>Institutional failures are expensive because they surface late (after commitments, publication, or policy rollout).</li>
-          <li>Most cost comes from rework: reversals, reputational damage, and emergency audits.</li>
-          <li><b>One avoided failure</b> typically exceeds the cost of evaluation infrastructure.</li>
-        </ul>
-        <p class="mono">
-          The instrument is positioned as risk reduction + audit efficiency, not as “AI performance improvement.”
-        </p>
-      </div>
-    </section>
-
-    <section class="grid">
-      <div class="card">
-        <h2>Flagship Decision Use Cases</h2>
-        <p>
-          Each use case is expressed as a decision workflow: context → risk → what the instrument detects → what it outputs.
-        </p>
-
-        <div class="usecase">
-          <div class="head">
-            Public Funding / Program Evaluation <span class="tag">Decision justification</span>
-          </div>
-          <ul>
-            <li><b>Context:</b> a funding decision must be defensible to auditors and the public.</li>
-            <li><b>Risk without instrument:</b> persuasive AI narrative introduces unsupported claims or over-commitment.</li>
-            <li><b>What it detects:</b> missing premises, orphan conclusions, shallow support chains.</li>
-            <li><b>Outputs:</b> structural metrics + trace X-ray + evidence packet suitable for review.</li>
-          </ul>
-        </div>
-
-        <div class="usecase">
-          <div class="head">
-            Regulatory / Compliance Review <span class="tag">Audit trail</span>
-          </div>
-          <ul>
-            <li><b>Context:</b> AI-assisted documents enter regulated workflows.</li>
-            <li><b>Risk without instrument:</b> later audits cannot reconstruct how conclusions were produced.</li>
-            <li><b>What it detects:</b> unsupported commitments and high uncertainty zones (cross-model spread).</li>
-            <li><b>Outputs:</b> replayable case file + forensic exhibit export.</li>
-          </ul>
-        </div>
-
-        <div class="usecase">
-          <div class="head">
-            Enterprise AI Governance <span class="tag">Internal use</span>
-          </div>
-          <ul>
-            <li><b>Context:</b> employees use AI for memos, analysis, and client-facing communication.</li>
-            <li><b>Risk without instrument:</b> hidden reasoning gaps become institutional commitments.</li>
-            <li><b>What it detects:</b> low density, high orphan rate, unstable conclusions.</li>
-            <li><b>Outputs:</b> risk classification + escalation guidance (manual verification / reject / isolate).</li>
-          </ul>
-        </div>
-
-        <div class="usecase">
-          <div class="head">
-            Model Evaluation & Procurement <span class="tag">Cross-model comparability</span>
-          </div>
-          <ul>
-            <li><b>Context:</b> teams compare models for reliability under constraints.</li>
-            <li><b>Risk without instrument:</b> selection is based on subjective output preference, not structural reliability.</li>
-            <li><b>What it detects:</b> cross-model consensus spread; model-specific structural vulnerability signatures.</li>
-            <li><b>Outputs:</b> interpreter synthesis with ranked stability/integrity evidence.</li>
-          </ul>
-        </div>
-
-        <div class="callout">
-          The common thread: decisions become defensible because the instrument converts narrative into structure and preserves evidence.
-        </div>
-      </div>
-    </section>
-
-    <section class="grid">
-      <div class="card">
-        <h2>Authority Gained</h2>
-        <ul>
-          <li><b>Audit-grade justification:</b> show the support chain, not just the output.</li>
-          <li><b>Replayable institutional memory:</b> revisit decisions months later with identical artifacts.</li>
-          <li><b>Cross-model defensibility:</b> demonstrate why one model is safer under the same constraints.</li>
-          <li><b>Targeted verification:</b> focus human review on a small set of load-bearing premises.</li>
-        </ul>
-      </div>
-    </section>
-
-    <div class="footer">
-      <div>Contact: <span class="mono">research@enlightenedai.ai</span></div>
-      <div class="mono">Build: v200.0 · Restricted evaluation</div>
     </div>
+  </section>
+
+  <section class="grid two">
+    <div class="card">
+      <h2>WHAT VALUE IT CREATES</h2>
+      <ul class="tech-list">
+        <li><b>Prevents unsupported commitment:</b> Identifies orphan claims and missing premises before decisions are finalized.</li>
+        <li><b>Reduces review cost:</b> Turns long narrative outputs into inspectable structure with prioritized load-bearing premises.</li>
+        <li><b>Improves audit readiness:</b> Produces replayable artifacts and exportable evidence packets.</li>
+        <li><b>Enables model governance:</b> Compares models under identical constraints and quantifies structural divergence.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>ECONOMIC LOGIC (WHY THIS IS RATIONAL)</h2>
+      <ul class="tech-list">
+        <li>Institutional failures are expensive because they surface late (after commitments, publication, or policy rollout).</li>
+        <li>Most cost comes from rework: reversals, reputational damage, and emergency audits.</li>
+        <li><b>One avoided failure</b> typically exceeds the cost of evaluation infrastructure.</li>
+      </ul>
+      <div class="accent">
+        Positioned as risk reduction + audit efficiency, not just "AI performance."
+      </div>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="card">
+      <h2>FLAGSHIP DECISION USE CASES</h2>
+      <p>Each use case is expressed as a decision workflow: context → risk → detection → output.</p>
+      
+      <div class="use-case-item">
+        <div class="uc-head">
+          <div class="uc-title">Public Funding / Program Evaluation</div>
+          <span class="uc-tag">Decision Justification</span>
+        </div>
+        <ul class="tech-list">
+          <li><b>Context:</b> A funding decision must be defensible to auditors and the public.</li>
+          <li><b>Risk:</b> Persuasive AI narrative introduces unsupported claims or over-commitment.</li>
+          <li><b>What it detects:</b> Missing premises, orphan conclusions, shallow support chains.</li>
+          <li><b>Outputs:</b> Structural metrics + trace X-ray + evidence packet suitable for review.</li>
+        </ul>
+      </div>
+
+      <div class="use-case-item">
+        <div class="uc-head">
+          <div class="uc-title">Regulatory / Compliance Review</div>
+          <span class="uc-tag">Audit Trail</span>
+        </div>
+        <ul class="tech-list">
+          <li><b>Context:</b> AI-assisted documents enter regulated workflows.</li>
+          <li><b>Risk:</b> Later audits cannot reconstruct how conclusions were produced.</li>
+          <li><b>What it detects:</b> Unsupported commitments and high uncertainty zones.</li>
+          <li><b>Outputs:</b> Replayable case file + forensic exhibit export.</li>
+        </ul>
+      </div>
+
+      <div class="use-case-item">
+        <div class="uc-head">
+          <div class="uc-title">Enterprise AI Governance</div>
+          <span class="uc-tag">Internal Use</span>
+        </div>
+        <ul class="tech-list">
+          <li><b>Context:</b> Employees use AI for memos, analysis, and client-facing communication.</li>
+          <li><b>Risk:</b> Hidden reasoning gaps become institutional commitments.</li>
+          <li><b>What it detects:</b> Low density, high orphan rate, unstable conclusions.</li>
+          <li><b>Outputs:</b> Risk classification + escalation guidance.</li>
+        </ul>
+      </div>
+
+      <div class="use-case-item">
+        <div class="uc-head">
+          <div class="uc-title">Model Evaluation & Procurement</div>
+          <span class="uc-tag">Comparability</span>
+        </div>
+        <ul class="tech-list">
+          <li><b>Context:</b> Teams compare models for reliability under constraints.</li>
+          <li><b>Risk:</b> Selection is based on subjective output preference, not structural reliability.</li>
+          <li><b>What it detects:</b> Cross-model consensus spread; model-specific structural vulnerability.</li>
+          <li><b>Outputs:</b> Interpreter synthesis with ranked stability/integrity evidence.</li>
+        </ul>
+      </div>
+
+      <div class="accent">
+        The common thread: decisions become defensible because the instrument converts narrative into structure and preserves evidence.
+      </div>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="card">
+      <h2>AUTHORITY GAINED</h2>
+      <ul class="tech-list">
+        <li><b>Audit-grade justification:</b> Show the support chain, not just the output.</li>
+        <li><b>Replayable institutional memory:</b> Revisit decisions months later with identical artifacts.</li>
+        <li><b>Cross-model defensibility:</b> Demonstrate why one model is safer under the same constraints.</li>
+        <li><b>Targeted verification:</b> Focus human review on a small set of load-bearing premises.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="footer">
+    <div>Contact: <span class="mono">research@enlightenedai.ai</span></div>
+    <div class="mono">Build: Research Prototype v1.0 · Reflective Diagnostics™ · restricted evaluation</div>
   </div>
+
+</div>
 </body>
 </html>
-
