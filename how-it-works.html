@@ -4,12 +4,294 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>How It Works · Reflective Diagnostics</title>
-  <meta name="description" content="Replayable measurement pipeline for structural reasoning risk with auditable, deterministic artifacts." />
-  <link rel="stylesheet" href="assets/site.css" />
+  <meta name="description" content="Replayable measurement pipeline for structural reasoning diagnostics with auditable artifacts." />
+
+  <style>
+    :root{
+      /* LIGHT INSTRUMENT BASE (match index) */
+      --bg:#ffffff;
+      --bg2:#f6f8fa;
+      --panel:#ffffff;
+      --text:#0b0e10;
+      --muted:#55616d;
+      --line:#d8dde3;
+      --line2:#cbd3db;
+
+      /* SIGNAL ACCENT */
+      --accent:#29ff7a;
+      --accentDark:#0a5f2b;
+
+      /* INSTRUMENT BLACK */
+      --ink:#0b0e10;
+      --ink2:#11161a;
+
+      --shadow: 0 10px 28px rgba(0,0,0,.10);
+      --shadow2: 0 16px 40px rgba(0,0,0,.12);
+      --radius:12px;
+      --max:1040px;
+
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--text);
+      font-family:var(--sans);
+      line-height:1.45;
+      background:
+        radial-gradient(1100px 520px at 20% 0%, rgba(41,255,122,.10), transparent 60%),
+        radial-gradient(900px 520px at 85% 0%, rgba(41,255,122,.07), transparent 60%),
+        var(--bg);
+    }
+    a{color:var(--text); text-decoration:none}
+    a:hover{opacity:.92}
+
+    .wrap{max-width:var(--max); margin:0 auto; padding:26px 18px 70px}
+
+    /* TOPBAR (match index) */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      background: rgba(246,248,250,.92);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      justify-content:space-between;
+    }
+    .brand{display:flex; flex-direction:column; gap:2px;}
+    .brand .t{font-weight:700; letter-spacing:.2px; font-size:14px;}
+    .brand .s{font-size:12px; color:var(--muted); max-width:420px;}
+
+    .nav{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:flex-end;
+      align-items:center;
+    }
+    .nav a{
+      font-size:12px;
+      color:var(--muted);
+      padding:8px 10px;
+      border:1px solid transparent;
+      border-radius:0;            /* square */
+      background:transparent;
+    }
+    .nav a:hover{
+      border-color:var(--line2);
+      color:var(--text);
+      background:rgba(255,255,255,.6);
+    }
+    .nav a.active{
+      border-color:var(--ink);
+      color:var(--text);
+      background:#fff;
+    }
+
+    /* KICKERS (square, scientific) */
+    .kickers{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin:8px 0 18px;
+    }
+    .pill{
+      font-size:11px;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+      color:var(--muted);
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.65);
+      padding:8px 10px;
+      border-radius:0;            /* square */
+    }
+    .pill.black{
+      border-color:var(--ink);
+      background:var(--ink);
+      color:#fff;
+    }
+    .pill.signal{
+      border-color:rgba(41,255,122,.55);
+      background:rgba(41,255,122,.12);
+      color:#0d3a1f;
+    }
+
+    /* HERO */
+    h1{
+      font-size:34px;
+      line-height:1.12;
+      margin:0 0 10px;
+      letter-spacing:-.4px;
+    }
+    .subtitle{
+      color:var(--muted);
+      max-width:860px;
+      font-size:15px;
+      margin:0 0 18px;
+    }
+
+    /* CTA BUTTONS (square) */
+    .btnrow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin:14px 0 22px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:11px 12px;
+      border-radius:0;           /* square */
+      border:1px solid var(--line2);
+      background:#fff;
+      font-size:12px;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+      color:var(--text);
+      box-shadow: 0 1px 0 rgba(0,0,0,.04);
+    }
+    .btn:hover{border-color:var(--ink)}
+    .btn.primary{
+      background:var(--ink);
+      color:#fff;
+      border-color:var(--ink);
+      box-shadow: 0 0 0 1px rgba(0,0,0,.08) inset;
+    }
+
+    /* PANELS */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+      margin-top:14px;
+    }
+    .panel{
+      grid-column: span 12;
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:0;          /* square */
+      box-shadow:var(--shadow);
+      padding:16px 16px 14px;
+    }
+    .panel h2{
+      font-size:13px;
+      margin:0 0 10px;
+      letter-spacing:.9px;
+      text-transform:uppercase;
+    }
+    .panel p{margin:0 0 10px; color:var(--muted); font-size:13px}
+    .panel ul{margin:8px 0 0 18px; color:var(--muted); font-size:13px}
+    .panel li{margin:6px 0}
+
+    .two .panel{grid-column: span 12}
+    .three .panel{grid-column: span 12}
+    @media (min-width: 860px){
+      .two .panel{grid-column: span 6}
+      .three .panel{grid-column: span 4}
+    }
+
+    /* PIPELINE STRIP (light, readable) */
+    .flow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--text);
+      margin-top:8px;
+    }
+    .step{
+      padding:7px 10px;
+      border:1px solid var(--line2);
+      background:#fff;
+      border-radius:0;          /* square */
+      box-shadow: 0 1px 0 rgba(0,0,0,.04);
+      white-space:nowrap;
+    }
+    .arrow{
+      font-family:var(--mono);
+      color:var(--muted);
+      padding:0 2px;
+    }
+    .step.key{
+      border-color:var(--ink);
+      background:#fff;
+    }
+    .step.art{
+      border-color:rgba(41,255,122,.55);
+      background:rgba(41,255,122,.10);
+    }
+
+    /* SMALL META ROW */
+    .meta{
+      margin-top:10px;
+      padding-top:10px;
+      border-top:1px solid var(--line);
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .meta b{color:var(--text)}
+    .mono{font-family:var(--mono)}
+
+    /* MERMAID BLOCK (optional) */
+    details{
+      margin-top:12px;
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:0;
+      box-shadow: 0 8px 20px rgba(0,0,0,.06);
+      padding:12px 12px 10px;
+    }
+    details summary{
+      cursor:pointer;
+      font-size:12px;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    pre.mermaid{
+      margin:10px 0 0;
+      padding:12px;
+      border:1px solid var(--line);
+      background:var(--bg2);
+      border-radius:0;
+      overflow:auto;
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--text);
+    }
+
+    /* FOOTER */
+    .footer{
+      margin-top:32px;
+      padding-top:16px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+  </style>
 </head>
 
 <body>
-  <!-- Top Nav -->
   <div class="topbar">
     <div class="topbar-inner">
       <div class="brand">
@@ -30,107 +312,102 @@
   </div>
 
   <div class="wrap">
-    <!-- HERO -->
-    <section class="hero">
-      <div class="kickers">
-        <div class="pill accent">Research Prototype v1.0</div>
-        <div class="pill">Deterministic Artifacts</div>
-        <div class="pill">Cross Model Comparison</div>
-        <div class="pill">Evidence Locked</div>
-      </div>
 
-      <h1>How it works: a replayable measurement pipeline — not “LLM as judge.”</h1>
+    <div class="kickers">
+      <div class="pill signal">Research Prototype v1.0</div>
+      <div class="pill">Deterministic Artifacts</div>
+      <div class="pill">Cross Model Comparison</div>
+      <div class="pill">Evidence Locked</div>
+      <!-- (Integrity pill removed on this page as requested) -->
+    </div>
 
-      <p class="subtitle">
-        Reflective Diagnostics evaluates <b>whether conclusions are structurally supported</b> by their stated premises.
-        It converts model outputs into an inspectable support structure, computes structural signals,
-        and produces a replayable evidence record suitable for audit and review.
-      </p>
+    <h1>How it works: a replayable measurement pipeline — not “LLM as judge.”</h1>
+    <p class="subtitle">
+      The instrument converts model outputs into an <b>inspectable support structure</b> (claims → premises → conclusions),
+      computes <b>structural signals</b>, and produces an <b>evidence packet</b> that can be replayed and audited.
+    </p>
 
-      <div class="btnrow">
-        <a class="btn primary black" href="evidence.html">Open Proof and Evidence</a>
-        <a class="btn" href="what-it-measures.html">Read Metric Definitions</a>
-        <a class="btn" href="compliance.html">See Regime Mapping (Compliance)</a>
-      </div>
-    </section>
+    <div class="btnrow">
+      <a class="btn primary" href="evidence.html">Open Proof and Evidence</a>
+      <a class="btn" href="what-it-measures.html">Read Metric Definitions</a>
+      <a class="btn" href="compliance.html">See Regime Mapping (Compliance)</a>
+    </div>
 
-    <!-- PIPELINE OVERVIEW -->
+    <!-- PIPELINE (LIGHT, NO BLACK BOXES) -->
     <section class="grid">
-      <div class="card">
+      <div class="panel">
         <h2>End-to-End Measurement Flow</h2>
-        <p class="mono">
-          Input → Controlled Run → Artifact Capture → Structural Extraction → Signal Computation → Interpreter → Evidence Packet
-        </p>
-        <div class="callout">
-          Each stage produces a fixed artifact that becomes the input to the next stage.
-          No hidden rewrites. No silent retries.
+
+        <div class="flow">
+          <span class="step key">Input</span><span class="arrow">→</span>
+          <span class="step">Controlled Run</span><span class="arrow">→</span>
+          <span class="step art">Artifact Capture</span><span class="arrow">→</span>
+          <span class="step">Structural Extraction</span><span class="arrow">→</span>
+          <span class="step">Signal Computation</span><span class="arrow">→</span>
+          <span class="step">Interpreter</span><span class="arrow">→</span>
+          <span class="step art">Evidence Packet</span>
         </div>
+
+        <div class="meta">
+          <div><b>Key rule:</b> each stage produces a fixed artifact used by the next stage.</div>
+          <div><b>No:</b> hidden rewrites · silent retries · post-hoc edits.</div>
+        </div>
+
+        <details>
+          <summary>Optional: Mermaid diagram for the same pipeline</summary>
+          <pre class="mermaid">flowchart LR
+  A[Input\n(prompt / document / evidence)] --> B[Controlled Run\n(same constraints across models)]
+  B --> C[Artifact Capture\n(raw output + metadata + hashes)]
+  C --> D[Structural Extraction\n(claims / premises / conclusions)]
+  D --> E[Signal Computation\n(coverage / orphans / integrity / stability)]
+  E --> F[Interpreter\n(cross-model comparison + divergence)]
+  F --> G[Evidence Packet\n(replayable record + exportable exhibit)]</pre>
+        </details>
       </div>
     </section>
 
-    <!-- STEPS -->
-    <section class="grid">
-      <div class="card">
-        <h2>1) Controlled Run (Comparability)</h2>
+    <!-- FOUR STAGES (SHORT, REVIEWER-FRIENDLY) -->
+    <section class="grid two">
+      <div class="panel">
+        <h2>1) Controlled Run</h2>
         <ul>
-          <li>Same input and constraints across models</li>
-          <li>No hidden retries, no prompt rewriting, no adaptive steering</li>
-          <li>Model identity and version recorded</li>
+          <li>Same input, same constraints, across models</li>
+          <li>Model identity + version recorded</li>
+          <li>No adaptive steering or prompt rewriting</li>
         </ul>
-        <div class="callout">
-          Why it matters: observed differences are attributable to the model, not shifting conditions.
-        </div>
+        <p><b>Purpose:</b> comparability — differences are attributable to the model, not shifting conditions.</p>
       </div>
 
-      <div class="card">
-        <h2>2) Artifact Capture (Source of Record)</h2>
+      <div class="panel">
+        <h2>2) Artifact Capture</h2>
         <ul>
-          <li>Raw model outputs stored verbatim</li>
+          <li>Raw outputs stored verbatim</li>
           <li>Run metadata captured (timestamps, run ID, model selection)</li>
           <li>Hashes generated to prevent silent alteration</li>
         </ul>
-        <div class="callout">
-          Why it matters: a run can be audited by someone who did not witness it.
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>3) Structural Extraction (Support Graph)</h2>
-        <ul>
-          <li>Claims, premises, and conclusions explicitly identified</li>
-          <li>Support links established between premises and conclusions</li>
-          <li>Unsupported conclusions (orphans) flagged</li>
-        </ul>
-        <div class="callout">
-          Why it matters: the instrument evaluates support structure, not writing quality.
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>4) Signal Computation and Interpretation</h2>
-        <ul>
-          <li>Structural signals computed (coverage, orphan rate, integrity, stability)</li>
-          <li>Cross-model divergence measured under identical constraints</li>
-          <li>Interpreter produces a consolidated, inspectable synthesis</li>
-        </ul>
-        <div class="callout">
-          Why it matters: evaluators can see where conclusions are structurally justified — and where they are not.
-        </div>
+        <p><b>Purpose:</b> source of record — an evaluator can audit the run without witnessing it.</p>
       </div>
     </section>
 
-    <!-- NON-GOALS -->
-    <section class="grid">
-      <div class="card">
-        <h2>What This Instrument Does Not Do</h2>
+    <section class="grid two">
+      <div class="panel">
+        <h2>3) Structural Extraction</h2>
         <ul>
-          <li>It does not verify factual truth</li>
-          <li>It does not score sentiment or policy merit</li>
-          <li>It does not rely on subjective rubric grading</li>
+          <li>Convert free text into inspectable structure</li>
+          <li>Claims, premises, conclusions separated</li>
+          <li>Support links made explicit</li>
         </ul>
-        <div class="callout">
-          The goal is <b>derivability</b>: can the conclusion be shown to follow from the stated premises?
-        </div>
+        <p><b>Purpose:</b> expose unsupported commitments and missing premises.</p>
+      </div>
+
+      <div class="panel">
+        <h2>4) Signal Computation + Interpreter</h2>
+        <ul>
+          <li>Compute structural signals (coverage, orphans, integrity, stability)</li>
+          <li>Compare models under identical constraints</li>
+          <li>Generate an exportable evidence packet</li>
+        </ul>
+        <p><b>Purpose:</b> decision-grade inspection — structure and evidence, not opinions.</p>
       </div>
     </section>
 
@@ -138,6 +415,7 @@
       <div>Contact: <span class="mono">research@enlightenedai.ai</span></div>
       <div class="mono">Build: Research Prototype v1.0 · Reflective Diagnostics™ · restricted evaluation</div>
     </div>
+
   </div>
 </body>
 </html>
