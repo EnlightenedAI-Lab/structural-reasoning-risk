@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <title>Case Study · Reflective Diagnostics</title>
+  <title>Forensic Case Study · Reflective Diagnostics</title>
   <meta name="description" content="Forensic audit executive brief: $250M public funding decision." />
 
   <style>
@@ -26,20 +26,24 @@
     body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.5; -webkit-font-smoothing: antialiased; }
     a{ color:inherit; text-decoration:none; }
 
-    /* NAVIGATION */
+    /* FULL NAVIGATION RESTORED */
     .topbar{ border-bottom:1px solid var(--line); background:#fff; padding:16px 0; position:sticky; top:0; z-index:100; }
-    .topbar-inner{ max-width:1100px; margin:0 auto; padding:0 20px; display:flex; justify-content:space-between; align-items:center; }
+    .topbar-inner{ max-width:1100px; margin:0 auto; padding:0 20px; display:flex; justify-content:space-between; align-items:flex-start; gap:20px; }
     .brand .t{ font-weight:700; font-size:18px; letter-spacing:-0.3px; color:var(--black); }
     .brand .s{ font-size:12px; color:var(--muted); margin-top:2px; }
-    .nav{ display:flex; gap:20px; font-size:13px; font-weight:500; }
-    .nav a{ color:var(--muted); transition:0.2s; }
+    
+    .nav{ display:flex; flex-wrap:wrap; gap:15px; justify-content:flex-end; max-width:650px; }
+    .nav a{ font-size:13px; color:var(--muted); padding-bottom:2px; border-bottom:1px solid transparent; transition:0.2s; }
     .nav a:hover{ color:var(--black); }
-    .nav a.active{ color:var(--black); font-weight:700; border-bottom:1px solid var(--black); }
+    .nav a.active{ color:var(--black); border-bottom:1px solid var(--black); font-weight:600; }
+    
+    .nav-btn{ border:1px solid var(--line); padding:6px 12px; border-radius:0; color:var(--black)!important; font-weight: 500; }
+    .nav-btn:hover{ background:#fafafa; border-color:#000; }
 
     /* LAYOUT CONTAINER */
     .wrap{ max-width:1000px; margin:0 auto; padding:60px 20px 100px; }
 
-    /* A. HEADER / CONTEXT BLOCK */
+    /* HEADER BLOCK */
     .kickers{ display:flex; gap:8px; margin-bottom:20px; }
     .pill{ font-size:10px; font-weight:700; padding:4px 8px; border:1px solid var(--black); background:var(--black); color:#fff; text-transform:uppercase; letter-spacing:0.5px; }
     .pill.light{ background:#fff; color:var(--text); border-color:var(--line); }
@@ -47,13 +51,17 @@
     h1{ margin:0 0 16px; font-size:32px; letter-spacing:-0.5px; line-height:1.1; font-weight:800; }
     .subtitle{ font-size:16px; color:var(--muted); max-width:700px; margin-bottom:40px; line-height:1.6; }
 
-    /* B. MISSION BRIEF (COLLAPSIBLE) */
-    details.brief { margin-bottom: 50px; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+    /* MISSION BRIEF (COLLAPSIBLE) */
+    details.brief { margin-bottom: 40px; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
     summary.brief-head { background: #f8f9fa; padding: 12px 20px; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
     summary.brief-head:hover { background: #f0f2f5; }
     .brief-content { padding: 25px; background: #111; color: #eee; font-family: var(--mono); font-size: 11px; line-height: 1.6; white-space: pre-wrap; border-top: 1px solid var(--line); }
 
-    /* C. GLOBAL PERFORMANCE SUMMARY */
+    /* FRAMING BLOCK (EPISTEMIC GROUNDING) */
+    .framing-block { background: #fffbe6; border: 1px solid #ffe58f; padding: 15px 20px; margin-bottom: 40px; font-size: 13px; color: #595028; border-radius: 4px; }
+    .framing-block strong { font-weight: 700; color: #2b250c; text-transform: uppercase; font-size: 11px; display: block; margin-bottom: 4px; }
+
+    /* METRICS */
     .section-head{ font-size:11px; font-weight:700; text-transform:uppercase; color:var(--muted); letter-spacing:0.5px; margin-bottom:15px; border-bottom:1px solid var(--line); padding-bottom:10px; }
     
     .scorecard{ display:grid; grid-template-columns:repeat(4, 1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:50px; }
@@ -62,40 +70,45 @@
     .score-val{ font-size:28px; font-weight:700; letter-spacing:-1px; margin-bottom: 8px; }
     .score-cap{ font-size:11px; color:var(--muted); line-height:1.3; }
 
-    /* DASHBOARD GRID (LADDER & HEATMAP) */
+    /* DASHBOARD GRID */
     .dashboard-grid{ display:grid; grid-template-columns:1.5fr 1fr; gap:40px; margin-bottom:60px; }
     .chart-box{ border:1px solid var(--line); padding:25px; margin-bottom:30px; background:#fff; }
     
-    /* D. INTEGRITY LADDER */
+    /* LADDER */
     .ladder-row{ display:flex; align-items:center; margin-bottom:12px; font-family:var(--mono); font-size:11px; }
     .ladder-lbl{ width:100px; color:var(--text); font-weight:600; }
     .bar-track{ flex-grow:1; background:#f0f2f5; height:20px; border-radius:2px; overflow:hidden; }
     .bar-fill{ height:100%; background:var(--black); color:#fff; display:flex; align-items:center; justify-content:flex-end; padding-right:8px; font-size:10px; font-weight:700; }
     .caption{ font-size:11px; color:var(--muted); font-style:italic; margin-top:15px; }
 
-    /* E. HEATMAP */
+    /* HEATMAP */
     .heatmap{ display:grid; grid-template-columns:80px repeat(4, 1fr); gap:1px; background:var(--line); border:1px solid var(--line); font-family:var(--mono); font-size:10px; }
     .hm-cell{ background:#fff; padding:10px 4px; display:flex; align-items:center; justify-content:center; text-align:center; }
     .hm-head{ background:#f9fafb; font-weight:700; color:var(--muted); }
     .bg-100{ background:#000; color:#fff; } .bg-90{ background:#333; color:#fff; } .bg-50{ background:#999; color:#fff; } .bg-risk{ background:var(--red); color:#fff; }
 
-    /* F. VERDICT */
+    /* VERDICT (CLINICAL) */
     .verdict-box{ background:#f4f6f8; padding:25px; border-radius:4px; border:1px solid var(--line); margin-bottom: 50px; }
     .verdict-lbl{ font-family:var(--mono); font-size:10px; text-transform:uppercase; color:var(--muted); margin-bottom:10px; letter-spacing:0.5px; font-weight:700; }
     .verdict-text{ font-size:14px; line-height:1.6; color:var(--text); max-width:800px; }
 
-    /* MODEL SPECIFIC TABS */
+    /* MODEL ARTIFACT TABS */
     .tabs-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:15px; }
     .tab-card{ border:1px solid var(--line); padding:20px; transition:0.2s; background:#fff; text-decoration: none; display:flex; flex-direction:column; justify-content:space-between; height:100%; }
     .tab-card:hover{ border-color:var(--black); transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,0,0,0.05); }
     .tab-head{ font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.5px; color:var(--black); margin-bottom:10px; border-bottom:1px solid var(--line); padding-bottom:10px; display:flex; justify-content:space-between; }
     .tab-body{ font-size:12px; color:var(--muted); line-height:1.4; margin-bottom:15px; }
-    .tab-act{ font-family:var(--mono); font-size:10px; text-transform:uppercase; color:var(--blue); font-weight:600; }
+    .status-tag{ font-family:var(--mono); font-size:9px; text-transform:uppercase; padding:3px 6px; border-radius:3px; display:inline-block; margin-top: auto; }
+    
+    .tag-green{ background:#e6fbf0; color:var(--green); }
+    .tag-red{ background:#fbeaea; color:var(--red); }
+    .tag-gray{ background:#f0f2f5; color:var(--muted); }
 
     /* MOBILE */
     @media(max-width:800px){ 
       .dashboard-grid, .scorecard, .tabs-grid{ grid-template-columns:1fr; } 
-      .nav{ display:none; }
+      .topbar-inner{ flex-wrap:wrap; }
+      .nav{ justify-content:flex-start; margin-top:10px; }
       .wrap { padding-top: 30px; }
     }
   </style>
@@ -109,10 +122,14 @@
       <div class="s">Structural Reasoning Risk</div>
     </div>
     <div class="nav">
-      <a href="index.html">Overview</a>
+      <a href="index.html" class="nav-btn">Start Here</a>
+      <a href="how-it-works.html">How It Works</a>
+      <a href="what-it-measures.html">What It Measures</a>
+      <a href="markets.html">Markets</a>
       <a href="use-cases.html" class="active">Case Study</a>
-      <a href="how-it-works.html">Methodology</a>
-      <a href="evidence.html">Evidence</a>
+      <a href="evidence.html">Proof and Evidence</a>
+      <a href="funding-roadmap.html">Funding</a>
+      <a href="compliance.html">Compliance</a>
     </div>
   </div>
 </div>
@@ -155,6 +172,12 @@ Task:
 Identify each claim. Identify the premises offered in support. Determine whether each conclusion follows from the premises without new assumptions. Assess whether the overall recommendation to approve funding is structurally justified.</div>
   </details>
 
+  <div class="framing-block">
+    <strong>Methodology Note</strong>
+    The following metrics are structural measurements derived from explicit claim–premise analysis. 
+    They do not reflect fluency, confidence, or persuasion — only evidentiary support.
+  </div>
+
   <div class="section-head">Primary Metrics</div>
   <div class="scorecard">
     <div class="score-box">
@@ -173,9 +196,9 @@ Identify each claim. Identify the premises offered in support. Determine whether
       <div class="score-cap">Number of conclusions not supported by premises or evidence. Orphans represent structural risk.</div>
     </div>
     <div class="score-box">
-      <span class="score-lbl">Consensus Spread</span>
+      <span class="score-lbl">Consensus Spread (Fragility)</span>
       <div class="score-val">0.12</div>
-      <div class="score-cap">Degree of divergence across structurally constrained models. Lower = higher stability.</div>
+      <div class="score-cap">Cross-model structural disagreement. Lower spread indicates higher decision robustness.</div>
     </div>
   </div>
 
@@ -225,24 +248,24 @@ Identify each claim. Identify the premises offered in support. Determine whether
   <div class="verdict-box">
     <div class="verdict-lbl">Deterministic Structural Verdict</div>
     <div class="verdict-text">
-      The recommended winner is <b>GEMINI — gemini-2.0-flash-lite-preview-02-05</b> (Score: 0.96). 
-      Calculated based on weighted integrity, coverage, and risk penalties. 
-      The model demonstrated zero orphan claims and the highest reasoning density (0.91) among all evaluated systems.
+      The structurally supported system is <b>GEMINI — gemini-2.0-flash-lite-preview-02-05</b> (Score: 0.96). 
+      This conclusion is based on weighted integrity, coverage, and risk penalties. 
+      It is the only system to demonstrate zero orphan claims while maintaining high reasoning density (0.91).
     </div>
   </div>
 
-  <div class="section-head" style="margin-top:60px;">Model-Specific Structural Analysis</div>
+  <div class="section-head" style="margin-top:60px;">Select Trace Artifact</div>
   <div class="tabs-grid">
     
     <a href="trace-gemini.html" class="tab-card">
       <div>
         <div class="tab-head">
           <span>Gemini 2.0</span>
-          <span style="color:var(--green)">0.97</span>
+          <span>0.97</span>
         </div>
-        <div class="tab-body">View full structural trace, evidence mapping, and diagnostics for this model.</div>
+        <div class="tab-body">Structural trace, evidence mapping, and diagnostics.</div>
       </div>
-      <div class="tab-act">View Trace →</div>
+      <div class="status-tag tag-green">SUPPORTED</div>
     </a>
 
     <a href="trace-deepseek.html" class="tab-card">
@@ -251,9 +274,9 @@ Identify each claim. Identify the premises offered in support. Determine whether
           <span>DeepSeek</span>
           <span>0.92</span>
         </div>
-        <div class="tab-body">View full structural trace, evidence mapping, and diagnostics for this model.</div>
+        <div class="tab-body">Structural trace, evidence mapping, and diagnostics.</div>
       </div>
-      <div class="tab-act">View Trace →</div>
+      <div class="status-tag tag-gray">VERIFIED</div>
     </a>
 
     <a href="trace-openai.html" class="tab-card">
@@ -262,20 +285,20 @@ Identify each claim. Identify the premises offered in support. Determine whether
           <span>OpenAI</span>
           <span>0.85</span>
         </div>
-        <div class="tab-body">View full structural trace, evidence mapping, and diagnostics for this model.</div>
+        <div class="tab-body">Structural trace, evidence mapping, and diagnostics.</div>
       </div>
-      <div class="tab-act">View Trace →</div>
+      <div class="status-tag tag-gray">UNSTABLE</div>
     </a>
 
     <a href="trace-grok.html" class="tab-card">
       <div>
         <div class="tab-head">
           <span>Grok-2</span>
-          <span style="color:var(--red)">0.20</span>
+          <span>0.20</span>
         </div>
-        <div class="tab-body">View full structural trace, evidence mapping, and diagnostics for this model.</div>
+        <div class="tab-body">Structural trace, evidence mapping, and diagnostics.</div>
       </div>
-      <div class="tab-act">View Trace →</div>
+      <div class="status-tag tag-red">FAILURE</div>
     </a>
 
   </div>
