@@ -140,6 +140,16 @@
     }
     
     /* MICRO-STRIP PIPELINE */
+    .pipeline-header {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+    
     .pipeline-strip {
         font-family: var(--mono);
         font-size: 11px;
@@ -283,6 +293,8 @@
     .example-content { padding: 20px; font-size: 14px; line-height: 1.6; }
     .example-content h4 { margin: 0 0 10px; font-size: 12px; text-transform: uppercase; color: var(--muted); }
     .example-content p { margin-bottom: 15px; }
+    .example-meta { font-family: var(--mono); font-size: 10px; color: var(--muted); text-transform: uppercase; margin-bottom: 15px; display: block; }
+    
     .example-deltas { 
         display: flex; gap: 20px; margin: 15px 0; padding: 10px; 
         background: #fff; border: 1px solid var(--line); font-family: var(--mono); font-size: 12px; 
@@ -429,9 +441,10 @@
     <div class="intro-block">
       <p>Modern AI systems are frequently instructed to “reflect,” “think step-by-step,” or “reconsider” their answers.</p>
       <p>This instrument measures whether reflection actually improves epistemic quality—or whether it introduces new risks such as confidence inflation, over-rationalization, and unsupported elaboration. We quantify how correctness, reasoning quality, and confidence change after reflection, and classify the change into deployment-relevant risk zones.</p>
-      <p><i>Reflection Diagnostics measure how reflection changes behavior; the Reflective Oracle determines whether those changes are safe, useful, or risky.</i></p>
+      <p><i>Reflection Diagnostics measure how reflection changes behavior; the Reflective Oracle determines whether those changes are safe, useful, or risky. This module does not evaluate reasoning quality in isolation; it evaluates the effect of reflection itself as an intervention.</i></p>
     </div>
 
+    <div class="pipeline-header">Operational Flow</div>
     <div class="pipeline-strip">
       Direct response → Reflection instruction → Reflective response → Δ metrics → Risk zone classification
     </div>
@@ -465,7 +478,7 @@
     </div>
   </section>
 
-  <div class="section-head">Core Reflection Signals</div>
+  <div class="section-head">Core Reflection Diagnostics</div>
 
   <section class="grid four">
     <div class="card">
@@ -481,7 +494,7 @@
       <span class="metric-tag">Justification Shift</span>
       <p><b>What it is:</b> Change in the quality and substance of justification after reflection.</p>
       <p><b>Detects:</b> Added justification vs. new evidence vs. speculative expansion.</p>
-      <div class="accent">Improved reasoning without accuracy gains may signal over-rationalization.</div>
+      <div class="accent">Improved reasoning without accuracy gains may signal over-rationalization or rhetorical elaboration.</div>
     </div>
 
     <div class="card">
@@ -496,7 +509,7 @@
       <div class="metric-name">Reflection Risk Zones</div>
       <span class="metric-tag">Behavioral Classification</span>
       <p><b>What it is:</b> Categorization of reflection behavior into stable patterns (Self-correcting, Inflating, Neutral, Regressive).</p>
-      <div class="accent">These zones indicate when reflection should be trusted, constrained, or avoided.</div>
+      <div class="accent">Risk zones are derived from joint patterns across correctness, reasoning, and confidence—not from any single metric.</div>
     </div>
 
     <div class="card">
@@ -545,6 +558,8 @@
   <details class="example-block">
     <summary>Example: How Reflection Changes an Answer</summary>
     <div class="example-content">
+      <span class="example-meta">Illustrative case drawn from a controlled evaluation slice.</span>
+      
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px;">
         <div>
           <h4>Prompt</h4>
@@ -579,6 +594,7 @@
     
     <div class="oracle-intro">
       <p>The Reflective Oracle is a local decision-support system that operates on the outputs of Reflection Diagnostics. Rather than generating answers, the Oracle interprets reflection behavior across filtered test slices and produces risk summaries, dominant failure patterns, and recommended next actions.</p>
+      <p>The Oracle never evaluates raw model outputs directly; it operates exclusively on diagnostic summaries produced by the Reflection instrument.</p>
       <p>The Oracle consumes aggregated reflection signals (Δ correctness, Δ reasoning, Δ confidence, risk zone distributions) and answers questions such as:</p>
       <ul class="tech-list" style="margin:15px 0;">
         <li>Is reflection helping or harming alignment in this slice?</li>
