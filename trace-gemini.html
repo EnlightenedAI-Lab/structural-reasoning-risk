@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <title>Structural Trace Analysis: Gemini 2.0 · Reflective Diagnostics</title>
+  <title>Gemini 2.0 Flash Lite · Structural Trace Analysis</title>
   
   <style>
     /* COURT-GRADE DESIGN TOKENS */
@@ -32,11 +32,14 @@
     /* A) HEADER */
     .artifact-header{ margin-bottom: 30px; border-bottom:1px solid var(--line); padding-bottom:20px; }
     .meta-row{ font-family:var(--mono); font-size:11px; color:var(--muted); text-transform:uppercase; margin-bottom:10px; word-spacing: 5px; }
-    h1{ margin:0 0 10px; font-size:24px; letter-spacing:-0.5px; font-weight:800; color:var(--black); }
     
-    .status-pill{ display:inline-block; padding:6px 10px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; background:#e6fbf0; color:var(--green); border:1px solid #bef0d6; }
+    /* PROMINENT MODEL NAME */
+    h1{ margin:0 0 10px; font-size:32px; letter-spacing:-0.5px; font-weight:800; color:var(--black); line-height: 1.1; }
+    .sub-h1 { font-size: 14px; color: var(--muted); font-weight: 500; margin-bottom: 15px; display: block; }
     
-    .scope-disclaimer{ margin-top:15px; font-size:12px; color:var(--muted); font-style:italic; border-left:2px solid var(--amber); padding-left:10px; }
+    .status-pill{ display:inline-block; padding:6px 12px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; background:#e6fbf0; color:var(--green); border:1px solid #bef0d6; }
+    
+    .scope-disclaimer{ margin-top:15px; font-size:12px; color:var(--muted); font-style:italic; border-left:3px solid var(--amber); padding-left:12px; line-height: 1.5; }
 
     /* B) TIER 1 METRICS */
     .t1-grid{ display:grid; grid-template-columns:repeat(5, 1fr); gap:15px; margin-bottom:15px; }
@@ -53,11 +56,11 @@
     .val-warn{ color:var(--amber); }
     .val-risk{ color:var(--red); }
 
-    .verdict-rule{ font-size:11px; color:var(--muted); margin-bottom:50px; border-top:1px solid var(--line); padding-top:10px; }
+    .verdict-rule{ font-size:11px; color:var(--muted); margin-bottom:50px; border-top:1px solid var(--line); padding-top:10px; font-style: italic; }
 
     /* C) DEEP METRICS */
     .section-title{ font-size:12px; font-weight:700; text-transform:uppercase; border-bottom:2px solid var(--black); padding-bottom:8px; margin-bottom:20px; letter-spacing:0.5px; margin-top:50px; }
-    .subsection-label{ font-family:var(--mono); font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:10px; display:block; }
+    .subsection-label{ font-family:var(--mono); font-size:11px; font-weight:700; color:var(--black); text-transform:uppercase; margin-bottom:15px; display:block; background: #f4f6f8; padding: 8px; border-left: 3px solid var(--black); }
     
     .deep-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:40px; margin-bottom:40px; }
     .deep-group{ display:flex; flex-direction:column; }
@@ -73,12 +76,11 @@
     .ds-dir{ font-size:9px; text-transform:uppercase; color:var(--muted); font-weight:600; }
 
     /* AUDIT REFERENCE BLOCK */
-    .audit-ref{ background:#fafafa; border:1px solid var(--line); padding:20px; margin-bottom:50px; border-radius:4px; }
-    .ar-title{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; margin-bottom:15px; color:var(--black); border-bottom:1px solid var(--line); padding-bottom:10px; }
-    .ar-item{ margin-bottom:15px; font-size:11px; line-height:1.5; color:#333; }
-    .ar-item strong{ font-family:var(--mono); color:var(--black); font-weight:700; font-size:11px; }
-    .ar-val-ctx{ color:var(--muted); margin-top:2px; display:block; font-style:italic; }
-
+    .audit-ref{ background:#fafafa; border:1px solid var(--line); padding:30px; margin-bottom:50px; border-radius:4px; }
+    .ar-title{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; margin-bottom:20px; color:var(--black); border-bottom:1px solid var(--line); padding-bottom:10px; }
+    .ar-item{ margin-bottom:20px; font-size:11px; line-height:1.5; color:#333; }
+    .ar-item strong{ font-family:var(--mono); color:var(--black); font-weight:700; font-size:12px; display:block; margin-bottom: 4px;}
+    
     /* D) INDEX */
     .index-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:50px; }
     .idx-cell{ background:#fff; padding:10px; text-align:center; }
@@ -124,12 +126,15 @@
 
   <div class="artifact-header">
     <div class="meta-row">
-      ARTIFACT ID: 2126-GEM &nbsp;&nbsp; MODEL: GEMINI 2.0 FLASH LITE &nbsp;&nbsp; DATE: 2026-01-13
+      ARTIFACT ID: 2126-GEM &nbsp;&nbsp; DATE: 2026-01-13
     </div>
-    <h1>Structural Trace Analysis</h1>
+    <h1>Gemini 2.0 Flash Lite</h1>
+    <span class="sub-h1">Structural Trace Analysis</span>
+    
     <span class="status-pill">STRUCTURAL VERDICT: DO NOT FUND (SUPPORTED)</span>
+    
     <div class="scope-disclaimer">
-      This analysis evaluates structural justification only. It does not assess moral value, policy desirability, or real-world outcomes.
+      Scope: This analysis evaluates structural justification only. It does not assess moral value, policy desirability, or real-world outcomes.
     </div>
   </div>
 
@@ -177,11 +182,12 @@
         <div class="m-def">Stability under prompt perturbation.</div>
         <div class="m-dir">Higher better</div>
         <div class="m-band">OK ≥ 0.80 | Watch 0.70-0.79 | Risk < 0.70</div>
+        <div style="font-size:10px; color:var(--amber); margin-top:4px; font-weight:600;">SSM below 0.70 indicates sensitivity to prompt phrasing. Core conclusion remains stable; auxiliary phrasing may vary.</div>
       </div>
     </div>
   </div>
   <div class="verdict-rule">
-    Verdict is computed from Integrity + Coverage + Orphans. SSM below 0.70 indicates sensitivity to prompt phrasing. Core conclusion remains stable; auxiliary phrasing may vary.
+    Structural support refers to the validity of reasoning from stated premises, not endorsement of the proposal outcome.
   </div>
 
   <div class="section-title">Deep Metrics (Telemetry)</div>
@@ -270,15 +276,6 @@
           <div class="ds-dir">Higher better</div>
         </div>
       </div>
-      <div class="deep-row" style="border-bottom:none;">
-        <div class="deep-meta">
-          <div class="dm-name">DIAGNOSIS</div>
-          <div class="dm-def">Final algorithmic determination.</div>
-        </div>
-        <div class="deep-stat">
-          <div class="ds-val val-good">SUPPORTED</div>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -288,43 +285,36 @@
     <div class="ar-item">
       <strong>SCI — Support Concentration Index</strong><br>
       Measures how evenly evidentiary support is distributed across premises. Lower values indicate diversified support; higher values indicate reliance on a single evidentiary pillar.
-      <span class="ar-val-ctx">SCI = 0.00 indicates balanced distribution with no single point of failure.</span>
     </div>
 
     <div class="ar-item">
       <strong>APC — Average Premises per Claim</strong><br>
       Measures evidentiary depth by counting distinct premises supporting each claim. Higher values indicate multi-source substantiation rather than single-assertion reasoning.
-      <span class="ar-val-ctx">APC = 6.00 indicates unusually strong evidentiary depth per claim.</span>
     </div>
 
     <div class="ar-item">
       <strong>PDI — Premise Depth Index</strong><br>
-      Measures the syntactic and semantic richness of premises, filtering out trivial or circular statements. Higher values indicate meaningful explanatory structure rather than surface justification.
-      <span class="ar-val-ctx">PDI = 0.50 indicates moderate to strong premise construction.</span>
+      Measures the explanatory richness of premises supporting each claim. Higher values indicate premises that explain why a claim holds rather than merely restating it.
     </div>
 
     <div class="ar-item">
       <strong>PRR — Premise Re-Use Ratio</strong><br>
-      Measures how often premises support multiple conclusions, indicating structural cohesion. Higher values indicate integrated reasoning rather than isolated argument fragments.
-      <span class="ar-val-ctx">PRR = 0.67 indicates a cohesive evidentiary structure.</span>
+      Measures the degree to which evidentiary premises are reused across multiple conclusions, indicating structural cohesion rather than isolated reasoning fragments.
     </div>
 
     <div class="ar-item">
       <strong>HRP — Hallucination Risk Proxy</strong><br>
       Composite risk signal combining orphaned conclusions and low reasoning density. Lower values indicate low likelihood of unsupported assertions.
-      <span class="ar-val-ctx">HRP = 0.03 indicates very low hallucination risk.</span>
     </div>
 
     <div class="ar-item">
       <strong>OG — Overconfidence Gap</strong><br>
-      Measures the delta between claim volume (assertiveness) and evidentiary coverage. Higher values indicate confidence exceeding substantiation.
-      <span class="ar-val-ctx">OG = 0.00 indicates no overconfidence relative to evidence.</span>
+      Measures the delta between claim assertiveness and evidentiary coverage. Higher values indicate confidence exceeding substantiation.
     </div>
 
     <div class="ar-item">
       <strong>SSM — Structural Stability Margin</strong><br>
       Measures topological consistency of reasoning across prompt variations. Lower values indicate sensitivity to phrasing; higher values indicate robustness.
-      <span class="ar-val-ctx">SSM = 0.65 indicates mild sensitivity to prompt phrasing, without destabilizing the core conclusion.</span>
     </div>
 
     <div class="ar-item">
