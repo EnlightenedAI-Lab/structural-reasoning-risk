@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Reflection Diagnostics™ · Structural Reasoning Risk</title>
+  <meta name="description" content="Measuring how AI systems change when instructed to reflect." />
+
+  <style>
+    /* EXACT A1 DESIGN TOKENS - SHARP & CLEAN */
+    :root{
+      --bg:#ffffff;
+      --text:#0b0e10;
+      --muted:#5f6b76;
+      --line:#d9e0e7;
+      --black:#0b0e10;
+      --green:#2ecc71;
+      --green-soft:#e9f8f0;
+      --radius:0px; /* SHARP CORNERS */
+      --max:1100px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --sans: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:var(--sans);
+      line-height:1.45;
+    }
+
+    a{color:inherit;text-decoration:none}
+
+    /* TOP BAR */
+    .topbar{
+      border-bottom:1px solid var(--line);
+      background:#fff;
+    }
+    .topbar-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:16px 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:20px;
+    }
+    .brand .t{
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+    .brand .s{
+      font-size:13px;
+      color:var(--muted);
+      margin-top:2px;
+    }
+
+    .nav{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .nav a{
+      font-size:13px;
+      padding:6px 10px;
+      border:1px solid transparent;
+    }
+    .nav a.active{
+      border-color:var(--black);
+    }
+
+    /* LAYOUT */
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:40px 18px 70px;
+    }
+
+    /* HERO */
+    .kickers{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+      align-items:center;
+    }
+
+    .pill{
+      font-size:11px;
+      padding:6px 10px;
+      border:1px solid var(--black);
+      background:var(--black);
+      color:#fff;
+      border-radius:var(--radius);
+      letter-spacing:.3px;
+    }
+    
+    .pill.light{
+      background:#fff;
+      color:var(--text);
+      border-color:var(--line);
+    }
+
+    h1{
+      font-size:32px;
+      line-height:1.15;
+      margin:0 0 14px;
+    }
+
+    .subtitle{
+      max-width:900px;
+      font-size:16px;
+      color:var(--muted);
+      margin-bottom:26px;
+    }
+    
+    .subtitle b {
+        color: var(--text);
+        font-weight: 600;
+    }
+
+    .intro-block {
+      max-width: 800px;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text);
+      margin-bottom: 40px;
+    }
+
+    /* GRID SYSTEM */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:18px;
+      margin-top:40px;
+    }
+    
+    .section-head {
+        grid-column: span 12;
+        border-bottom: 2px solid var(--black);
+        padding-bottom: 8px;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        font-family: var(--mono);
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+    }
+
+    .card{
+      grid-column:span 12;
+      border:1px solid var(--line);
+      padding:20px;
+      background:#fff;
+      border-radius:var(--radius);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Card Typography */
+    .card h2{
+      font-size:13px;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin:0 0 16px;
+      letter-spacing:.5px;
+      color:var(--black);
+      border-bottom:1px solid var(--line);
+      padding-bottom:8px;
+    }
+    
+    .metric-name {
+        font-family: var(--sans);
+        font-weight: 700;
+        font-size: 15px;
+        margin-bottom: 4px;
+        color: var(--black);
+    }
+    
+    .metric-tag {
+        font-family: var(--mono);
+        font-size: 10px;
+        text-transform: uppercase;
+        color: var(--muted);
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+        display: block;
+    }
+
+    .card p{
+      margin:0 0 12px;
+      color:var(--muted);
+      font-size:13px;
+      line-height: 1.5;
+    }
+    
+    .card strong {
+        color: var(--black);
+        font-weight: 600;
+    }
+
+    /* LISTS */
+    .tech-list {
+        font-family: var(--mono);
+        font-size: 12px;
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+    }
+    .tech-list li {
+        margin-bottom: 8px;
+        display: flex;
+        gap: 8px;
+    }
+    .tech-list li::before {
+        content: "»";
+        color: var(--black);
+    }
+    .tech-list b {
+        color: var(--black);
+    }
+
+    /* ACCENTS */
+    .accent{
+      border-left:3px solid var(--green);
+      padding-left:12px;
+      margin-top:auto; /* Pushes to bottom of card */
+      padding-top: 12px;
+      color:#145c38;
+      font-size:13px;
+      font-weight: 500;
+    }
+    
+    /* REVISED INTERPRETATION CALLOUT (No Black Box) */
+    .interpretation-callout {
+        grid-column: span 12;
+        border-left: 3px solid var(--green);
+        padding-left: 16px;
+        margin-top: 40px;
+        font-size: 15px; /* Standard body size */
+        color: var(--text);
+        line-height: 1.5;
+    }
+    .interpretation-callout b {
+        color: var(--black);
+        font-weight: 600;
+    }
+
+    @media(min-width:900px){
+      .two .card{grid-column:span 6}
+      .three .card{grid-column:span 4}
+      .four .card{grid-column:span 3}
+    }
+
+    /* FOOTER */
+    .footer{
+      margin-top:60px;
+      padding-top:18px;
+      border-top:1px solid var(--line);
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:12px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .mono{font-family:var(--mono)}
+  </style>
+</head>
+
+<body>
+
+<script>
+(function () {
+  const PASSWORD = "STRUCTURE";
+  const KEY = "evidence_access_ok";
+
+  if (sessionStorage.getItem(KEY) === "1") return;
+
+  const gate = document.createElement("div");
+  gate.style.position = "fixed";
+  gate.style.inset = "0";
+  gate.style.background = "radial-gradient(800px 400px at 30% -10%, rgba(41,255,122,.12), #0b0e10)";
+  gate.style.display = "flex";
+  gate.style.alignItems = "center";
+  gate.style.justifyContent = "center";
+  gate.style.zIndex = "9999";
+  gate.style.fontFamily = "system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif";
+
+  gate.innerHTML = `
+    <div style="
+      background:#101417;
+      border:1px solid #1c242b;
+      border-radius:14px;
+      padding:28px;
+      width:100%;
+      max-width:420px;
+      box-shadow:0 20px 60px rgba(0,0,0,.6);
+      color:#e8eef3;
+    ">
+      <div style="font-weight:600; margin-bottom:6px;">Restricted Research</div>
+      <div style="font-size:13px; color:#a9b4bf; margin-bottom:16px;">
+        This page contains operational research capabilities.<br>
+        Access is provided in context.
+      </div>
+      <input
+        id="gate-input"
+        type="password"
+        placeholder="Enter access code"
+        style="
+          width:100%;
+          padding:10px 12px;
+          font-size:14px;
+          border-radius:8px;
+          border:1px solid #1c242b;
+          background:#0b0e10;
+          color:#e8eef3;
+        "
+      />
+      <div id="gate-error" style="margin-top:10px; font-size:12px; color:#ff6b6b; display:none;">
+        Incorrect code.
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(gate);
+
+  const input = gate.querySelector("#gate-input");
+  const error = gate.querySelector("#gate-error");
+
+  input.focus();
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      if (input.value === PASSWORD) {
+        sessionStorage.setItem(KEY, "1");
+        gate.remove();
+      } else {
+        error.style.display = "block";
+        input.value = "";
+      }
+    }
+  });
+})();
+</script>
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="t">Reflective Diagnostics™</div>
+      <div class="s">Structural Reasoning Risk · audit-grade diagnostics</div>
+    </div>
+
+    <div class="nav">
+      <a href="index.html">Start Here</a>
+      <a href="how-it-works.html">How It Works</a>
+      <a href="what-it-measures.html">What It Measures</a>
+      <a href="markets.html">Markets</a>
+      <a href="use-cases.html">Case Study</a>
+      <a href="evidence.html">Proof and Evidence</a>
+      <a href="compliance.html">Compliance</a>
+      <a href="reflection.html" class="active">Reflection</a>
+    </div>
+  </div>
+</div>
+
+
+<div class="wrap">
+
+  <section>
+    <div class="kickers">
+      <div class="pill">Behavioral Diagnostics</div>
+      <div class="pill light">Unit of Analysis</div>
+      <div class="pill light">Risk Zones</div>
+    </div>
+
+    <h1>Reflection Diagnostics™</h1>
+    <p class="subtitle">
+      Measuring how AI systems change when instructed to reflect
+    </p>
+    
+    <div class="intro-block">
+      Modern AI systems are frequently instructed to “reflect,” “think step-by-step,” or “reconsider” their answers. 
+      This instrument measures whether reflection actually improves epistemic quality—or whether it introduces new risks such as 
+      confidence inflation, over-rationalization, and unsupported elaboration. 
+      The goal is not to judge outcomes, but to quantify how reflection changes correctness, reasoning quality, and confidence, 
+      and to identify when reflection is beneficial, neutral, or harmful in deployment-relevant settings.
+    </div>
+  </section>
+
+  <section class="grid two">
+    <div class="card">
+      <h2>UNIT OF ANALYSIS</h2>
+      <ul class="tech-list">
+        <li><b>Direct response:</b> the model’s initial answer to a prompt.</li>
+        <li><b>Reflective response:</b> the model’s answer after an explicit reflection instruction.</li>
+        <li><b>Delta signals:</b> measured changes between the two responses.</li>
+        <li><b>Trajectory:</b> how these changes behave across test sets and domains.</li>
+      </ul>
+      <div class="accent">
+        The instrument analyzes change induced by reflection, not absolute performance.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>EXPLICIT NON-GOALS</h2>
+      <ul class="tech-list">
+        <li>No factual ground-truth verification</li>
+        <li>No normative judgment (“good” or “bad” answers)</li>
+        <li>No intent inference or sentiment scoring</li>
+        <li>No prediction of real-world outcomes</li>
+      </ul>
+      <div class="accent">
+        This instrument measures behavioral effects of reflection, not task success.
+      </div>
+    </div>
+  </section>
+
+  <div class="section-head">Core Reflection Signals</div>
+
+  <section class="grid four">
+    <div class="card">
+      <div class="metric-name">Δ Correctness</div>
+      <span class="metric-tag">Epistemic Change</span>
+      <p><b>What it is:</b> Measured change in factual or task correctness after reflection.</p>
+      <p><b>Detects:</b> Whether reflection improves accuracy, leaves it unchanged, or degrades it.</p>
+      <div class="accent">Positive deltas indicate genuine self-correction. Zero or negative deltas indicate non-productive reflection.</div>
+    </div>
+
+    <div class="card">
+      <div class="metric-name">Δ Reasoning Quality</div>
+      <span class="metric-tag">Justification Shift</span>
+      <p><b>What it is:</b> Change in the quality and substance of justification after reflection.</p>
+      <p><b>Detects:</b> Substantive clarification vs. added verbosity or speculative reasoning.</p>
+      <div class="accent">Improved reasoning without accuracy gains may signal over-rationalization.</div>
+    </div>
+
+    <div class="card">
+      <div class="metric-name">Δ Confidence</div>
+      <span class="metric-tag">Calibration Shift</span>
+      <p><b>What it is:</b> Change in expressed confidence after reflection.</p>
+      <p><b>Detects:</b> Whether confidence tracks correctness—or diverges from it.</p>
+      <div class="accent">Confidence rising faster than correctness is a deployment risk signal.</div>
+    </div>
+
+    <div class="card">
+      <div class="metric-name">Reflection Risk Zones</div>
+      <span class="metric-tag">Behavioral Classification</span>
+      <p><b>What it is:</b> Categorization of reflection behavior into stable patterns (Self-correcting, Inflating, Neutral, Regressive).</p>
+      <div class="accent">These zones indicate when reflection should be trusted, constrained, or avoided.</div>
+    </div>
+
+    <div class="card">
+      <div class="metric-name">Reflection Stability Index</div>
+      <span class="metric-tag">Behavioral Robustness</span>
+      <p><b>What it is:</b> Consistency of reflection effects across variations in prompts and tests.</p>
+      <p><b>Detects:</b> Brittle reflection behavior that cannot be reliably reproduced.</p>
+      <div class="accent">Low stability indicates reflection is unsafe to generalize.</div>
+    </div>
+
+    <div class="card">
+      <div class="metric-name">Trajectory Analysis</div>
+      <span class="metric-tag">Dynamic Effects</span>
+      <p><b>What it is:</b> Visualization of reflection deltas across a test set.</p>
+      <p><b>Detects:</b> Clusters, outliers, and systematic inflation or correction patterns.</p>
+      <div class="accent">Helps identify domains where reflection amplifies risk.</div>
+    </div>
+
+    <div class="card">
+      <div class="metric-name">Inflation Detection</div>
+      <span class="metric-tag">Over-Rationalization Risk</span>
+      <p><b>What it is:</b> Identification of cases where reflection increases length, certainty, or sophistication without added support.</p>
+      <div class="accent">High inflation risk suggests reflection should be constrained in sensitive domains.</div>
+    </div>
+
+    <div class="card">
+      <div class="metric-name">Actionable Outputs</div>
+      <span class="metric-tag">Deployment Guidance</span>
+      <p><b>What it is:</b> Operational recommendations derived from reflection behavior (Prompt guidance, Gating, Constraints).</p>
+      <div class="accent">Reflection diagnostics inform how and where reflection should be used.</div>
+    </div>
+  </section>
+
+  <div class="interpretation-callout">
+    Interpreting these signals is straightforward: the instrument reveals whether reflection meaningfully improves epistemic quality or merely increases apparent confidence. 
+    This distinction is critical for safe deployment, evaluation, and alignment research.
+  </div>
+
+  <div class="footer">
+    <div>Contact: <span class="mono">research@enlightenedai.ai</span></div>
+    <div class="mono">
+      Access restricted. This page describes an operational research instrument. 
+      Certain capabilities, datasets, and demonstrations are available only under controlled access.
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
