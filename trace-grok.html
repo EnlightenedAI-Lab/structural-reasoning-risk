@@ -1,1 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Grok-2 Vision 1212 · Structural Trace Analysis</title>
+  
+  <style>
+    /* COURT-GRADE DESIGN TOKENS */
+    :root{ 
+      --bg:#ffffff; --text:#0b0e10; --muted:#5f6b76; --line:#d9e0e7; 
+      --black:#0b0e10; --green:#2ecc71; --red:#e74c3c; --amber:#e67e22; 
+      --blue:#3498db; --purple:#9b59b6;
+      --mono:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; 
+      --sans:system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+    }
 
+    *{ box-sizing:border-box; }
+    body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.5; -webkit-font-smoothing: antialiased; }
+    a{ color:inherit; text-decoration:none; }
+
+    /* NAVIGATION */
+    .topbar{ border-bottom:1px solid var(--line); background:#fff; padding:16px 0; position:sticky; top:0; z-index:100; }
+    .topbar-inner{ max-width:1100px; margin:0 auto; padding:0 20px; display:flex; justify-content:space-between; align-items:center; }
+    .brand .t{ font-weight:700; font-size:16px; letter-spacing:-0.3px; color:var(--black); }
+    .nav-back{ font-size:12px; font-weight:600; color:var(--muted); display:flex; align-items:center; gap:5px; transition:0.2s; }
+    .nav-back:hover{ color:var(--black); }
+
+    /* LAYOUT */
+    .wrap{ max-width:1000px; margin:0 auto; padding:40px 20px 80px; }
+
+    /* A) HEADER */
+    .artifact-header{ margin-bottom: 30px; border-bottom:1px solid var(--line); padding-bottom:20px; }
+    .meta-row{ font-family:var(--mono); font-size:11px; color:var(--muted); text-transform:uppercase; margin-bottom:10px; word-spacing: 5px; }
+    
+    /* PROMINENT MODEL NAME */
+    h1{ margin:0 0 10px; font-size:32px; letter-spacing:-0.5px; font-weight:800; color:var(--black); line-height: 1.1; }
+    .sub-h1 { font-size: 14px; color: var(--muted); font-weight: 500; margin-bottom: 15px; display: block; }
+
+    .status-pill{ display:inline-block; padding:6px 12px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; background:#e6fbf0; color:var(--green); border:1px solid #bef0d6; }
+    
+    .scope-disclaimer{ margin-top:15px; font-size:12px; color:var(--muted); font-style:italic; border-left:3px solid var(--amber); padding-left:12px; line-height: 1.5; }
+
+    /* B) TIER 1 METRICS */
+    .t1-grid{ display:grid; grid-template-columns:repeat(5, 1fr); gap:15px; margin-bottom:15px; }
+    .metric-card{ border:1px solid var(--line); padding:15px; background:#fff; }
+    .m-lbl{ font-family:var(--mono); font-size:10px; color:var(--muted); text-transform:uppercase; display:block; margin-bottom:5px; font-weight:600; }
+    .m-val{ font-size:28px; font-weight:700; letter-spacing:-1px; line-height:1.1; margin-bottom:10px; }
+    
+    .m-meta{ border-top:1px dotted var(--line); padding-top:8px; margin-top:8px; }
+    .m-def{ font-size:10px; color:#333; line-height:1.3; margin-bottom:4px; }
+    .m-dir{ font-size:9px; color:var(--muted); text-transform:uppercase; font-weight:600; margin-bottom:2px; }
+    .m-band{ font-family:var(--mono); font-size:9px; color:var(--muted); letter-spacing:-0.2px; }
+
+    .val-good{ color:var(--green); }
+    .val-warn{ color:var(--amber); }
+    .val-risk{ color:var(--red); }
+
+    .verdict-rule{ font-size:11px; color:var(--muted); margin-bottom:50px; border-top:1px solid var(--line); padding-top:10px; font-style: italic; }
+
+    /* C) DEEP METRICS */
+    .section-title{ font-size:12px; font-weight:700; text-transform:uppercase; border-bottom:2px solid var(--black); padding-bottom:8px; margin-bottom:20px; letter-spacing:0.5px; margin-top:50px; }
+    .subsection-label{ font-family:var(--mono); font-size:11px; font-weight:700; color:var(--black); text-transform:uppercase; margin-bottom:15px; display:block; background: #f4f6f8; padding: 8px; border-left: 3px solid var(--black); }
+    
+    .deep-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:40px; margin-bottom:40px; }
+    .deep-group{ display:flex; flex-direction:column; }
+    
+    .deep-row{ display:flex; justify-content:space-between; border-bottom:1px solid var(--line); padding:10px 0; align-items:flex-start; }
+    .deep-meta{ max-width:70%; }
+    .dm-name{ font-family:var(--mono); font-weight:700; font-size:11px; color:var(--black); }
+    .dm-def{ font-size:11px; color:var(--muted); line-height:1.4; margin-top:2px; }
+    .dm-bands{ font-family:var(--mono); font-size:9px; color:#999; margin-top:4px; }
+    
+    .deep-stat{ text-align:right; }
+    .ds-val{ font-size:16px; font-weight:700; }
+    .ds-dir{ font-size:9px; text-transform:uppercase; color:var(--muted); font-weight:600; }
+
+    /* AUDIT REFERENCE BLOCK */
+    .audit-ref{ background:#fafafa; border:1px solid var(--line); padding:30px; margin-bottom:50px; border-radius:4px; }
+    .ar-title{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; margin-bottom:20px; color:var(--black); border-bottom:1px solid var(--line); padding-bottom:10px; }
+    .ar-item{ margin-bottom:20px; font-size:11px; line-height:1.5; color:#333; }
+    .ar-item strong{ font-family:var(--mono); color:var(--black); font-weight:700; font-size:12px; display:block; margin-bottom: 4px;}
+    
+    /* D) INDEX */
+    .index-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:50px; }
+    .idx-cell{ background:#fff; padding:10px; text-align:center; }
+    .idx-lbl{ font-family:var(--mono); font-size:9px; text-transform:uppercase; color:var(--muted); display:block; }
+    .idx-val{ font-weight:700; font-size:14px; }
+
+    /* E) TRACE X-RAY TABLE */
+    .xray-summary { margin-bottom: 20px; font-family: var(--mono); font-size: 11px; color: var(--black); line-height: 1.6; border:1px solid var(--line); padding:15px; background:#fafafa; }
+    .xray-summary ul { margin: 0; padding-left: 20px; list-style-type: disc; }
+    
+    .xray-table{ width:100%; border-collapse:collapse; font-size:11px; font-family:var(--mono); border:1px solid var(--line); }
+    .xray-table th{ text-align:left; background:#f9fafb; padding:8px 12px; border-bottom:1px solid var(--line); text-transform:uppercase; font-size:10px; color:var(--muted); }
+    .xray-table td{ padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; line-height:1.6; }
+    
+    .col-step{ width:50px; color:var(--muted); }
+    .col-type{ width:100px; font-weight:700; letter-spacing:-0.5px; }
+    
+    .row-claim{ background:rgba(155, 89, 182, 0.03); }
+    .row-premise{ background:rgba(46, 204, 113, 0.03); }
+    .row-conclusion{ background:rgba(52, 152, 219, 0.03); }
+    .row-final{ background:#f0f0f0; font-weight:600; }
+
+    /* FOOTER */
+    .audit-footer{ margin-top:60px; padding-top:20px; border-top:1px solid var(--line); font-family:var(--mono); font-size:10px; color:var(--muted); text-align:right; }
+
+    /* RESPONSIVE */
+    @media(max-width:800px){
+      .t1-grid{ grid-template-columns:1fr 1fr; }
+      .deep-grid{ grid-template-columns:1fr; }
+      /* 2-COLUMN GRID FOR INDEX ON MOBILE */
+      .index-grid{ grid-template-columns:repeat(2, 1fr) !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="t">Reflective Diagnostics™</span></div>
+    <a href="use-cases.html" class="nav-back">← Back to Case Study</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="artifact-header">
+    <div class="meta-row">
+      ARTIFACT ID: 2126-GRK &nbsp;&nbsp; MODEL: GROK-2 VISION 1212 &nbsp;&nbsp; DATE: 2026-01-13
+    </div>
+    <h1>Grok-2 Vision 1212</h1>
+    <span class="sub-h1">Structural Trace Analysis</span>
+
+    <span class="status-pill">STRUCTURAL VERDICT: DO NOT FUND (SUPPORTED)</span>
+    
+    <div class="scope-disclaimer">
+      Scope: This analysis evaluates structural justification only. It does not assess moral value, policy desirability, or real-world outcomes.
+    </div>
+  </div>
+
+  <div class="t1-grid">
+    <div class="metric-card">
+      <span class="m-lbl">Integrity</span>
+      <div class="m-val val-good">0.94</div>
+      <div class="m-meta">
+        <div class="m-def">Structure reliability index.</div>
+        <div class="m-dir">Higher better</div>
+        <div class="m-band">OK ≥ 0.90 | Watch 0.75-0.89 | Risk < 0.75</div>
+      </div>
+    </div>
+    <div class="metric-card">
+      <span class="m-lbl">Coverage</span>
+      <div class="m-val val-good">100%</div>
+      <div class="m-meta">
+        <div class="m-def">Proportion of claims supported.</div>
+        <div class="m-dir">Higher better</div>
+        <div class="m-band">OK 100% | Watch 95-99% | Risk < 95%</div>
+      </div>
+    </div>
+    <div class="metric-card">
+      <span class="m-lbl">Orphans</span>
+      <div class="m-val val-good">0</div>
+      <div class="m-meta">
+        <div class="m-def">Unsupported claim count.</div>
+        <div class="m-dir">Lower better</div>
+        <div class="m-band">OK 0 | Watch 1-2 | Risk ≥ 3</div>
+      </div>
+    </div>
+    <div class="metric-card">
+      <span class="m-lbl">Density</span>
+      <div class="m-val val-good">0.83</div>
+      <div class="m-meta">
+        <div class="m-def">Reasoning steps per text unit.</div>
+        <div class="m-dir">Higher better</div>
+        <div class="m-band">OK ≥ 0.75 | Watch 0.55-0.74 | Risk < 0.55</div>
+      </div>
+    </div>
+    <div class="metric-card">
+      <span class="m-lbl">Stability (SSM — Stability Margin)</span>
+      <div class="m-val val-risk">0.32</div>
+      <div class="m-meta">
+        <div class="m-def">Stability under prompt perturbation.</div>
+        <div class="m-dir">Higher better</div>
+        <div class="m-band">OK ≥ 0.80 | Watch 0.70-0.79 | Risk < 0.70</div>
+        <div style="font-size:10px; color:var(--red); margin-top:4px; font-weight:600;">SSM below 0.70 indicates sensitivity to prompt phrasing. At this level (<0.40), conclusions can shift across re-runs; treat as brittle.</div>
+      </div>
+    </div>
+  </div>
+  <div class="verdict-rule">
+    Structural support refers to the validity of reasoning from stated premises, not endorsement of the proposal outcome.
+  </div>
+
+  <div class="section-title">Deep Metrics (Telemetry)</div>
+  
+  <div class="deep-grid">
+    <div class="deep-group">
+      <span class="subsection-label">Evidence Quality</span>
+      <div class="deep-row">
+        <div class="deep-meta">
+          <div class="dm-name">SCI (Support Concentration)</div>
+          <div class="dm-def">Measures reliance on single evidence pillars.</div>
+          <div class="dm-bands">OK ≤ 0.30 | Watch 0.31–0.60 | Risk > 0.60</div>
+        </div>
+        <div class="deep-stat">
+          <div class="ds-val val-good">0.20</div>
+          <div class="ds-dir">Lower better</div>
+        </div>
+      </div>
+      <div class="deep-row">
+        <div class="deep-meta">
+          <div class="dm-name">APC (Avg Premises/Claim)</div>
+          <div class="dm-def">Depth of evidentiary support per claim.</div>
+          <div class="dm-bands">OK ≥ 2.0 | Watch 1.0–1.9 | Risk < 1.0</div>
+        </div>
+        <div class="deep-stat">
+          <div class="ds-val val-good">3.00</div>
+          <div class="ds-dir">Higher better</div>
+        </div>
+      </div>
+      <div class="deep-row">
+        <div class="deep-meta">
+          <div class="dm-name">PDI (Premise Depth)</div>
+          <div class="dm-def">Syntactic richness of premises.</div>
+          <div class="dm-bands">OK ≥ 0.50 | Watch 0.30–0.49 | Risk < 0.30</div>
+        </div>
+        <div class="deep-stat">
+          <div class="ds-val val-good">1.00</div>
+          <div class="ds-dir">Higher better</div>
+        </div>
+      </div>
+      <div class="deep-row">
+        <div class="deep-meta">
+          <div class="dm-name">PRR (Premise Re-Use)</div>
+          <div class="dm-def">Connectivity of evidence across conclusions.</div>
+          <div class="dm-bands">OK ≥ 0.60 | Watch 0.40–0.59 | Risk < 0.40</div>
+        </div>
+        <div class="deep-stat">
+          <div class="ds-val val-good">0.83</div>
+          <div class="ds-dir">Higher better</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="deep-group">
+      <span class="subsection-label">Risk Signals</span>
+      <div class="deep-row">
+        <div class="deep-meta">
+          <div class="dm-name">HRP (Hallucination Risk)</div>
+          <div class="dm-def">Composite signal for unsupported assertions.</div>
+          <div class="dm-bands">OK < 0.10 | Watch 0.10–0.19 | Risk ≥ 0.20</div>
+        </div>
+        <div class="deep-stat">
+          <div class="ds-val val-good">0.05</div>
+          <div class="ds-dir">Lower better</div>
+        </div>
+      </div>
+      <div class="deep-row">
+        <div class="deep-meta">
+          <div class="dm-name">OG (Overconfidence Gap)</div>
+          <div class="dm-def">Delta between confidence and evidence.</div>
+          <div class="dm-bands">OK < 0.10 | Watch 0.10–0.19 | Risk ≥ 0.20</div>
+        </div>
+        <div class="deep-stat">
+          <div class="ds-val val-good">0.00</div>
+          <div class="ds-dir">Lower better</div>
+        </div>
+      </div>
+      <div class="deep-row">
+        <div class="deep-meta">
+          <div class="dm-name">SSM (Stability Margin)</div>
+          <div class="dm-def">Topological consistency across re-runs.</div>
+          <div class="dm-bands">OK ≥ 0.80 | Watch 0.70–0.79 | Risk < 0.70</div>
+        </div>
+        <div class="deep-stat">
+          <div class="ds-val val-risk">0.32</div>
+          <div class="ds-dir">Higher better</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="audit-ref">
+    <div class="ar-title">Metric Definitions (Audit Reference)</div>
+    
+    <div class="ar-item">
+      <strong>SCI — Support Concentration Index</strong><br>
+      Measures how evenly evidentiary support is distributed across premises. Lower values indicate diversified support; higher values indicate reliance on a single evidentiary pillar.
+    </div>
+
+    <div class="ar-item">
+      <strong>APC — Average Premises per Claim</strong><br>
+      Measures evidentiary depth by counting distinct premises supporting each claim. Higher values indicate multi-source substantiation rather than single-assertion reasoning.
+    </div>
+
+    <div class="ar-item">
+      <strong>PDI — Premise Depth Index</strong><br>
+      Measures the explanatory richness of premises supporting each claim. Higher values indicate premises that explain why a claim holds rather than merely restating it.
+    </div>
+
+    <div class="ar-item">
+      <strong>PRR — Premise Re-Use Ratio</strong><br>
+      Measures the degree to which evidentiary premises are reused across multiple conclusions, indicating structural cohesion rather than isolated reasoning fragments.
+    </div>
+
+    <div class="ar-item">
+      <strong>HRP — Hallucination Risk Proxy</strong><br>
+      Composite risk signal combining orphaned conclusions and low reasoning density. Lower values indicate low likelihood of unsupported assertions.
+    </div>
+
+    <div class="ar-item">
+      <strong>OG — Overconfidence Gap</strong><br>
+      Measures the delta between claim assertiveness and evidentiary coverage. Higher values indicate confidence exceeding substantiation.
+    </div>
+
+    <div class="ar-item">
+      <strong>SSM — Structural Stability Margin</strong><br>
+      Measures topological consistency of reasoning across prompt variations. Lower values indicate sensitivity to phrasing; higher values indicate robustness.
+    </div>
+
+    <div class="ar-item">
+      <strong>Structural Diagnosis: SUPPORTED</strong><br>
+      Indicates that conclusions follow from stated premises without unsupported inference. This label refers to structural validity, not endorsement of the proposal outcome.
+    </div>
+  </div>
+
+  <div class="section-title">Artifact Index</div>
+  <div class="index-grid" style="grid-template-columns:repeat(6, 1fr);">
+    <div class="idx-cell"><span class="idx-lbl">Words</span><div class="idx-val">311</div></div>
+    <div class="idx-cell"><span class="idx-lbl">Sentences</span><div class="idx-val">12</div></div>
+    <div class="idx-cell"><span class="idx-lbl">Claims</span><div class="idx-val">2</div></div>
+    <div class="idx-cell"><span class="idx-lbl">Premises</span><div class="idx-val">6</div></div>
+    <div class="idx-cell"><span class="idx-lbl">Conclusions</span><div class="idx-val">1</div></div>
+    <div class="idx-cell"><span class="idx-lbl">Final</span><div class="idx-val">1</div></div>
+  </div>
+
+  <div class="section-title">Trace X-Ray (Logical Decomposition)</div>
+  
+  <div class="xray-summary">
+    <ul>
+      <li>Orphans: 0 (no unsupported conclusions).</li>
+      <li>Primary failure mode: low stability (SSM = 0.32) indicates brittleness across prompt variations.</li>
+      <li>Result: structurally supported conclusion is ‘do not fund based on current evidence.’</li>
+    </ul>
+  </div>
+
+  <table class="xray-table">
+    <thead>
+      <tr>
+        <th class="col-step">Step</th>
+        <th class="col-type">Type</th>
+        <th>Text Content</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row-claim">
+        <td>01</td>
+        <td class="col-type" style="color:var(--purple)">CLAIM</td>
+        <td>The funding application for the ecological restoration project does not meet the structural threshold for approval due to speculative evidence.</td>
+      </tr>
+      <tr class="row-premise">
+        <td>02</td>
+        <td class="col-type" style="color:var(--green)">PREMISE 1</td>
+        <td>While the objective of restoring biodiversity is stated, the proposal lacks specific, quantifiable methodology for the 15-20 year horizon.</td>
+      </tr>
+      <tr class="row-premise">
+        <td>03</td>
+        <td class="col-type" style="color:var(--green)">PREMISE 2</td>
+        <td>Economic projections regarding job creation and tourism are provided as high-level assertions without detailed financial modeling or comparative datasets.</td>
+      </tr>
+      <tr class="row-premise">
+        <td>04</td>
+        <td class="col-type" style="color:var(--green)">PREMISE 3</td>
+        <td>References to prior restoration projects are included but lack the necessary comparability analysis to serve as valid precedent.</td>
+      </tr>
+      <tr class="row-conclusion">
+        <td>05</td>
+        <td class="col-type" style="color:var(--blue)">CONCLUSION 1</td>
+        <td>Consequently, the projected environmental and economic benefits remain structurally unproven.</td>
+      </tr>
+      <tr class="row-claim">
+        <td>06</td>
+        <td class="col-type" style="color:var(--purple)">CLAIM</td>
+        <td>The claim of broad community support is insufficiently substantiated.</td>
+      </tr>
+      <tr class="row-premise">
+        <td>07</td>
+        <td class="col-type" style="color:var(--green)">PREMISE 4</td>
+        <td>Evidence for community backing is limited to anecdotal statements rather than independent, representative polling data.</td>
+      </tr>
+      <tr class="row-premise">
+        <td>08</td>
+        <td class="col-type" style="color:var(--green)">PREMISE 5</td>
+        <td>No independent social impact studies were provided to verify the depth of public consensus.</td>
+      </tr>
+      <tr class="row-premise">
+        <td>09</td>
+        <td class="col-type" style="color:var(--green)">PREMISE 6</td>
+        <td>Scalability claims are asserted as a model for national projects but lack the foundational evidence required to prove replicability.</td>
+      </tr>
+      <tr class="row-final">
+        <td>10</td>
+        <td class="col-type">FINAL</td>
+        <td>Given the gap between high-confidence claims and anecdotal evidence, the recommendation to approve $250M in funding is not structurally justified.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="audit-footer">
+    Build: v32.0 | Class: Public | Calibration: RAL Lexicon v1.5 (Active)
+  </div>
+
+</div>
+
+</body>
+</html>
