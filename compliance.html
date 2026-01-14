@@ -3,78 +3,54 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Reflective Diagnostics — Compliance Specification</title>
+  <title>Compliance · Reflective Diagnostics</title>
   <meta name="description" content="Compliance module specification for Reflective Diagnostics." />
+
+  <!-- Use the SAME global styling as the rest of the site -->
   <link rel="stylesheet" href="assets/site.css" />
 
-  <!-- PAGE-LOCAL OVERRIDES (match index header behavior + remove Integrity Verified + black “Module Specification”) -->
+  <!-- Page-local: only what we must fix (header wrap + remove dark cards) -->
   <style>
-    /* --- 1) HEADER: force nav to stay on ONE LINE like index.html --- */
-    .topbar-inner{ align-items:center !important; }
+    /* 1) Force nav to stay on one line like index.html */
+    .topbar-inner{ align-items:flex-start; }
     .nav{
-      flex-wrap:nowrap !important;
-      white-space:nowrap !important;
-      gap:10px !important;
+      display:flex;
+      flex-wrap:nowrap;          /* <-- critical */
+      gap:10px;
+      white-space:nowrap;        /* <-- critical */
     }
-    @media (max-width: 900px){
-      .nav{ flex-wrap:wrap !important; white-space:normal !important; }
-      .topbar-inner{ align-items:flex-start !important; }
-    }
+    .nav a{ white-space:nowrap; }
 
-    /* --- 2) KICKERS: make first pill BLACK like index --- */
-    .pill.accent{
-      background: var(--black, #0b0e10) !important;
-      color:#fff !important;
-      border-color: var(--black, #0b0e10) !important;
-    }
+    /* 2) Ensure this page uses the same brand layout as index (no stacked logo) */
+    .brand .t{ font-weight:700; letter-spacing:.2px; }
+    .brand .s{ font-size:13px; color:var(--muted); margin-top:2px; }
 
-    /* --- 3) Remove “Integrity Verified” badge if any shared CSS styles it --- */
-    .badge-verified{ display:none !important; }
-
-    /* --- 4) Ensure cards are LIGHT (no dark boxes) --- */
-    .card,
-    .panel,
-    .box,
-    .module-card,
-    .spec-card,
-    .grid .card,
-    section.grid .card{
+    /* 3) Kill any “black box / dark card” styling on this page only */
+    .card, .panel, .box{
       background:#fff !important;
-      color: var(--text, #0b0e10) !important;
-      border:1px solid var(--line, #d9e0e7) !important;
+      color:var(--text) !important;
+      border:1px solid var(--line) !important;
       box-shadow:none !important;
     }
+    .card h2, .card p, .card li{ color:var(--text) !important; }
 
-    .card h2,
-    .card h3,
-    .card strong,
-    .card b,
-    .card li,
-    .card p{
-      color: var(--text, #0b0e10) !important;
-    }
-
-    .callout{
-      background:#fafafa !important;
-      border:1px solid var(--line, #d9e0e7) !important;
-      color: var(--text, #0b0e10) !important;
-    }
-
-    /* --- 5) Make the main sentence less “billboard” sized (closer to index feel) --- */
+    /* 4) Make headline NOT oversized: match index-like scale */
     .hero h1{
-      font-size:28px !important;
-      line-height:1.15 !important;
-      letter-spacing:-0.3px !important;
-      font-weight:800 !important;
-      max-width: 920px;
+      font-size:32px;
+      line-height:1.15;
+      letter-spacing:-0.4px;
+      margin:0 0 12px;
     }
-    @media (max-width: 800px){
-      .hero h1{ font-size:24px !important; }
-    }
+    .subtitle{ max-width:900px; }
+
+    /* 5) Keep kickers consistent with index */
+    .pill{ border-radius:4px; }
   </style>
 </head>
 
 <body>
+
+  <!-- HEADER: SAME STRUCTURE AS INDEX -->
   <div class="topbar">
     <div class="topbar-inner">
       <div class="brand">
@@ -95,19 +71,19 @@
   </div>
 
   <div class="wrap">
+
+    <!-- HERO (no Integrity Verified pill) -->
     <section class="hero">
       <div class="kickers">
-        <div class="pill accent">Module Specification</div>
+        <div class="pill">Module Specification</div>
         <div class="pill light">Under Active Development</div>
         <div class="pill light">Regime Mapped Constraints</div>
-        <!-- Integrity Verified removed -->
       </div>
 
-      <h1>Compliance Diagnostics turns structural reasoning risk into enforceable regime constraints.</h1>
+      <h1>Translate structural reasoning risk into enforceable regime constraints.</h1>
       <p class="subtitle">
-        Structural Reasoning Risk measures whether conclusions follow from stated premises. Compliance Diagnostics extends
-        this into formal decision constraints for institutional and regulatory contexts. This page is a specification,
-        not a claim of completed implementation.
+        Structural Reasoning Risk measures whether conclusions follow from stated premises. Compliance Diagnostics extends this into
+        explicit decision constraints suitable for institutional and regulatory contexts. This page is a specification, not a claim of completed implementation.
       </p>
     </section>
 
@@ -129,7 +105,7 @@
         <h2>Why It Matters</h2>
         <ul>
           <li>Institutions are accountable to rules, not narratives.</li>
-          <li>Many AI failures are structurally detectable but not operationalized into compliance decisions.</li>
+          <li>Many AI failures are structurally detectable but not operationalized into compliance outcomes.</li>
           <li>Auditors need traceable justification chains, not output summaries.</li>
           <li>Regime translation is the bridge from diagnostics to adoption.</li>
         </ul>
@@ -138,13 +114,13 @@
 
     <section class="grid">
       <div class="card">
-        <h2>Planned Capabilities</h2>
+        <h2>Specification Targets</h2>
         <ul>
-          <li><b>Regime Library:</b> configurable constraints per domain (public funding, internal governance, procurement).</li>
+          <li><b>Regime Library:</b> configurable constraint packs (public funding, procurement, internal governance).</li>
           <li><b>Evidence Requirements:</b> required artifacts per claim type and decision context.</li>
-          <li><b>Compliance Determination:</b> pass, conditional, fail, with explicit missing evidence list.</li>
-          <li><b>Reporting:</b> court grade export bundle with hashes, provenance, and replay instructions.</li>
-          <li><b>Audit Mode:</b> immutable run record and deterministic replay of scores.</li>
+          <li><b>Compliance Determination:</b> pass / conditional / fail with an explicit missing-evidence list.</li>
+          <li><b>Reporting Bundle:</b> exportable audit packet with hashes, provenance, and replay instructions.</li>
+          <li><b>Audit Mode:</b> immutable run record + deterministic replay of scores and traces.</li>
         </ul>
       </div>
     </section>
@@ -153,6 +129,7 @@
       <div>Contact: <span class="mono">research@enlightenedai.ai</span></div>
       <div class="mono">Build: Research Prototype v1.0 · Reflective Diagnostics™ · compliance specification</div>
     </div>
+
   </div>
 </body>
 </html>
