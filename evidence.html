@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Proof & Evidence · Structural Reasoning Risk Instrument</title>
+  <meta name="description" content="Live evidence demonstrating a working, auditable structural reasoning risk instrument." />
+
+  <style>
+    :root{
+      --bg:#0b0e10;
+      --panel:#101417;
+      --text:#e8eef3;
+      --muted:#a9b4bf;
+      --line:#1c242b;
+      --accent:#29ff7a;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --radius:14px;
+      --max:1040px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --sans: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(41,255,122,.10), transparent 60%), var(--bg);
+      color:var(--text);
+      font-family:var(--sans);
+      line-height:1.45;
+    }
+    a{color:var(--text); text-decoration:none}
+    a:hover{color:var(--accent)}
+    .wrap{max-width:var(--max); margin:0 auto; padding:26px 18px 70px}
+
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(11,14,16,.72);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+    }
+    .brand .t{font-weight:650; font-size:14px}
+    .brand .s{font-size:12px; color:var(--muted)}
+    .nav{display:flex; gap:10px; flex-wrap:wrap}
+    .nav a{
+      font-size:12px; color:var(--muted);
+      padding:8px 10px; border-radius:999px;
+      border:1px solid transparent;
+    }
+    .nav a:hover{border-color:rgba(41,255,122,.35); color:var(--text)}
+    .nav a.active{border-color:rgba(41,255,122,.55); color:var(--text)}
+
+    h1{font-size:30px; margin:14px 0 6px}
+    .subtitle{color:var(--muted); max-width:920px; font-size:14px}
+
+    .evidence{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns:1fr;
+      gap:22px;
+    }
+    .item{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background: linear-gradient(180deg, rgba(16,20,23,.85), rgba(15,19,22,.85));
+      box-shadow:var(--shadow);
+      padding:14px;
+    }
+    .item h2{
+      font-size:14px;
+      margin:0 0 8px;
+    }
+    .item p{
+      margin:0 0 10px;
+      font-size:13px;
+      color:var(--muted);
+    }
+    .item img{
+      width:100%;
+      border-radius:10px;
+      border:1px solid var(--line);
+      background:#000;
+    }
+    .mono{font-family:var(--mono); font-size:12px; color:var(--muted)}
+
+    .footer{
+      margin-top:32px;
+      padding-top:16px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- PASSWORD GATE -->
+<script>
+(function () {
+  const PASSWORD = "STRUCTURE";
+
+  const gate = document.createElement("div");
+  gate.style.position = "fixed";
+  gate.style.inset = "0";
+  gate.style.background = "radial-gradient(800px 400px at 30% -10%, rgba(41,255,122,.12), #0b0e10)";
+  gate.style.display = "flex";
+  gate.style.alignItems = "center";
+  gate.style.justifyContent = "center";
+  gate.style.zIndex = "9999";
+  gate.style.fontFamily = "system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif";
+
+  gate.innerHTML = `
+    <div style="
+      background:#101417;
+      border:1px solid #1c242b;
+      border-radius:14px;
+      padding:28px;
+      width:100%;
+      max-width:420px;
+      box-shadow:0 20px 60px rgba(0,0,0,.6);
+      color:#e8eef3;
+    ">
+      <div style="font-weight:600; margin-bottom:6px;">Restricted Evidence</div>
+      <div style="font-size:13px; color:#a9b4bf; margin-bottom:16px;">
+        This page contains controlled evaluation artifacts.<br>
+        Access is provided in context.
+      </div>
+      <input
+        id="gate-input"
+        type="password"
+        placeholder="Enter access code"
+        style="
+          width:100%;
+          padding:10px 12px;
+          font-size:14px;
+          border-radius:8px;
+          border:1px solid #1c242b;
+          background:#0b0e10;
+          color:#e8eef3;
+        "
+      />
+      <div id="gate-error" style="margin-top:10px; font-size:12px; color:#ff6b6b; display:none;">
+        Incorrect code.
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(gate);
+
+  const input = gate.querySelector("#gate-input");
+  const error = gate.querySelector("#gate-error");
+
+  input.focus();
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      if (input.value === PASSWORD) {
+        gate.remove();
+      } else {
+        error.style.display = "block";
+        input.value = "";
+      }
+    }
+  });
+})();
+</script>
+<!-- END PASSWORD GATE -->
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="t">Reflective Diagnostics™</div>
+      <div class="s">Structural Reasoning Risk · audit-grade diagnostics</div>
+    </div>
+
+    <div class="nav">
+      <a href="index.html">Start Here</a>
+      <a href="how-it-works.html">How It Works</a>
+      <a href="what-it-measures.html">What It Measures</a>
+      <a href="markets.html">Markets</a>
+      <a href="use-cases.html">Case Study</a>
+      <a href="evidence.html" class="active">Proof and Evidence</a>
+      <a href="compliance.html">Compliance</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <h1>Proof & Evidence</h1>
+  <p class="subtitle">
+    The following exhibits demonstrate a <b>working, end-to-end instrument</b>.
+    Each image corresponds to a fixed stage in the evaluation pipeline and exists to
+    establish that the system is real, controlled, and auditable.
+  </p>
+
+  <div class="evidence">
+
+    <div class="item">
+      <h2>01 · Controlled Probe Setup</h2>
+      <p>Identical prompt, explicit model selection, temperature control, and evidence capture enabled prior to execution.</p>
+      <img src="assets/img/01-protocol-setup.png">
+    </div>
+
+    <div class="item">
+      <h2>02 · Cross-Model Arena Output</h2>
+      <p>Multiple models responding under identical constraints, exposing structural differences rather than stylistic ones.</p>
+      <img src="assets/img/02-arena-output-stream.png">
+    </div>
+
+    <div class="item">
+      <h2>03 · Evidence Locker</h2>
+      <p>Each run is persisted with a unique case ID, enabling replay, inspection, and audit after the fact.</p>
+      <img src="assets/img/03-evidence-locker.png">
+    </div>
+
+    <div class="item">
+      <h2>04 · Raw Forensic Artifact</h2>
+      <p>Unmodified model output and metadata captured verbatim to ensure provenance and reproducibility.</p>
+      <img src="assets/img/04-artifact-raw-trace.png">
+    </div>
+
+    <div class="item">
+      <h2>05 · L2 Executive Summary</h2>
+      <p>Quantified structural metrics computed from extracted reasoning structure.</p>
+      <img src="assets/img/05-l2-executive-summary.png">
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div>Contact: <span class="mono">research@enlightenedai.ai</span></div>
+    <div class="mono">Build: v200.0 · Restricted evaluation</div>
+  </div>
+</div>
+
+</body>
+</html>
