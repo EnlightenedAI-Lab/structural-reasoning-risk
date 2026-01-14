@@ -6,85 +6,35 @@
   <title>Compliance · Reflective Diagnostics</title>
   <meta name="description" content="Compliance module specification for Reflective Diagnostics." />
 
-  <!-- Global site styling -->
+  <!-- Use the SAME global styling as the rest of the site -->
   <link rel="stylesheet" href="assets/site.css" />
 
-  <!-- PAGE-LOCAL FIXES (header alignment + kicker styling + light cards) -->
+  <!-- Page-local: only what we must fix (header wrap + remove dark cards) -->
   <style>
-    /* --- HEADER: force SAME layout as index (no stacked logo, no second-row nav) --- */
-    .topbar{ border-bottom:1px solid var(--line,#d9e0e7); background:#fff; }
-    .topbar-inner{
-      max-width:var(--max,1100px);
-      margin:0 auto;
-      padding:16px 18px;
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:20px;
-    }
-    .brand{ min-width:420px; } /* prevents the brand from collapsing and stacking */
-    .brand .t{
-      font-weight:700;
-      letter-spacing:.2px;
-      font-size:32px;
-      line-height:1.05;
-      margin:0;
-      color:var(--text,#0b0e10);
-    }
-    .brand .s{
-      font-size:16px;
-      color:var(--muted,#5f6b76);
-      margin-top:6px;
-      line-height:1.35;
-    }
+    /* 1) Force nav to stay on one line like index.html */
+    .topbar-inner{ align-items:flex-start; }
     .nav{
       display:flex;
-      flex-wrap:nowrap;
+      flex-wrap:nowrap;          /* <-- critical */
       gap:10px;
-      white-space:nowrap;
-      justify-content:flex-end;
-      align-items:flex-start;
+      white-space:nowrap;        /* <-- critical */
     }
-    .nav a{
-      font-size:13px;
-      padding:6px 10px;
-      border:1px solid transparent;
-      text-decoration:none;
-      color:inherit;
-      white-space:nowrap;
-    }
-    .nav a.active{ border-color:var(--black,#0b0e10); }
+    .nav a{ white-space:nowrap; }
 
-    @media(max-width:980px){
-      .topbar-inner{ flex-wrap:wrap; }
-      .brand{ min-width:auto; }
-      .nav{ flex-wrap:wrap; white-space:normal; justify-content:flex-start; }
-    }
+    /* 2) Ensure this page uses the same brand layout as index (no stacked logo) */
+    .brand .t{ font-weight:700; letter-spacing:.2px; }
+    .brand .s{ font-size:13px; color:var(--muted); margin-top:2px; }
 
-    /* --- KICKERS: make first pill black like index --- */
-    .kickers .pill:first-child{
-      background:var(--black,#0b0e10) !important;
-      color:#fff !important;
-      border-color:var(--black,#0b0e10) !important;
-    }
-
-    /* --- COMPLIANCE PAGE CONTENT: keep cards LIGHT (no black boxes) --- */
+    /* 3) Kill any “black box / dark card” styling on this page only */
     .card, .panel, .box{
       background:#fff !important;
-      color:var(--text,#0b0e10) !important;
-      border:1px solid var(--line,#d9e0e7) !important;
+      color:var(--text) !important;
+      border:1px solid var(--line) !important;
       box-shadow:none !important;
     }
-    .card h2, .card p, .card li, .card b, .card strong{
-      color:var(--text,#0b0e10) !important;
-    }
-    .callout{
-      background:#fafafa !important;
-      border:1px solid var(--line,#d9e0e7) !important;
-      color:var(--text,#0b0e10) !important;
-    }
+    .card h2, .card p, .card li{ color:var(--text) !important; }
 
-    /* --- HERO: match index scale (not oversized) --- */
+    /* 4) Make headline NOT oversized: match index-like scale */
     .hero h1{
       font-size:32px;
       line-height:1.15;
@@ -92,34 +42,38 @@
       margin:0 0 12px;
     }
     .subtitle{ max-width:900px; }
+
+    /* 5) Keep kickers consistent with index */
+    .pill{ border-radius:4px; }
   </style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
   <div class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">
-        <div class="t">Reflective Diagnostics™</div>
-        <div class="s">Structural Reasoning Risk · audit-grade diagnostics</div>
-      </div>
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="t">Reflective Diagnostics™</div>
+      <div class="s">Structural Reasoning Risk · audit-grade diagnostics</div>
+    </div>
 
-      <div class="nav">
-        <a href="index.html">Start Here</a>
-        <a href="how-it-works.html">How It Works</a>
-        <a href="what-it-measures.html">What It Measures</a>
-        <a href="markets.html">Markets</a>
-        <a href="use-cases.html">Case Study</a>
-        <a href="evidence.html">Proof and Evidence</a>
-        <a class="active" href="compliance.html">Compliance</a>
-      </div>
+    <div class="nav">
+      <a href="index.html">Start Here</a>
+      <a href="how-it-works.html">How It Works</a>
+      <a href="what-it-measures.html">What It Measures</a>
+      <a href="markets.html">Markets</a>
+      <a href="use-cases.html">Case Study</a>
+      <a href="evidence.html">Proof and Evidence</a>
+      <a href="compliance.html">Compliance</a>
     </div>
   </div>
+</div>
+
+
 
   <div class="wrap">
 
-    <!-- HERO -->
+    <!-- HERO (no Integrity Verified pill) -->
     <section class="hero">
       <div class="kickers">
         <div class="pill">Module Specification</div>
