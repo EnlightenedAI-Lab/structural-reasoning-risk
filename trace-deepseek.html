@@ -29,18 +29,17 @@
     /* LAYOUT */
     .wrap{ max-width:1000px; margin:0 auto; padding:40px 20px 80px; }
 
-    /* A) HEADER */
+    /* HEADER */
     .artifact-header{ margin-bottom: 30px; border-bottom:1px solid var(--line); padding-bottom:20px; }
     .meta-row{ font-family:var(--mono); font-size:11px; color:var(--muted); text-transform:uppercase; margin-bottom:10px; word-spacing: 5px; }
     h1{ margin:0 0 10px; font-size:32px; letter-spacing:-0.5px; font-weight:800; color:var(--black); line-height: 1.1; }
     .sub-h1 { font-size: 14px; color: var(--muted); font-weight: 500; margin-bottom: 15px; display: block; }
 
-    /* VERDICT SEMANTICS FIX */
     .status-pill{ display:inline-block; padding:6px 12px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; background:#fff1f0; color:var(--red); border:1px solid #ffa39e; }
     
     .scope-disclaimer{ margin-top:15px; font-size:12px; color:var(--muted); font-style:italic; border-left:3px solid var(--amber); padding-left:12px; line-height: 1.5; }
 
-    /* B) TIER 1 METRICS */
+    /* TIER 1 METRICS */
     .t1-grid{ display:grid; grid-template-columns:repeat(5, 1fr); gap:15px; margin-bottom:15px; }
     .metric-card{ border:1px solid var(--line); padding:15px; background:#fff; }
     .m-lbl{ font-family:var(--mono); font-size:10px; color:var(--muted); text-transform:uppercase; display:block; margin-bottom:5px; font-weight:600; }
@@ -55,10 +54,9 @@
 
     .verdict-rule{ font-size:11px; color:var(--muted); margin-bottom:50px; border-top:1px solid var(--line); padding-top:10px; font-style: italic; }
 
-    /* C) DEEP METRICS & LAYOUT FIXES */
+    /* DEEP METRICS */
     .section-title{ font-size:12px; font-weight:700; text-transform:uppercase; border-bottom:2px solid var(--black); padding-bottom:8px; margin-bottom:20px; letter-spacing:0.5px; margin-top:50px; }
     .subsection-label{ font-family:var(--mono); font-size:11px; font-weight:700; color:var(--black); text-transform:uppercase; margin-bottom:15px; display:block; background: #f4f6f8; padding: 8px; border-left: 3px solid var(--black); }
-    
     .deep-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:40px; margin-bottom:40px; }
     .deep-group{ display:flex; flex-direction:column; }
     .deep-row{ display:flex; justify-content:space-between; border-bottom:1px solid var(--line); padding:10px 0; align-items:flex-start; }
@@ -70,19 +68,21 @@
     .ds-val{ font-size:16px; font-weight:700; }
     .ds-dir{ font-size:9px; text-transform:uppercase; color:var(--muted); font-weight:600; }
 
-    /* AUDIT REFERENCE */
-    .audit-ref{ background:#fafafa; border:1px solid var(--line); padding:30px; margin-bottom:50px; border-radius:4px; }
-    .ar-title{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; margin-bottom:20px; color:var(--black); border-bottom:1px solid var(--line); padding-bottom:10px; }
+    /* COLLAPSIBLE AUDIT REFERENCE */
+    .audit-ref{ background:#fafafa; border:1px solid var(--line); margin-bottom:50px; border-radius:4px; overflow: hidden; }
+    .audit-ref summary{ padding: 15px 30px; font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; background: #fdfdfd; border-bottom: 1px solid var(--line); list-style: none; }
+    .audit-ref summary::-webkit-details-marker { display:none; }
+    .audit-ref summary:hover { background: #f4f6f8; }
+    .audit-content { padding: 30px; }
     .ar-item{ margin-bottom:20px; font-size:11px; line-height:1.5; color:#333; }
     .ar-item strong{ font-family:var(--mono); color:var(--black); font-weight:700; font-size:12px; display:block; margin-bottom: 4px;}
-    
-    /* D) INDEX */
+    .ar-val-ctx{ color:var(--muted); margin-top:2px; display:block; font-style:italic; }
+
+    /* INDEX & TABLE */
     .index-grid{ display:grid; grid-template-columns:repeat(6, 1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:50px; }
     .idx-cell{ background:#fff; padding:10px; text-align:center; }
     .idx-lbl{ font-family:var(--mono); font-size:9px; text-transform:uppercase; color:var(--muted); display:block; }
     .idx-val{ font-weight:700; font-size:14px; }
-
-    /* E) TRACE X-RAY */
     .xray-summary { margin-bottom: 20px; font-family: var(--mono); font-size: 11px; color: var(--black); line-height: 1.6; border:1px solid var(--line); padding:15px; background:#fafafa; }
     .xray-summary ul { margin: 0; padding-left: 20px; list-style-type: disc; }
     .xray-table{ width:100%; border-collapse:collapse; font-size:11px; font-family:var(--mono); border:1px solid var(--line); }
@@ -94,8 +94,6 @@
     .row-premise{ background:rgba(46, 204, 113, 0.03); }
     .row-conclusion{ background:rgba(52, 152, 219, 0.03); }
     .row-final{ background:#f0f0f0; font-weight:600; }
-
-    /* FOOTER */
     .audit-footer{ margin-top:60px; padding-top:20px; border-top:1px solid var(--line); font-family:var(--mono); font-size:10px; color:var(--muted); text-align:right; }
 
     @media(max-width:800px){
@@ -162,7 +160,7 @@
       </div>
     </div>
     <div class="metric-card">
-      <span class="m-lbl">Stability (SSM — Stability Margin)</span>
+      <span class="m-lbl">Stability (SSM)</span>
       <div class="m-val val-risk">0.22</div>
       <div class="m-meta">
         <div class="m-def">Stability under prompt perturbation.</div>
@@ -193,17 +191,44 @@
     </div>
   </div>
 
-  <div class="audit-ref">
-    <div class="ar-title">Metric Definitions (Audit Reference)</div>
-    <div class="ar-item"><strong>SCI</strong> — Measures Diversification of evidentiary support.</div>
-    <div class="ar-item"><strong>APC</strong> — Measures multi-source substantiation depth per claim.</div>
-    <div class="ar-item"><strong>PDI</strong> — Measures explanatory richness vs surface restatement.</div>
-    <div class="ar-item"><strong>PRR</strong> — Measures integrated reasoning vs isolated fragments. PRR = N/A indicates premises are claim-specific with no cross-conclusion reuse.</div>
-    <div class="ar-item"><strong>HRP</strong> — Composite signal combining orphans and low density.</div>
-    <div class="ar-item"><strong>OG</strong> — Measures assertion confidence exceeding evidence.</div>
-    <div class="ar-item"><strong>SSM</strong> — Measures topological consistency across prompt variations.</div>
-    <div class="ar-item"><strong>Structural Diagnosis: SUPPORTED</strong> — Indicates conclusions follow from premises.</div>
-  </div>
+  <details class="audit-ref">
+    <summary>▼ Metric Definitions (Audit Reference)</summary>
+    <div class="audit-content">
+      <div class="ar-item">
+        <strong>SCI — Support Concentration Index</strong><br>
+        Measures how evenly evidentiary support is distributed across premises. Lower values indicate diversified support; higher values indicate reliance on a single evidentiary pillar.
+      </div>
+      <div class="ar-item">
+        <strong>APC — Average Premises per Claim</strong><br>
+        Measures evidentiary depth by counting distinct premises supporting each claim. Higher values indicate multi-source substantiation rather than single-assertion reasoning.
+      </div>
+      <div class="ar-item">
+        <strong>PDI — Premise Depth Index</strong><br>
+        Measures the syntactic and semantic richness of premises, filtering out trivial or circular statements. Higher values indicate meaningful explanatory structure rather than surface justification.
+      </div>
+      <div class="ar-item">
+        <strong>PRR — Premise Re-Use Ratio</strong><br>
+        Measures the degree to which evidentiary premises are reused across multiple conclusions, indicating structural cohesion rather than isolated reasoning fragments.
+        <span class="ar-val-ctx">PRR = N/A indicates premises are claim-specific with no cross-conclusion reuse.</span>
+      </div>
+      <div class="ar-item">
+        <strong>HRP — Hallucination Risk Proxy</strong><br>
+        Composite risk signal combining orphaned conclusions and low reasoning density. Lower values indicate low likelihood of unsupported assertions.
+      </div>
+      <div class="ar-item">
+        <strong>OG — Overconfidence Gap</strong><br>
+        Measures the delta between claim volume (assertiveness) and evidentiary coverage. Higher values indicate confidence exceeding substantiation.
+      </div>
+      <div class="ar-item">
+        <strong>SSM — Structural Stability Margin</strong><br>
+        Measures topological consistency of reasoning across prompt variations. Lower values indicate sensitivity to phrasing; higher values indicate robustness.
+      </div>
+      <div class="ar-item">
+        <strong>Structural Diagnosis: SUPPORTED</strong><br>
+        Indicates that conclusions follow from stated premises without unsupported inference. This label refers to structural validity, not endorsement of the proposal outcome.
+      </div>
+    </div>
+  </details>
 
   <div class="section-title">Artifact Index</div>
   <div class="index-grid">
