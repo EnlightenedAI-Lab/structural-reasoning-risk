@@ -7,9 +7,31 @@
   <meta name="description" content="Compliance module specification for Reflective Diagnostics." />
   <link rel="stylesheet" href="assets/site.css" />
 
-  <!-- PAGE-LOCAL OVERRIDES: remove dark/black card styling + keep everything else intact -->
+  <!-- PAGE-LOCAL OVERRIDES (match index header behavior + remove Integrity Verified + black “Module Specification”) -->
   <style>
-    /* If any shared styles give cards a dark background, neutralize here */
+    /* --- 1) HEADER: force nav to stay on ONE LINE like index.html --- */
+    .topbar-inner{ align-items:center !important; }
+    .nav{
+      flex-wrap:nowrap !important;
+      white-space:nowrap !important;
+      gap:10px !important;
+    }
+    @media (max-width: 900px){
+      .nav{ flex-wrap:wrap !important; white-space:normal !important; }
+      .topbar-inner{ align-items:flex-start !important; }
+    }
+
+    /* --- 2) KICKERS: make first pill BLACK like index --- */
+    .pill.accent{
+      background: var(--black, #0b0e10) !important;
+      color:#fff !important;
+      border-color: var(--black, #0b0e10) !important;
+    }
+
+    /* --- 3) Remove “Integrity Verified” badge if any shared CSS styles it --- */
+    .badge-verified{ display:none !important; }
+
+    /* --- 4) Ensure cards are LIGHT (no dark boxes) --- */
     .card,
     .panel,
     .box,
@@ -23,7 +45,6 @@
       box-shadow:none !important;
     }
 
-    /* Ensure headings and list text render normally on light background */
     .card h2,
     .card h3,
     .card strong,
@@ -33,59 +54,56 @@
       color: var(--text, #0b0e10) !important;
     }
 
-    /* Any “dark theme” utility classes that might be applied */
-    .dark,
-    .dark-card,
-    .invert,
-    .black,
-    .bg-black{
-      background:#fff !important;
-      color: var(--text, #0b0e10) !important;
-    }
-
-    /* Callouts should stay subtle, not dark */
     .callout{
       background:#fafafa !important;
       border:1px solid var(--line, #d9e0e7) !important;
       color: var(--text, #0b0e10) !important;
     }
+
+    /* --- 5) Make the main sentence less “billboard” sized (closer to index feel) --- */
+    .hero h1{
+      font-size:28px !important;
+      line-height:1.15 !important;
+      letter-spacing:-0.3px !important;
+      font-weight:800 !important;
+      max-width: 920px;
+    }
+    @media (max-width: 800px){
+      .hero h1{ font-size:24px !important; }
+    }
   </style>
 </head>
 
 <body>
- <div class="topbar">
-  <div class="topbar-inner">
-    <div class="brand">
-      <div class="t">Reflective Diagnostics™</div>
-      <div class="s">Structural Reasoning Risk · audit-grade diagnostics</div>
-    </div>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="t">Reflective Diagnostics™</div>
+        <div class="s">Structural Reasoning Risk · audit-grade diagnostics</div>
+      </div>
 
-    <div class="nav">
-      <a href="index.html">Start Here</a>
-      <a href="how-it-works.html">How It Works</a>
-      <a href="what-it-measures.html">What It Measures</a>
-      <a href="markets.html">Markets</a>
-      <a href="use-cases.html">Case Study</a>
-      <a href="evidence.html">Proof and Evidence</a>
-      <a href="compliance.html">Compliance</a>
+      <div class="nav">
+        <a href="index.html">Start Here</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="what-it-measures.html">What It Measures</a>
+        <a href="markets.html">Markets</a>
+        <a href="use-cases.html">Case Study</a>
+        <a href="evidence.html">Proof and Evidence</a>
+        <a class="active" href="compliance.html">Compliance</a>
+      </div>
     </div>
   </div>
-</div>
-
 
   <div class="wrap">
     <section class="hero">
       <div class="kickers">
         <div class="pill accent">Module Specification</div>
-        <div class="pill">Under Active Development</div>
-        <div class="pill">Regime Mapped Constraints</div>
-        <div class="badge-verified">
-          <span class="dot"></span>
-          <span>Integrity Verified</span>
-        </div>
+        <div class="pill light">Under Active Development</div>
+        <div class="pill light">Regime Mapped Constraints</div>
+        <!-- Integrity Verified removed -->
       </div>
 
-      <h1>Compliance Diagnostics translates structural reasoning risk into regime constraints.</h1>
+      <h1>Compliance Diagnostics turns structural reasoning risk into enforceable regime constraints.</h1>
       <p class="subtitle">
         Structural Reasoning Risk measures whether conclusions follow from stated premises. Compliance Diagnostics extends
         this into formal decision constraints for institutional and regulatory contexts. This page is a specification,
