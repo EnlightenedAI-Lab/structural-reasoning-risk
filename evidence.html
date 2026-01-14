@@ -54,12 +54,23 @@
       font-size:12px; color:var(--muted);
       padding:8px 10px; border-radius:999px;
       border:1px solid transparent;
+      white-space:nowrap;
     }
     .nav a:hover{border-color:rgba(41,255,122,.35); color:var(--text)}
     .nav a.active{border-color:rgba(41,255,122,.55); color:var(--text)}
 
     h1{font-size:30px; margin:14px 0 6px}
     .subtitle{color:var(--muted); max-width:920px; font-size:14px}
+
+    .note{
+      margin-top:14px;
+      padding:10px 12px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background: rgba(16,20,23,.65);
+      color: var(--muted);
+      font-size:12px;
+    }
 
     .evidence{
       margin-top:22px;
@@ -88,6 +99,7 @@
       border-radius:10px;
       border:1px solid var(--line);
       background:#000;
+      display:block;
     }
     .mono{font-family:var(--mono); font-size:12px; color:var(--muted)}
 
@@ -155,6 +167,9 @@
       <div id="gate-error" style="margin-top:10px; font-size:12px; color:#ff6b6b; display:none;">
         Incorrect code.
       </div>
+      <div style="margin-top:14px; font-size:11px; color:#7f8a96;">
+        Hint: code is case-sensitive.
+      </div>
     </div>
   `;
 
@@ -200,41 +215,109 @@
 <div class="wrap">
   <h1>Proof & Evidence</h1>
   <p class="subtitle">
-    The following exhibits demonstrate a <b>working, end-to-end instrument</b>.
-    Each image corresponds to a fixed stage in the evaluation pipeline and exists to
-    establish that the system is real, controlled, and auditable.
+    The following exhibits document a <b>working, end-to-end instrument</b>.
+    Each exhibit corresponds to a stage in the evaluation pipeline and exists to demonstrate that the system is real,
+    controlled, and auditable.
   </p>
+
+  <div class="note">
+    If an image does not load, it typically means the filename/path does not match the repo exactly.
+    These exhibits are mapped to <span class="mono">structural-reasoning-risk/assets/img/</span>.
+  </div>
 
   <div class="evidence">
 
-    <div class="item">
+    <div class="item" id="ex01">
       <h2>01 · Controlled Probe Setup</h2>
-      <p>Identical prompt, explicit model selection, temperature control, and evidence capture enabled prior to execution.</p>
-      <img src="assets/img/01-protocol-setup.png">
+      <p>
+        Live evaluation console showing provider/model selection, temperature control, and evidence capture enabled prior to execution.
+        This establishes controlled conditions before any model output is generated.
+      </p>
+      <img loading="lazy" src="assets/img/01-protocol-setup.png" alt="Controlled probe setup"
+           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/01-protocol-setup.png</span></div>';">
     </div>
 
-    <div class="item">
+    <div class="item" id="ex02">
       <h2>02 · Cross-Model Arena Output</h2>
-      <p>Multiple models responding under identical constraints, exposing structural differences rather than stylistic ones.</p>
-      <img src="assets/img/02-arena-output-stream.png">
+      <p>
+        Multiple models responding under identical constraints. The goal is to expose structural differences (support, missing evidence, overclaiming),
+        not stylistic differences.
+      </p>
+      <img loading="lazy" src="assets/img/02-arena-output-stream.png" alt="Cross-model arena output stream"
+           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/02-arena-output-stream.png</span></div>';">
     </div>
 
-    <div class="item">
+    <div class="item" id="ex03">
       <h2>03 · Evidence Locker</h2>
-      <p>Each run is persisted with a unique case ID, enabling replay, inspection, and audit after the fact.</p>
-      <img src="assets/img/03-evidence-locker.png">
+      <p>
+        Each run is persisted with a unique case ID so it can be replayed and audited after the fact.
+        <b>Note:</b> this exhibit does not show the original canonical prompt; the canonical prompt is captured in a separate build/version and will be integrated into this evidence bundle.
+      </p>
+      <img loading="lazy" src="assets/img/03-evidence-locker.png" alt="Evidence locker with case IDs"
+           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/03-evidence-locker.png</span></div>';">
     </div>
 
-    <div class="item">
+    <div class="item" id="ex04">
       <h2>04 · Raw Forensic Artifact</h2>
-      <p>Unmodified model output and metadata captured verbatim to ensure provenance and reproducibility.</p>
-      <img src="assets/img/04-artifact-raw-trace.png">
+      <p>
+        Unmodified model output and metadata captured verbatim. This is the “source of record” layer that supports downstream scoring and trace inspection.
+      </p>
+      <img loading="lazy" src="assets/img/04-artifact-raw-trace.png" alt="Raw artifact trace (verbatim capture)"
+           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/04-artifact-raw-trace.png</span></div>';">
     </div>
 
-    <div class="item">
-      <h2>05 · L2 Executive Summary</h2>
-      <p>Quantified structural metrics computed from extracted reasoning structure.</p>
-      <img src="assets/img/05-l2-executive-summary.png">
+    <div class="item" id="ex05">
+      <h2>05 · L2 Executive Summary (Gemini)</h2>
+      <p>
+        Quantified structural metrics computed from extracted reasoning structure. This is the decision-facing summary layer for one model run.
+      </p>
+      <img loading="lazy" src="assets/img/05-l2-gemini-executive-summary.png" alt="L2 executive summary (Gemini)"
+           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/05-l2-gemini-executive-summary.png</span></div>';">
+    </div>
+
+    <div class="item" id="ex06">
+      <h2>06 · L2 Executive Summary (OpenAI)</h2>
+      <p>
+        Same L2 summary layer for a second model under the same probe. Used for cross-model comparison under identical constraints.
+      </p>
+      <img loading="lazy" src="assets/img/06-l2-openai-executive-summary.png" alt="L2 executive summary (OpenAI)"
+           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/06-l2-openai-executive-summary.png</span></div>';">
+    </div>
+
+    <div class="item" id="ex07">
+      <h2>07 · Trace X-Ray (Gemini)</h2>
+      <p>
+        Claim–premise–conclusion mapping. Shows exactly where support exists, where premises are missing, and where conclusions overreach available evidence.
+      </p>
+      <img loading="lazy" src="assets/img/07-l2-gemini-trace-xray.png" alt="Trace X-ray (Gemini)"
+           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/07-l2-gemini-trace-xray.png</span></div>';">
+    </div>
+
+    <div class="item" id="ex08">
+      <h2>08 · Trace X-Ray (OpenAI)</h2>
+      <p>
+        Trace X-ray for a second model on the same probe. Used to compare justification structure and missing-evidence behavior across systems.
+      </p>
+      <img loading="lazy" src="assets/img/08-l2-openai-trace-xray.png" alt="Trace X-ray (OpenAI)"
+           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/08-l2-openai-trace-xray.png</span></div>';">
+    </div>
+
+    <div class="item" id="ex09">
+      <h2>09 · Risk Diagnosis</h2>
+      <p>
+        Automated detection of structural vulnerability (e.g., unsupported claims, missing evidence, fragile justification chains) with recommended escalation paths.
+      </p>
+      <img loading="lazy" src="assets/img/09-l2-risk-diagnosis.png" alt="Risk diagnosis output"
+           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/09-l2-risk-diagnosis.png</span></div>';">
+    </div>
+
+    <div class="item" id="ex10">
+      <h2>10 · Interpreter Synthesis</h2>
+      <p>
+        Cross-model consensus/ranking layer that converts raw metrics into decision-grade interpretation while remaining traceable back to artifacts and X-rays.
+      </p>
+      <img loading="lazy" src="assets/img/10-interpreter-cross-model-consensus.png" alt="Interpreter synthesis / cross-model consensus"
+           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/10-interpreter-cross-model-consensus.png</span></div>';">
     </div>
 
   </div>
