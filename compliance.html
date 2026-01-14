@@ -6,85 +6,220 @@
   <title>Compliance · Reflective Diagnostics</title>
   <meta name="description" content="Compliance module specification for Reflective Diagnostics." />
 
-  <!-- Use the SAME global styling as the rest of the site -->
-  <link rel="stylesheet" href="assets/site.css" />
-
-  <!-- Page-local: only what we must fix (header wrap + remove dark cards) -->
   <style>
-    /* 1) Force nav to stay on one line like index.html */
-    .topbar-inner{ align-items:flex-start; }
+    :root{
+      --bg:#ffffff;
+      --text:#0b0e10;
+      --muted:#5f6b76;
+      --line:#d9e0e7;
+      --black:#0b0e10;
+      --green:#2ecc71;
+      --green-soft:#e9f8f0;
+      --radius:6px;
+      --max:1100px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --sans: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:var(--sans);
+      line-height:1.45;
+    }
+    a{color:inherit;text-decoration:none}
+
+    /* TOP BAR (MATCH INDEX) */
+    .topbar{
+      border-bottom:1px solid var(--line);
+      background:#fff;
+    }
+    .topbar-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:16px 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:20px;
+    }
+    .brand .t{
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+    .brand .s{
+      font-size:13px;
+      color:var(--muted);
+      margin-top:2px;
+    }
+
     .nav{
       display:flex;
-      flex-wrap:nowrap;          /* <-- critical */
+      flex-wrap:wrap;
       gap:10px;
-      white-space:nowrap;        /* <-- critical */
     }
-    .nav a{ white-space:nowrap; }
-
-    /* 2) Ensure this page uses the same brand layout as index (no stacked logo) */
-    .brand .t{ font-weight:700; letter-spacing:.2px; }
-    .brand .s{ font-size:13px; color:var(--muted); margin-top:2px; }
-
-    /* 3) Kill any “black box / dark card” styling on this page only */
-    .card, .panel, .box{
-      background:#fff !important;
-      color:var(--text) !important;
-      border:1px solid var(--line) !important;
-      box-shadow:none !important;
+    .nav a{
+      font-size:13px;
+      padding:6px 10px;
+      border:1px solid transparent;
+      white-space:nowrap;
     }
-    .card h2, .card p, .card li{ color:var(--text) !important; }
+    .nav a.active{
+      border-color:var(--black);
+    }
 
-    /* 4) Make headline NOT oversized: match index-like scale */
-    .hero h1{
+    /* LAYOUT */
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:40px 18px 70px;
+    }
+
+    /* HERO */
+    .kickers{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+      align-items:center;
+    }
+
+    .pill{
+      font-size:11px;
+      padding:6px 10px;
+      border:1px solid var(--black);
+      background:var(--black);
+      color:#fff;
+      border-radius:4px;
+      letter-spacing:.3px;
+    }
+    .pill.light{
+      background:#fff;
+      color:var(--text);
+      border-color:var(--line);
+    }
+
+    h1{
+      margin:0 0 14px;
       font-size:32px;
-      line-height:1.15;
-      letter-spacing:-0.4px;
-      margin:0 0 12px;
+      letter-spacing:-0.5px;
+      line-height:1.1;
+      font-weight:800;
+      max-width:1000px;
     }
-    .subtitle{ max-width:900px; }
+    .subtitle{
+      font-size:16px;
+      color:var(--muted);
+      max-width:900px;
+      margin:0 0 36px;
+      line-height:1.6;
+    }
 
-    /* 5) Keep kickers consistent with index */
-    .pill{ border-radius:4px; }
+    /* GRID + CARDS (LIGHT, NO BLACK BOXES) */
+    .grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:18px;
+      margin-top:18px;
+    }
+    .grid.two{
+      grid-template-columns:repeat(2, 1fr);
+      gap:18px;
+    }
+    .card{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:4px;
+      padding:20px;
+    }
+    .card h2{
+      margin:0 0 10px;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.5px;
+      color:var(--muted);
+      font-weight:800;
+    }
+    .card ul{
+      margin:0;
+      padding-left:18px;
+    }
+    .card li{
+      margin:8px 0;
+      color:var(--text);
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    .callout{
+      margin-top:14px;
+      padding:12px 14px;
+      border-left:3px solid var(--black);
+      background:#fafafa;
+      color:var(--text);
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    /* FOOTER */
+    .footer{
+      margin-top:42px;
+      padding-top:16px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .mono{font-family:var(--mono);}
+
+    /* MOBILE */
+    @media(max-width:900px){
+      .grid.two{ grid-template-columns:1fr; }
+      .topbar-inner{ flex-wrap:wrap; }
+    }
   </style>
 </head>
 
 <body>
 
   <div class="topbar">
-  <div class="topbar-inner">
-    <div class="brand">
-      <div class="t">Reflective Diagnostics™</div>
-      <div class="s">Structural Reasoning Risk · audit-grade diagnostics</div>
-    </div>
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="t">Reflective Diagnostics™</div>
+        <div class="s">Structural Reasoning Risk · audit-grade diagnostics</div>
+      </div>
 
-    <div class="nav">
-      <a href="index.html">Start Here</a>
-      <a href="how-it-works.html">How It Works</a>
-      <a href="what-it-measures.html">What It Measures</a>
-      <a href="markets.html">Markets</a>
-      <a href="use-cases.html">Case Study</a>
-      <a href="evidence.html">Proof and Evidence</a>
-      <a href="compliance.html">Compliance</a>
+      <div class="nav">
+        <a href="index.html">Start Here</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="what-it-measures.html">What It Measures</a>
+        <a href="markets.html">Markets</a>
+        <a href="use-cases.html">Case Study</a>
+        <a href="evidence.html">Proof and Evidence</a>
+        <a class="active" href="compliance.html">Compliance</a>
+      </div>
     </div>
   </div>
-</div>
-
-
 
   <div class="wrap">
 
-    <!-- HERO (no Integrity Verified pill) -->
-    <section class="hero">
+    <section>
       <div class="kickers">
         <div class="pill">Module Specification</div>
         <div class="pill light">Under Active Development</div>
-        <div class="pill light">Regime Mapped Constraints</div>
+        <div class="pill light">Regime-Mapped Constraints</div>
       </div>
 
-      <h1>Translate structural reasoning risk into enforceable regime constraints.</h1>
+      <h1>Compliance Diagnostics: regime constraints for decision defensibility.</h1>
       <p class="subtitle">
         Structural Reasoning Risk measures whether conclusions follow from stated premises. Compliance Diagnostics extends this into
-        explicit decision constraints suitable for institutional and regulatory contexts. This page is a specification, not a claim of completed implementation.
+        explicit decision constraints suitable for institutional and regulatory contexts. This page is a specification, not a claim
+        of completed implementation.
       </p>
     </section>
 
@@ -93,8 +228,8 @@
         <h2>What Compliance Adds</h2>
         <ul>
           <li>Maps structural failures to institutional risk categories (audit, procurement, safety, governance).</li>
-          <li>Defines regime specific thresholds and required evidence types.</li>
-          <li>Generates decision defensibility artifacts suitable for review and oversight.</li>
+          <li>Defines regime-specific thresholds and required evidence types.</li>
+          <li>Generates defensibility artifacts suitable for review and oversight.</li>
           <li>Enforces documentation: what was assumed, what was missing, what was required.</li>
         </ul>
         <div class="callout">
