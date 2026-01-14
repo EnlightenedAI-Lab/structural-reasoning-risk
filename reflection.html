@@ -36,10 +36,10 @@
     a{color:inherit;text-decoration:none}
 
     /* TOP BAR */
-    .topbar{ border-bottom:1px solid var(--line); background:#fff; }
+    .topbar{ border-bottom:1px solid var(--line); background:#fff; position: sticky; top: 0; z-index: 100; }
     .topbar-inner{
       max-width:var(--max); margin:0 auto; padding:16px 18px;
-      display:flex; justify-content:space-between; align-items:center; gap:20px;
+      display:flex; justify-content:space-between; align-items:flex-start; gap:20px;
     }
     .brand .t{ font-weight:700; letter-spacing:.2px; }
     .brand .s{ font-size:13px; color:var(--muted); margin-top:2px; }
@@ -51,18 +51,16 @@
     /* LAYOUT */
     .wrap{ max-width:var(--max); margin:0 auto; padding:40px 18px 70px; }
 
-    /* PILLS / KICKERS */
+    /* ANCHOR TABS (KICKERS) */
     .kickers{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin: 6px 0 18px; }
     .pill{
       font-family: var(--sans); font-size:12px; line-height:1; padding:8px 12px;
       border:1px solid var(--line); background:#fff; color:var(--text);
-      border-radius:0; letter-spacing:.2px; font-weight:600;
+      border-radius:0; letter-spacing:.2px; font-weight:600; transition: 0.2s;
     }
-    .pill:not(.light){ background:var(--black); border-color:var(--black); color:#fff; }
-    .pill.light{ background:#fff; color:var(--text); border-color:var(--line); }
-    .pill:hover{ border-color: var(--black); }
-
-    /* HERO TYPOGRAPHY */
+    .pill:hover{ border-color: var(--black); color: var(--black); }
+    
+    /* HERO */
     h1{ font-size:32px; line-height:1.15; margin:0 0 6px; }
     
     .restricted-tag {
@@ -73,7 +71,7 @@
     .intro-block {
       max-width: 800px; font-size: 15px; line-height: 1.6; color: var(--text); margin-bottom: 25px;
     }
-    .intro-block p{ margin:0 0 10px; }
+    .intro-block p{ margin:0 0 10px; font-family: var(--sans); }
     .intro-block p:last-child{ margin-bottom:0; }
     
     /* PIPELINE STRIP */
@@ -83,7 +81,7 @@
     }
     .pipeline-strip {
         display:block; width:100%; max-width:900px;
-        font-family: var(--sans); font-size: 13px; color: var(--black);
+        font-family: var(--mono); font-size: 12px; color: var(--black);
         padding: 10px 12px; background: var(--green-soft);
         border: 1px solid var(--line); border-left: 3px solid var(--green);
         line-height: 1.45; margin-bottom: 40px;
@@ -94,18 +92,18 @@
     
     .section-head {
         grid-column: span 12; border-bottom: 2px solid var(--black);
-        padding-bottom: 8px; margin-top: 44px; margin-bottom: 18px;
+        padding-bottom: 8px; margin-top: 50px; margin-bottom: 20px;
         font-family: var(--mono); font-size: 14px; text-transform: uppercase;
         letter-spacing: 0.5px; font-weight: 700;
     }
 
+    /* CARDS */
     .card{
       grid-column:span 12; border:1px solid var(--line); padding:20px;
       background:#fff; border-radius:var(--radius);
-      display: flex; flex-direction: column;
+      display: flex; flex-direction: column; min-height: 240px; /* Uniform height */
     }
 
-    /* CARD TYPOGRAPHY */
     .card h2{
       font-size:13px; text-transform: uppercase; font-weight: 700;
       margin:0 0 16px; letter-spacing:.5px; color:var(--black);
@@ -119,10 +117,10 @@
     
     .metric-tag {
         font-family: var(--mono); font-size: 10px; text-transform: uppercase;
-        color: var(--muted); letter-spacing: 0.5px; margin-bottom: 10px; display: block;
+        color: var(--muted); letter-spacing: 0.5px; margin-bottom: 12px; display: block;
     }
 
-    .card p{ margin:0 0 12px; color:var(--muted); font-size:13px; line-height: 1.5; }
+    .card p{ margin:0 0 8px; color:var(--muted); font-size:13px; line-height: 1.5; font-family: var(--sans); }
     .card strong { color: var(--black); font-weight: 600; }
 
     /* TECH LISTS */
@@ -131,15 +129,25 @@
     .tech-list li::before { content: "»"; font-family: var(--mono); color: var(--muted); }
     .tech-list b { color: var(--black); }
 
-    /* ACCENTS */
+    /* ACCENTS (Bottom Anchored) */
     .accent{
       font-family: var(--sans); background: transparent;
-      padding-top: 12px; margin-top: auto;
+      padding-top: 12px; margin-top: auto; /* Pushes to bottom */
       border-left:3px solid var(--green); padding-left:12px;
       color:#145c38; font-size:13px; font-weight: 500;
+      line-height: 1.4;
     }
     
-    /* COLLAPSIBLE ACCORDION */
+    /* DEFINITION BLOCK (Risk Zones) */
+    .definition-grid {
+      grid-column: span 12;
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+      background: #fafafa; border: 1px solid var(--line); padding: 25px;
+    }
+    .def-item h4 { margin: 0 0 6px; font-size: 13px; font-family: var(--mono); text-transform: uppercase; color: var(--black); }
+    .def-item p { margin: 0; font-size: 13px; color: var(--text); line-height: 1.5; }
+
+    /* EXAMPLE BLOCK */
     details.example-block {
         grid-column: span 12; background: #fff; border: 1px solid var(--line);
         margin-top: 40px; border-radius: var(--radius); overflow: hidden;
@@ -153,8 +161,8 @@
     details.example-block summary::after { content: "+"; float: right; font-weight: 700; }
     details.example-block[open] summary::after { content: "-"; }
     
-    .example-content { padding: 20px; font-size: 13px; line-height: 1.6; }
-    .example-content h4 { margin: 0 0 10px; font-size: 12px; text-transform: uppercase; color: var(--muted); }
+    .example-content { padding: 20px; font-size: 13px; line-height: 1.6; font-family: var(--sans); }
+    .example-content h4 { margin: 0 0 10px; font-size: 12px; text-transform: uppercase; color: var(--muted); font-family: var(--mono); }
     .example-content p { margin-bottom: 15px; }
     .example-meta { font-family: var(--mono); font-size: 10px; color: var(--muted); text-transform: uppercase; margin-bottom: 15px; display: block; }
     
@@ -164,19 +172,12 @@
     }
 
     /* ORACLE SECTION */
-    .oracle-section {
-        margin-top: 60px; border-top: 1px solid var(--line); padding-top: 40px;
+    .oracle-section { margin-top: 60px; border-top: 1px solid var(--line); padding-top: 40px; }
+    .oracle-role-box {
+      border: 1px solid var(--line); background: #fafafa; padding: 15px; margin-bottom: 25px;
+      font-size: 13px; line-height: 1.5; border-left: 3px solid var(--black);
     }
-    .oracle-intro { font-size: 15px; line-height: 1.6; max-width: 800px; margin-bottom: 20px; }
-
-    /* CALLOUT */
-    .interpretation-callout {
-        margin-top: 34px; padding: 12px 12px; max-width: 900px;
-        background: var(--green-soft); border: 1px solid var(--line);
-        border-left: 3px solid var(--green); color: var(--text);
-        font-size: 13px; line-height: 1.5;
-    }
-    .interpretation-callout b { color: var(--black); font-weight: 600; }
+    .oracle-intro { font-size: 15px; line-height: 1.6; max-width: 800px; margin-bottom: 20px; font-family: var(--sans); }
 
     /* FOOTER */
     .footer{
@@ -188,8 +189,11 @@
 
     @media(min-width:900px){
       .two .card{grid-column:span 6}
-      .three .card{grid-column:span 4}
-      .four .card{grid-column:span 3}
+      .four .card{grid-column:span 3} /* 4-column layout */
+    }
+    @media(max-width:899px){
+      .four .card{grid-column:span 6} /* 2-column on tablet */
+      .definition-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -293,9 +297,9 @@
 
   <section>
     <div class="kickers">
-      <div class="pill">Core Signals</div>
-      <div class="pill light">Unit of Analysis</div>
-      <div class="pill light">Risk Zones</div>
+      <a href="#core-signals" class="pill">Core Diagnostics</a>
+      <a href="#unit-of-analysis" class="pill light">Unit of Analysis</a>
+      <a href="#risk-zones" class="pill light">Risk Zones</a>
     </div>
 
     <h1>Reflection Diagnostics™</h1>
@@ -304,7 +308,7 @@
     <div class="intro-block">
       <p>Modern AI systems are frequently instructed to “reflect,” “think step-by-step,” or “reconsider” their answers.</p>
       <p>This instrument measures whether reflection actually improves epistemic quality—or whether it introduces new risks such as confidence inflation, over-rationalization, and unsupported elaboration. We quantify how correctness, reasoning quality, and confidence change after reflection, and classify the change into deployment-relevant risk zones.</p>
-      <p><i>Reflection Diagnostics measure how reflection changes behavior; the Reflective Oracle determines whether those changes are safe, useful, or risky. This module does not evaluate reasoning quality in isolation; it evaluates the effect of reflection itself as an intervention.</i></p>
+      <p><i>This module does not score reasoning quality in isolation; it evaluates reflection as a behavioral intervention with measurable side effects.</i></p>
     </div>
 
     <div class="pipeline-header">Operational Flow</div>
@@ -313,7 +317,7 @@
     </div>
   </section>
 
-  <section class="grid two">
+  <section id="unit-of-analysis" class="grid two">
     <div class="card">
       <h2>UNIT OF ANALYSIS</h2>
       <ul class="tech-list">
@@ -341,7 +345,7 @@
     </div>
   </section>
 
-  <div class="section-head">Core Reflection Diagnostics</div>
+  <div id="core-signals" class="section-head">Core Reflection Diagnostics</div>
 
   <section class="grid four">
     <div class="card">
@@ -349,7 +353,7 @@
       <span class="metric-tag">Epistemic Change</span>
       <p><b>What it is:</b> Measured change in factual or task correctness after reflection.</p>
       <p><b>Detects:</b> Whether reflection corrects errors, leaves correctness unchanged, or introduces new errors.</p>
-      <div class="accent">Positive deltas indicate genuine self-correction. Zero or negative deltas indicate reflection that does not improve epistemic accuracy.</div>
+      <div class="accent">Positive deltas indicate genuine self-correction. Zero/negative deltas indicate no epistemic gain.</div>
     </div>
 
     <div class="card">
@@ -357,7 +361,7 @@
       <span class="metric-tag">Justification Shift</span>
       <p><b>What it is:</b> Change in the structure and substance of justification after reflection.</p>
       <p><b>Detects:</b> New evidence or reasoning vs. added verbosity, reformulation, or speculative expansion.</p>
-      <div class="accent">Improved reasoning without accuracy gains may signal over-rationalization or rhetorical elaboration.</div>
+      <div class="accent">Improved reasoning without accuracy gains may signal over-rationalization.</div>
     </div>
 
     <div class="card">
@@ -369,21 +373,19 @@
     </div>
 
     <div class="card">
-      <div class="metric-name">Reflection Risk Zones</div>
-      <span class="metric-tag">Behavioral Classification</span>
-      <p><b>Self-Correcting:</b> Reflection improves correctness and reasoning without disproportionate confidence increase.</p>
-      <p><b>Inflating:</b> Reflection increases confidence and/or justification without improving correctness.</p>
-      <p><b>Neutral / Noise:</b> Reflection produces small or inconsistent changes with no clear benefit or harm.</p>
-      <p><b>Regressive:</b> Reflection degrades correctness or introduces new errors.</p>
-      <div class="accent">Important: Risk zones are not derived from any single metric. They reflect composite behavioral patterns relevant to deployment decisions.</div>
+      <div class="metric-name">Risk Classification</div>
+      <span class="metric-tag">Zone Assignment</span>
+      <p><b>What it is:</b> Categorization of behavior into stable patterns (Self-correcting, Inflating, Neutral, Regressive).</p>
+      <p><b>Detects:</b> Systematic failure modes across a test slice.</p>
+      <div class="accent">See definitions below. Classifications determine governance actions.</div>
     </div>
 
     <div class="card">
-      <div class="metric-name">Reflection Stability Index</div>
+      <div class="metric-name">Stability Index</div>
       <span class="metric-tag">Behavioral Robustness</span>
       <p><b>What it is:</b> Consistency of reflection effects across prompt variations, paraphrases, and test slices.</p>
       <p><b>Detects:</b> Brittle reflection behavior that cannot be reliably reproduced.</p>
-      <div class="accent">Low stability indicates reflection effects should not be generalized or relied upon.</div>
+      <div class="accent">Low stability indicates reflection effects should not be generalized.</div>
     </div>
 
     <div class="card">
@@ -396,23 +398,44 @@
 
     <div class="card">
       <div class="metric-name">Inflation Detection</div>
-      <span class="metric-tag">Over-Rationalization Risk</span>
+      <span class="metric-tag">Over-Rationalization</span>
       <p><b>What it is:</b> Identification of cases where reflection increases length, certainty, or sophistication without added support.</p>
       <p><b>Detects:</b> Confidence or verbosity growth without corresponding correctness gains.</p>
       <div class="accent">High inflation risk suggests reflection should be constrained in sensitive domains.</div>
     </div>
 
     <div class="card">
-      <div class="metric-name">Actionable Outputs</div>
-      <span class="metric-tag">Deployment Guidance</span>
+      <div class="metric-name">Deployment Guidance</div>
+      <span class="metric-tag">Actionable Outputs</span>
       <p><b>What it is:</b> Operational recommendations derived from reflection behavior.</p>
       <p><b>Outputs:</b> Prompt guidance, reflection gating, domain-specific constraints.</p>
-      <div class="accent">Reflection diagnostics inform how and where reflection should be used—not whether a model is “good.”</div>
+      <div class="accent">Informs how and where reflection should be used—not whether a model is “good.”</div>
     </div>
   </section>
 
-  <section class="grid three">
-    <div class="card" style="grid-column: span 12;">
+  <div id="risk-zones" class="section-head">Risk Zone Definitions (Composite Behavioral Patterns)</div>
+  
+  <div class="definition-grid">
+    <div class="def-item">
+      <h4>Self-Correcting</h4>
+      <p>Reflection improves correctness and reasoning without disproportionate confidence increase.</p>
+    </div>
+    <div class="def-item">
+      <h4>Inflating</h4>
+      <p>Reflection increases confidence and/or justification without improving correctness.</p>
+    </div>
+    <div class="def-item">
+      <h4>Neutral / Noise</h4>
+      <p>Reflection produces small or inconsistent changes with no clear benefit or harm.</p>
+    </div>
+    <div class="def-item">
+      <h4>Regressive</h4>
+      <p>Reflection degrades correctness or introduces new errors.</p>
+    </div>
+  </div>
+
+  <section class="grid three" style="margin-top:20px;">
+    <div class="card" style="grid-column: span 12; min-height:auto;">
       <h2>WHY THIS MATTERS</h2>
       <ul class="tech-list">
         <li>Reflection is widely used in agentic systems, copilots, and safety workflows—often assumed to be beneficial.</li>
@@ -463,10 +486,14 @@
     <div class="section-head">Reflective Oracle (Decision Support Layer)</div>
     
     <div class="oracle-intro">
+      <div class="oracle-role-box">
+        <b>Role:</b> Interprets measured reflection behavior and recommends governance actions.<br>
+        <b>Does not:</b> Generate answers, add evidence, or modify model outputs.
+      </div>
+
       <p>The Reflective Oracle is a local decision-support system that operates on the outputs of Reflection Diagnostics. Rather than generating answers, the Oracle interprets reflection behavior across filtered test slices and produces risk summaries, dominant failure patterns, and recommended next actions.</p>
       
       <p><b>Input constraint:</b> Operates only on measured deltas + classifications produced by the instrument (no new evidence injection).</p>
-      <p>The Oracle never evaluates raw model outputs directly; it operates exclusively on diagnostic summaries produced by the Reflection instrument.</p>
 
       <p>The Oracle consumes aggregated reflection signals (Δ correctness, Δ reasoning, Δ confidence, risk zone distributions) and answers questions such as:</p>
       <ul class="tech-list" style="margin:15px 0;">
@@ -477,11 +504,6 @@
       <p><b>Key property:</b> The Oracle does not invent new evidence. It reasons strictly over measured deltas and classifications already produced by the instrument.</p>
       <p style="margin-top:20px; color:var(--black); font-weight:600;">In regulated or safety-critical settings, the Oracle functions as a reflection governance layer, not a reasoning engine.</p>
     </div>
-  </div>
-
-  <div class="interpretation-callout">
-    Interpreting these signals is straightforward: the instrument reveals whether reflection meaningfully improves epistemic quality or merely increases apparent confidence. 
-    This distinction is critical for safe deployment, evaluation, and alignment research.
   </div>
 
   <div class="footer">
