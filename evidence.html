@@ -54,23 +54,12 @@
       font-size:12px; color:var(--muted);
       padding:8px 10px; border-radius:999px;
       border:1px solid transparent;
-      white-space:nowrap;
     }
     .nav a:hover{border-color:rgba(41,255,122,.35); color:var(--text)}
     .nav a.active{border-color:rgba(41,255,122,.55); color:var(--text)}
 
     h1{font-size:30px; margin:14px 0 6px}
     .subtitle{color:var(--muted); max-width:920px; font-size:14px}
-
-    .note{
-      margin-top:14px;
-      padding:10px 12px;
-      border:1px solid var(--line);
-      border-radius:12px;
-      background: rgba(16,20,23,.65);
-      color: var(--muted);
-      font-size:12px;
-    }
 
     .evidence{
       margin-top:22px;
@@ -101,7 +90,12 @@
       background:#000;
       display:block;
     }
-    .mono{font-family:var(--mono); font-size:12px; color:var(--muted)}
+    .meta{
+      margin-top:8px;
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--muted);
+    }
 
     .footer{
       margin-top:32px;
@@ -123,6 +117,9 @@
 <script>
 (function () {
   const PASSWORD = "STRUCTURE";
+  const KEY = "evidence_access_ok";
+
+  if (sessionStorage.getItem(KEY) === "1") return;
 
   const gate = document.createElement("div");
   gate.style.position = "fixed";
@@ -167,9 +164,6 @@
       <div id="gate-error" style="margin-top:10px; font-size:12px; color:#ff6b6b; display:none;">
         Incorrect code.
       </div>
-      <div style="margin-top:14px; font-size:11px; color:#7f8a96;">
-        Hint: code is case-sensitive.
-      </div>
     </div>
   `;
 
@@ -182,6 +176,7 @@
   input.addEventListener("keydown", function (e) {
     if (e.key === "Enter") {
       if (input.value === PASSWORD) {
+        sessionStorage.setItem(KEY, "1");
         gate.remove();
       } else {
         error.style.display = "block";
@@ -215,116 +210,105 @@
 <div class="wrap">
   <h1>Proof & Evidence</h1>
   <p class="subtitle">
-    The following exhibits document a <b>working, end-to-end instrument</b>.
-    Each exhibit corresponds to a stage in the evaluation pipeline and exists to demonstrate that the system is real,
-    controlled, and auditable.
+    The exhibits below demonstrate a <b>working, end-to-end instrument</b> (probe → capture → persistence → structural analysis → diagnosis).
+    Each image is included to establish that the system is real, controlled, and auditable.
   </p>
-
-  <div class="note">
-    If an image does not load, it typically means the filename/path does not match the repo exactly.
-    These exhibits are mapped to <span class="mono">structural-reasoning-risk/assets/img/</span>.
-  </div>
 
   <div class="evidence">
 
-    <div class="item" id="ex01">
+    <div class="item">
       <h2>01 · Controlled Probe Setup</h2>
       <p>
         Live evaluation console showing provider/model selection, temperature control, and evidence capture enabled prior to execution.
         This establishes controlled conditions before any model output is generated.
       </p>
-      <img loading="lazy" src="assets/img/01-protocol-setup.png" alt="Controlled probe setup"
-           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/01-protocol-setup.png</span></div>';">
+      <img src="assets/img/01-protocol-setup.png" alt="Controlled probe setup" loading="lazy">
+      <div class="meta">File: assets/img/01-protocol-setup.png</div>
     </div>
 
-    <div class="item" id="ex02">
-      <h2>02 · Cross-Model Arena Output</h2>
+    <!-- Removed the redundant Exhibit 02 screenshot per your note -->
+
+    <div class="item">
+      <h2>02 · Evidence Locker</h2>
       <p>
-        Multiple models responding under identical constraints. The goal is to expose structural differences (support, missing evidence, overclaiming),
-        not stylistic differences.
+        Each run is persisted as a case record (ID + type + preview) enabling replay, inspection, and audit after the fact.
+        <b>Note:</b> the “original prompt” variant is captured in a separate build and will be integrated here once the evidence set is unified.
       </p>
-      <img loading="lazy" src="assets/img/02-arena-output-stream.png" alt="Cross-model arena output stream"
-           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/02-arena-output-stream.png</span></div>';">
+      <img src="assets/img/03-evidence-locker.png" alt="Evidence locker" loading="lazy">
+      <div class="meta">File: assets/img/03-evidence-locker.png</div>
     </div>
 
-    <div class="item" id="ex03">
-      <h2>03 · Evidence Locker</h2>
+    <div class="item">
+      <h2>03 · Cross-Model Arena Output</h2>
       <p>
-        Each run is persisted with a unique case ID so it can be replayed and audited after the fact.
-        <b>Note:</b> this exhibit does not show the original canonical prompt; the canonical prompt is captured in a separate build/version and will be integrated into this evidence bundle.
+        Multiple models responding under identical constraints, exposing structural differences (support, missing evidence, overclaiming) rather than stylistic differences.
       </p>
-      <img loading="lazy" src="assets/img/03-evidence-locker.png" alt="Evidence locker with case IDs"
-           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/03-evidence-locker.png</span></div>';">
+      <img src="assets/img/02-arena-output-stream.png" alt="Cross-model arena output" loading="lazy">
+      <div class="meta">File: assets/img/02-arena-output-stream.png</div>
     </div>
 
-    <div class="item" id="ex04">
+    <div class="item">
       <h2>04 · Raw Forensic Artifact</h2>
       <p>
-        Unmodified model output and metadata captured verbatim. This is the “source of record” layer that supports downstream scoring and trace inspection.
+        Unmodified model output and metadata captured verbatim for provenance and reproducibility. This is the audit-grade “source text” the analysis is computed from.
       </p>
-      <img loading="lazy" src="assets/img/04-artifact-raw-trace.png" alt="Raw artifact trace (verbatim capture)"
-           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/04-artifact-raw-trace.png</span></div>';">
+      <img src="assets/img/04-artifact-raw-trace.png" alt="Raw forensic artifact" loading="lazy">
+      <div class="meta">File: assets/img/04-artifact-raw-trace.png</div>
     </div>
 
-    <div class="item" id="ex05">
+    <div class="item">
       <h2>05 · L2 Executive Summary (Gemini)</h2>
       <p>
-        Quantified structural metrics computed from extracted reasoning structure. This is the decision-facing summary layer for one model run.
+        Structural metrics computed from extracted reasoning structure (integrity, coverage, orphan rate, stability). This is the first decision-grade summary layer.
       </p>
-      <img loading="lazy" src="assets/img/05-l2-gemini-executive-summary.png" alt="L2 executive summary (Gemini)"
-           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/05-l2-gemini-executive-summary.png</span></div>';">
+      <img src="assets/img/05-l2-gemini-executive-summary.png" alt="L2 executive summary Gemini" loading="lazy">
+      <div class="meta">File: assets/img/05-l2-gemini-executive-summary.png</div>
     </div>
 
-    <div class="item" id="ex06">
+    <div class="item">
       <h2>06 · L2 Executive Summary (OpenAI)</h2>
       <p>
-        Same L2 summary layer for a second model under the same probe. Used for cross-model comparison under identical constraints.
+        Same evaluation protocol applied to a second model under identical constraints to enable direct cross-model comparison of structural risk signals.
       </p>
-      <img loading="lazy" src="assets/img/06-l2-openai-executive-summary.png" alt="L2 executive summary (OpenAI)"
-           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/06-l2-openai-executive-summary.png</span></div>';">
+      <img src="assets/img/06-l2-openai-executive-summary.png" alt="L2 executive summary OpenAI" loading="lazy">
+      <div class="meta">File: assets/img/06-l2-openai-executive-summary.png</div>
     </div>
 
-    <div class="item" id="ex07">
+    <div class="item">
       <h2>07 · Trace X-Ray (Gemini)</h2>
       <p>
-        Claim–premise–conclusion mapping. Shows exactly where support exists, where premises are missing, and where conclusions overreach available evidence.
+        Claim–premise–conclusion mapping showing where support exists, where it is missing, and which conclusions are structurally unsupported.
       </p>
-      <img loading="lazy" src="assets/img/07-l2-gemini-trace-xray.png" alt="Trace X-ray (Gemini)"
-           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/07-l2-gemini-trace-xray.png</span></div>';">
+      <img src="assets/img/07-l2-gemini-trace-xray.png" alt="Trace x-ray Gemini" loading="lazy">
+      <div class="meta">File: assets/img/07-l2-gemini-trace-xray.png</div>
     </div>
 
-    <div class="item" id="ex08">
+    <div class="item">
       <h2>08 · Trace X-Ray (OpenAI)</h2>
       <p>
-        Trace X-ray for a second model on the same probe. Used to compare justification structure and missing-evidence behavior across systems.
+        The same X-ray view for a second model, enabling side-by-side inspection of support density and failure modes under identical prompts and constraints.
       </p>
-      <img loading="lazy" src="assets/img/08-l2-openai-trace-xray.png" alt="Trace X-ray (OpenAI)"
-           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/08-l2-openai-trace-xray.png</span></div>';">
+      <img src="assets/img/08-l2-openai-trace-xray.png" alt="Trace x-ray OpenAI" loading="lazy">
+      <div class="meta">File: assets/img/08-l2-openai-trace-xray.png</div>
     </div>
 
-    <div class="item" id="ex09">
-      <h2>09 · Risk Diagnosis</h2>
+    <div class="item">
+      <h2>09 · Risk Diagnosis + Interpreter Synthesis</h2>
       <p>
-        Automated detection of structural vulnerability (e.g., unsupported claims, missing evidence, fragile justification chains) with recommended escalation paths.
+        Automated detection of structural vulnerability (hallucination risk, overconfidence, missing evidence) and synthesis into decision-grade interpretation across models.
       </p>
-      <img loading="lazy" src="assets/img/09-l2-risk-diagnosis.png" alt="Risk diagnosis output"
-           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/09-l2-risk-diagnosis.png</span></div>';">
-    </div>
-
-    <div class="item" id="ex10">
-      <h2>10 · Interpreter Synthesis</h2>
-      <p>
-        Cross-model consensus/ranking layer that converts raw metrics into decision-grade interpretation while remaining traceable back to artifacts and X-rays.
-      </p>
-      <img loading="lazy" src="assets/img/10-interpreter-cross-model-consensus.png" alt="Interpreter synthesis / cross-model consensus"
-           onerror="this.outerHTML='<div class=&quot;note&quot;>Missing image: <span class=&quot;mono&quot;>assets/img/10-interpreter-cross-model-consensus.png</span></div>';">
+      <img src="assets/img/09-l2-risk-diagnosis.png" alt="Risk diagnosis" loading="lazy">
+      <div class="meta">File: assets/img/09-l2-risk-diagnosis.png</div>
+      <div style="height:10px"></div>
+      <img src="assets/img/10-interpreter-cross-model-consensus.png" alt="Interpreter cross-model consensus" loading="lazy">
+      <div class="meta">File: assets/img/10-interpreter-cross-model-consensus.png</div>
     </div>
 
   </div>
 
   <div class="footer">
-    <div>Contact: <span class="mono">research@enlightenedai.ai</span></div>
-    <div class="mono">Build: v200.0 · Restricted evaluation</div>
+    <div>Contact: <span style="font-family:var(--mono)">research@enlightenedai.ai</span></div>
+    <div style="font-family:var(--mono)">Build: v200.0 · Restricted evaluation</div>
   </div>
 </div>
 
