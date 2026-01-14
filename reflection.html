@@ -7,7 +7,7 @@
   <meta name="description" content="Measuring how AI systems change when instructed to reflect." />
 
   <style>
-    /* BASE DESIGN TOKENS */
+    /* EXACT A1 DESIGN TOKENS - SHARP & CLEAN */
     :root{
       --bg:#ffffff;
       --text:#0b0e10;
@@ -16,7 +16,7 @@
       --black:#0b0e10;
       --green:#2ecc71;
       --green-soft:#e9f8f0;
-      --radius:0px;
+      --radius:0px; /* SHARP CORNERS */
       --max:1100px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       --sans: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
@@ -69,9 +69,6 @@
         font-family: var(--mono); font-size: 11px; color: var(--muted);
         text-transform: uppercase; margin-bottom: 16px; display: block; letter-spacing: 0.5px;
     }
-
-    .subtitle{ max-width:900px; font-size:16px; color:var(--muted); margin-bottom:26px; }
-    .subtitle b { color: var(--text); font-weight: 600; }
 
     .intro-block {
       max-width: 800px; font-size: 15px; line-height: 1.6; color: var(--text); margin-bottom: 25px;
@@ -320,13 +317,13 @@
     <div class="card">
       <h2>UNIT OF ANALYSIS</h2>
       <ul class="tech-list">
-        <li><b>Direct response:</b> the model’s initial answer to a prompt.</li>
-        <li><b>Reflective response:</b> the model’s answer after an explicit reflection instruction.</li>
-        <li><b>Delta signals:</b> measured changes between the two responses.</li>
-        <li><b>Trajectory:</b> how these changes behave across test sets and domains.</li>
+        <li><b>Direct response:</b> The model’s initial answer to a prompt, produced without reflective instruction.</li>
+        <li><b>Reflective response:</b> The model’s answer after an explicit instruction to reflect, reconsider, or reason about its initial response.</li>
+        <li><b>Delta signals (Δ):</b> Measured changes between the direct and reflective responses across correctness, reasoning quality, and confidence.</li>
+        <li><b>Trajectory:</b> The behavior of these deltas across a test set, prompt variants, or domains.</li>
       </ul>
       <div class="accent">
-        Δ (delta): post-reflection value minus pre-reflection value.
+        Δ (delta): Post-reflection value minus pre-reflection value. Key distinction: This instrument analyzes change induced by reflection, not absolute task performance.
       </div>
     </div>
 
@@ -351,15 +348,15 @@
       <div class="metric-name">Δ Correctness</div>
       <span class="metric-tag">Epistemic Change</span>
       <p><b>What it is:</b> Measured change in factual or task correctness after reflection.</p>
-      <p><b>Detects:</b> Whether reflection improves accuracy, leaves it unchanged, or degrades it.</p>
-      <div class="accent">Positive deltas indicate genuine self-correction. Zero or negative deltas indicate non-productive reflection.</div>
+      <p><b>Detects:</b> Whether reflection corrects errors, leaves correctness unchanged, or introduces new errors.</p>
+      <div class="accent">Positive deltas indicate genuine self-correction. Zero or negative deltas indicate reflection that does not improve epistemic accuracy.</div>
     </div>
 
     <div class="card">
       <div class="metric-name">Δ Reasoning</div>
       <span class="metric-tag">Justification Shift</span>
-      <p><b>What it is:</b> Change in the quality and substance of justification after reflection.</p>
-      <p><b>Detects:</b> Added justification vs. new evidence vs. speculative expansion.</p>
+      <p><b>What it is:</b> Change in the structure and substance of justification after reflection.</p>
+      <p><b>Detects:</b> New evidence or reasoning vs. added verbosity, reformulation, or speculative expansion.</p>
       <div class="accent">Improved reasoning without accuracy gains may signal over-rationalization or rhetorical elaboration.</div>
     </div>
 
@@ -367,46 +364,50 @@
       <div class="metric-name">Δ Confidence</div>
       <span class="metric-tag">Calibration Shift</span>
       <p><b>What it is:</b> Change in expressed confidence after reflection.</p>
-      <p><b>Detects:</b> Whether confidence tracks correctness—or diverges from it.</p>
-      <div class="accent">Confidence rising faster than correctness is a deployment risk signal.</div>
+      <p><b>Detects:</b> Whether confidence increases in proportion to correctness—or diverges from it.</p>
+      <div class="accent">Confidence rising faster than correctness is a deployment-relevant risk signal.</div>
     </div>
 
     <div class="card">
       <div class="metric-name">Reflection Risk Zones</div>
       <span class="metric-tag">Behavioral Classification</span>
-      <p><b>What it is:</b> Categorization of reflection behavior into stable patterns (Self-correcting, Inflating, Neutral, Regressive).</p>
-      <div class="accent">Risk zones are derived from joint patterns across correctness, reasoning, and confidence—not from any single metric.</div>
+      <p><b>Self-Correcting:</b> Reflection improves correctness and reasoning without disproportionate confidence increase.</p>
+      <p><b>Inflating:</b> Reflection increases confidence and/or justification without improving correctness.</p>
+      <p><b>Neutral / Noise:</b> Reflection produces small or inconsistent changes with no clear benefit or harm.</p>
+      <p><b>Regressive:</b> Reflection degrades correctness or introduces new errors.</p>
+      <div class="accent">Important: Risk zones are not derived from any single metric. They reflect composite behavioral patterns relevant to deployment decisions.</div>
     </div>
 
     <div class="card">
       <div class="metric-name">Reflection Stability Index</div>
       <span class="metric-tag">Behavioral Robustness</span>
-      <p><b>What it is:</b> Consistency of reflection effects across variations in prompts and tests.</p>
+      <p><b>What it is:</b> Consistency of reflection effects across prompt variations, paraphrases, and test slices.</p>
       <p><b>Detects:</b> Brittle reflection behavior that cannot be reliably reproduced.</p>
-      <div class="accent">Low stability indicates reflection is unsafe to generalize.</div>
+      <div class="accent">Low stability indicates reflection effects should not be generalized or relied upon.</div>
     </div>
 
     <div class="card">
       <div class="metric-name">Trajectory Analysis</div>
       <span class="metric-tag">Dynamic Effects</span>
       <p><b>What it is:</b> Visualization of reflection deltas across a test set.</p>
-      <p><b>Detects:</b> Clusters, outliers, and systematic inflation or correction patterns.</p>
-      <div class="accent">Helps identify domains where reflection amplifies risk.</div>
+      <p><b>Detects:</b> Clusters, outliers, and systematic correction or inflation patterns.</p>
+      <div class="accent">Reveals domains where reflection amplifies risk rather than improving outcomes.</div>
     </div>
 
     <div class="card">
       <div class="metric-name">Inflation Detection</div>
       <span class="metric-tag">Over-Rationalization Risk</span>
       <p><b>What it is:</b> Identification of cases where reflection increases length, certainty, or sophistication without added support.</p>
-      <p><b>Detects:</b> Reflection increases confidence/verbosity without corresponding correctness gains.</p>
+      <p><b>Detects:</b> Confidence or verbosity growth without corresponding correctness gains.</p>
       <div class="accent">High inflation risk suggests reflection should be constrained in sensitive domains.</div>
     </div>
 
     <div class="card">
       <div class="metric-name">Actionable Outputs</div>
       <span class="metric-tag">Deployment Guidance</span>
-      <p><b>What it is:</b> Operational recommendations derived from reflection behavior (Prompt guidance, Gating, Constraints).</p>
-      <div class="accent">Reflection diagnostics inform how and where reflection should be used.</div>
+      <p><b>What it is:</b> Operational recommendations derived from reflection behavior.</p>
+      <p><b>Outputs:</b> Prompt guidance, reflection gating, domain-specific constraints.</p>
+      <div class="accent">Reflection diagnostics inform how and where reflection should be used—not whether a model is “good.”</div>
     </div>
   </section>
 
@@ -418,6 +419,9 @@
         <li>In some domains, reflection improves answers; in others, it increases persuasive but unsupported content.</li>
         <li>This module gives measurement + gating guidance: when to trust reflection, constrain it, or disable it.</li>
       </ul>
+      <div class="accent" style="border:none; padding-left:0; color:var(--text); font-weight:400; margin-top:10px;">
+        <i>Reflection Diagnostics provide the missing measurement layer between “reflection as a technique” and “reflection as a governed capability.”</i>
+      </div>
     </div>
   </section>
 
@@ -462,6 +466,7 @@
       <p>The Reflective Oracle is a local decision-support system that operates on the outputs of Reflection Diagnostics. Rather than generating answers, the Oracle interprets reflection behavior across filtered test slices and produces risk summaries, dominant failure patterns, and recommended next actions.</p>
       
       <p><b>Input constraint:</b> Operates only on measured deltas + classifications produced by the instrument (no new evidence injection).</p>
+      <p>The Oracle never evaluates raw model outputs directly; it operates exclusively on diagnostic summaries produced by the Reflection instrument.</p>
 
       <p>The Oracle consumes aggregated reflection signals (Δ correctness, Δ reasoning, Δ confidence, risk zone distributions) and answers questions such as:</p>
       <ul class="tech-list" style="margin:15px 0;">
