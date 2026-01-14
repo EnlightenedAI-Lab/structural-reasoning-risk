@@ -36,7 +36,7 @@
     /* PROMINENT MODEL NAME */
     h1{ margin:0 0 10px; font-size:32px; letter-spacing:-0.5px; font-weight:800; color:var(--black); line-height: 1.1; }
     .sub-h1 { font-size: 14px; color: var(--muted); font-weight: 500; margin-bottom: 15px; display: block; }
-    
+
     .status-pill{ display:inline-block; padding:6px 12px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; background:#e6fbf0; color:var(--green); border:1px solid #bef0d6; }
     
     .scope-disclaimer{ margin-top:15px; font-size:12px; color:var(--muted); font-style:italic; border-left:3px solid var(--amber); padding-left:12px; line-height: 1.5; }
@@ -55,6 +55,7 @@
     .val-good{ color:var(--green); }
     .val-warn{ color:var(--amber); }
     .val-risk{ color:var(--red); }
+    .val-neutral{ color:var(--muted); }
 
     .verdict-rule{ font-size:11px; color:var(--muted); margin-bottom:50px; border-top:1px solid var(--line); padding-top:10px; font-style: italic; }
 
@@ -80,7 +81,8 @@
     .ar-title{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; margin-bottom:20px; color:var(--black); border-bottom:1px solid var(--line); padding-bottom:10px; }
     .ar-item{ margin-bottom:20px; font-size:11px; line-height:1.5; color:#333; }
     .ar-item strong{ font-family:var(--mono); color:var(--black); font-weight:700; font-size:12px; display:block; margin-bottom: 4px;}
-    
+    .ar-val-ctx{ color:var(--muted); margin-top:2px; display:block; font-style:italic; }
+
     /* D) INDEX */
     .index-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:50px; }
     .idx-cell{ background:#fff; padding:10px; text-align:center; }
@@ -130,7 +132,7 @@
     </div>
     <h1>OpenAI GPT-4o-mini</h1>
     <span class="sub-h1">Structural Trace Analysis</span>
-    
+
     <span class="status-pill">STRUCTURAL VERDICT: DO NOT FUND (SUPPORTED)</span>
     
     <div class="scope-disclaimer">
@@ -235,7 +237,7 @@
           <div class="dm-bands">OK ≥ 0.60 | Watch 0.40–0.59 | Risk < 0.40</div>
         </div>
         <div class="deep-stat">
-          <div class="ds-val val-good">1.00</div>
+          <div class="ds-val val-neutral">N/A</div>
           <div class="ds-dir">Higher better</div>
         </div>
       </div>
@@ -300,6 +302,7 @@
     <div class="ar-item">
       <strong>PRR — Premise Re-Use Ratio</strong><br>
       Measures the degree to which evidentiary premises are reused across multiple conclusions, indicating structural cohesion rather than isolated reasoning fragments.
+      <span class="ar-val-ctx">PRR = N/A indicates premises are claim-specific with no cross-conclusion reuse.</span>
     </div>
 
     <div class="ar-item">
@@ -368,7 +371,7 @@
       <tr class="row-premise">
         <td>04</td>
         <td class="col-type" style="color:var(--green)">PREMISE 2</td>
-        <td>No detailed economic modeling or datasets were provided to substatiate these projections.</td>
+        <td>No detailed economic modeling or datasets were provided to substantiate these projections.</td>
       </tr>
       <tr class="row-claim">
         <td>05</td>
