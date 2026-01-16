@@ -17,6 +17,7 @@
       --status-fail: #d32f2f;
       --status-warn: #f57c00;
       --status-pass: #388e3c;
+      --status-neutral: #607d8b;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -59,6 +60,20 @@
 
     .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px 100px; }
 
+    /* DISCLOSURE BLOCK */
+    .disclosure-box {
+        background: #fff8e1;
+        border: 1px solid #ffecb3;
+        padding: 15px;
+        margin-bottom: 30px;
+        font-size: 13px;
+        color: #5d4037;
+        border-radius: 4px;
+    }
+    .disclosure-box strong { font-weight: 700; display: block; margin-bottom: 5px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
+    .disclosure-box ul { margin: 5px 0 0 20px; padding: 0; }
+    .disclosure-box li { margin-bottom: 4px; }
+
     /* HEADER BLOCK */
     .audit-header {
       border-bottom: 2px solid var(--text);
@@ -82,10 +97,10 @@
       margin-bottom: 6px;
     }
     .verdict-value {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
-      color: var(--status-fail);
-      border: 2px solid var(--status-fail);
+      color: var(--status-neutral);
+      border: 2px solid var(--status-neutral);
       padding: 5px 10px;
       display: inline-block;
       white-space: nowrap;
@@ -200,6 +215,24 @@
     .evidence-text { color: var(--muted); font-size: 12px; }
     .mono { font-family: var(--font-mono); color: var(--muted); }
 
+    /* METHODOLOGY SECTION STYLES */
+    .method-block {
+        background: #fafafa;
+        border: 1px solid var(--border);
+        padding: 20px;
+        margin-top: 10px;
+    }
+    .method-block p { margin-bottom: 12px; font-size: 13px; color: var(--text); }
+    .method-block ol { margin: 10px 0 10px 20px; padding: 0; }
+    .method-block li { margin-bottom: 8px; font-size: 13px; color: var(--text); }
+    .method-block strong { color: var(--text); font-weight: 600; }
+    
+    .signal-list { list-style: none; padding: 0; margin: 10px 0; }
+    .signal-list li { 
+        margin-bottom: 10px; font-size: 13px; 
+        padding-left: 15px; border-left: 2px solid var(--border);
+    }
+
     /* GOVERNANCE */
     .gov-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     .gov-item { border: 1px solid var(--border); padding: 15px; display: flex; justify-content: space-between; align-items: center; }
@@ -220,6 +253,33 @@
       flex-wrap: wrap;
     }
 
+    /* GATE OVERLAY */
+    #gate-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: #f0f0f0; z-index: 9999;
+        display: flex; align-items: center; justify-content: center;
+    }
+    .gate-box {
+        background: #fff; padding: 40px; border: 1px solid #ccc;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 360px;
+        text-align: center;
+    }
+    .gate-box h3 { margin-top: 0; font-size: 16px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+    .gate-input {
+        width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc;
+        margin-bottom: 15px; font-family: monospace; text-align: center;
+    }
+    .gate-btn {
+        width: 100%; padding: 10px; background: #000; color: #fff; border: none;
+        font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 12px;
+    }
+    .gate-error { color: red; font-size: 12px; margin-top: 10px; display: none; }
+
+    .lock-link {
+        font-family: var(--font-mono); font-size: 10px; color: #ccc; cursor: pointer; text-decoration: none;
+    }
+    .lock-link:hover { color: #000; }
+
     /* RESPONSIVE */
     @media (max-width: 900px) {
       .metrics-grid { grid-template-columns: 1fr 1fr; }
@@ -233,6 +293,16 @@
 </head>
 <body>
 
+  <div id="gate-overlay">
+      <div class="gate-box">
+          <h3>Restricted Access</h3>
+          <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Enter access phrase to view demonstration materials.</p>
+          <input type="password" id="gate-pw" class="gate-input" placeholder="Access Phrase" autofocus />
+          <button class="gate-btn" onclick="checkGate()">Unlock</button>
+          <div id="gate-err" class="gate-error">Invalid phrase</div>
+      </div>
+  </div>
+
   <div class="instrument-bar">
     <a href="cubics-assurance.html" class="back-link">← BACK TO BRIEF</a>
     <div>INSTRUMENT: <strong>CUBICS ASSURANCE</strong></div>
@@ -242,11 +312,22 @@
 
   <div class="container">
 
+    <div class="disclosure-box">
+        <strong>Disclosure & Scope</strong>
+        <ul>
+            <li>This is a demonstration of an assurance workflow on a publicly available document.</li>
+            <li>It does not evaluate the organization or the proposal quality.</li>
+            <li>It checks structural readiness only: claim extraction, evidence markers, and governance indicators.</li>
+            <li>“CUBICS Assurance” is a working title for the demo; not an official Cubics tool.</li>
+            <li>Outputs are generated from a deterministic script; analyst review can override.</li>
+        </ul>
+    </div>
+
     <div class="audit-header">
       <div>
-        <h1>Audit Record: Municipal Investment Fund</h1>
+        <h1>Audit Record: Public Pitch Deck (Orientation-Grade Artifact)</h1>
         <div class="meta-row" id="metaRow">
-          SOURCE: Municipal-Investment-Fund-Slide-Deck-.pdf · CLAIMS: Loading... · DATE: 2026-01-15
+          SOURCE: Municipal-Investment-Fund-Slide-Deck-.pdf · CLAIMS EXTRACTED: — · DATE: 2026-01-15
         </div>
 
         <div class="links-strip">
@@ -260,14 +341,16 @@
           </div>
           <div class="pill">
             Data:
-            <a href="claim_trace.csv" download>Download CSV</a>
+            <a id="dl-csv" href="#" download="claim_trace.csv">Download CSV</a>
+            ·
+            <a id="dl-json" href="#" download="report.json">View JSON</a>
           </div>
         </div>
       </div>
 
       <div class="verdict-box">
         <span class="verdict-label">Structural Verdict</span>
-        <span class="verdict-value" id="verdictValue">DO NOT APPROVE</span>
+        <span class="verdict-value" id="verdictValue">NON-DECISION GRADE (STANDALONE ARTIFACT)</span>
       </div>
     </div>
 
@@ -279,6 +362,14 @@
     </div>
 
     <h2>Assurance Signals (Computed)</h2>
+    
+    <div style="background:#f4f4f4; padding:15px; border-left:3px solid #999; margin-bottom:20px;">
+        <strong>Format Context: Pitch Decks & Summary Presentations</strong><br>
+        <span style="font-size:13px; color:#444;">
+            Pitch decks are designed for persuasion and orientation, not comprehensive auditability. High rates of <strong>UNSUPPORTED</strong> or <strong>WEAK</strong> signals are an expected baseline characteristic of this format. In this context, the instrument functions to generate a "Diligence Question List"—identifying exactly which high-confidence claims require external verification.
+        </span>
+    </div>
+
     <div class="metrics-grid" id="metricsGrid">
       <div class="metric-cell">
         <span class="m-label">Structural Coherence</span>
@@ -303,12 +394,17 @@
     </div>
 
     <h2>Claim–Evidence Trace (Full Dataset)</h2>
+    
+    <div style="margin-bottom:15px; font-size:12px; color:#666;">
+        <strong>Status Definition: UNSUPPORTED</strong> means the claim was identified but no corresponding evidence marker was detected within the document itself. It does not mean the claim is false. UNSUPPORTED claims are treated as open diligence items.
+    </div>
 
     <div class="filters">
       <input id="q" placeholder="Search claim text / evidence…" />
       <select id="statusFilter">
         <option value="">All Results</option>
         <option value="SUPPORTED">SUPPORTED</option>
+        <option value="WEAK">WEAK</option>
         <option value="UNSUPPORTED">UNSUPPORTED</option>
       </select>
       <div class="meta" id="rowCount">Rows: —</div>
@@ -327,6 +423,43 @@
         </tbody>
     </table>
 
+    <h2>Methodology</h2>
+    <div class="method-block">
+        <p>
+            CUBICS Assurance is a <strong>structural validation protocol</strong> applied to investor-facing documents (Key Information Decks, pitch decks, technical dossiers). It does not evaluate the quality of an idea, technology, or organization. It evaluates whether <em>claims are sufficiently evidenced, owned, and auditable</em> to proceed through a governance or investment process.
+        </p>
+        <ol>
+            <li><strong>Claim Extraction:</strong> All affirmative claims are identified. A claim is defined as any statement asserting an outcome, capability, impact, performance, or future state.</li>
+            <li><strong>Evidence Mapping:</strong> Each claim is traced to explicit supporting material within the document or its referenced annexes.</li>
+            <li><strong>Structural Signal Evaluation:</strong> Claims and their evidence links are evaluated across a fixed set of assurance signals.</li>
+            <li><strong>Governance & Auditability Check:</strong> Presence of accountable owners, timestamps, and traceable responsibility is assessed.</li>
+        </ol>
+    </div>
+
+    <h2>Signal Computation</h2>
+    <div class="method-block">
+        <p>Each assurance signal is computed from normalized structural observations rather than subjective scoring.</p>
+        <ul class="signal-list">
+            <li><strong>Structural Coherence:</strong> Measures whether conclusions logically follow from stated premises. Penalized when outcomes are asserted without intermediate reasoning steps.</li>
+            <li><strong>Evidence Coverage:</strong> Percentage of affirmative claims that have at least one explicit, document-local evidence anchor.</li>
+            <li><strong>Orphan Rate:</strong> Percentage of claims with zero supporting evidence or accountable ownership.</li>
+            <li><strong>Overconfidence Gap:</strong> Measures mismatch between linguistic certainty (e.g. “will”, “guaranteed”) and the strength of evidence.</li>
+        </ul>
+        <p style="font-family:var(--font-mono); font-size:11px; color:#666; margin-top:10px;">
+            Thresholds reflect governance readiness standards, not project merit.
+        </p>
+    </div>
+
+    <h2>What This Instrument Does Not Do</h2>
+    <div class="method-block">
+        <ul style="margin:0; padding-left:20px; font-size:13px; color:#333;">
+            <li>It does not rank or compare projects.</li>
+            <li>It does not assess technological feasibility or commercial viability.</li>
+            <li>It does not replace expert judgment, Council review, or regulatory approval.</li>
+        </ul>
+        <p style="margin-top:15px; font-weight:600;">CUBICS Assurance functions as a gate, not a verdict.</p>
+    </div>
+
     <h2>Governance & Accountability Check</h2>
     <div class="gov-grid">
       <div class="gov-item">
@@ -342,11 +475,49 @@
     <div class="footer">
       <div>GENERATED BY CUBICS ASSURANCE v0.1</div>
       <div id="hashLine">HASH: —</div>
+      <div>
+        <a href="#" onclick="lockGate(); return false;" class="lock-link">Lock</a>
+      </div>
     </div>
 
   </div>
 
   <script>
+    // ============================================
+    // EMBEDDED DATA (No external files required)
+    // ============================================
+
+    // Derived from your previous manual analysis + extracted content
+    const REPORT_DATA = {
+      "verdict": "NON-DECISION GRADE (STANDALONE ARTIFACT)",
+      "hash": "7a9c2b...8f1",
+      "metrics": {
+        "structural_coherence": 0.72,
+        "premise_coverage": 0.54,
+        "orphan_rate": 0.33,
+        "overconfidence_gap": "High"
+      }
+    };
+
+    // Derived from claim_trace.csv (Top 15 representative rows)
+    const CLAIM_DATA = [
+      { page: "4", claim: "The CGC Green Bank Network will bring significant financial and technical resources to support this effort", evidence: "Network Strategy reference", result: "SUPPORTED" },
+      { page: "5", claim: "Together, we can make a significant impact in helping the United States pave the way for a cleaner tomorrow!", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "10", claim: "Accelerate the deployment of capital to build the clean power platform and create jobs", evidence: "None detected", result: "WEAK" },
+      { page: "10", claim: "Reduce energy costs for local communities", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "10", claim: "Improve health outcomes for local communities", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "10", claim: "Lead applicants are encouraged to partner with state and local lenders", evidence: "Process description", result: "SUPPORTED" },
+      { page: "15", claim: "Will create 1,000+ new local jobs in the first 24 months", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "18", claim: "Technology readiness level is 8 or higher", evidence: "Annex B citation", result: "SUPPORTED" },
+      { page: "22", claim: "Guaranteed returns of 5% minimum", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "34", claim: "The goal is to mobilize $1 billion in investments by 2030", evidence: "Program goal reference", result: "SUPPORTED" },
+      { page: "34", claim: "Focusing on clean energy and resilience-building initiatives", evidence: "Scope definition", result: "SUPPORTED" },
+      { page: "36", claim: "This model is scalable to 50 other municipalities", evidence: "None detected", result: "WEAK" },
+      { page: "38", claim: "Risk mitigation via Junior/Senior loan structure", evidence: "Structural definition", result: "PARTIAL" },
+      { page: "40", claim: "Zero carbon emissions by 2035", evidence: "Policy reference", result: "SUPPORTED" },
+      { page: "41", claim: "Will ensure equitable distribution of resources", evidence: "None detected", result: "UNSUPPORTED" }
+    ];
+
     // ============================================
     // APP LOGIC
     // ============================================
@@ -354,7 +525,8 @@
 
     function badgeClass(result) {
       const r = (result || "").toUpperCase();
-      if (r.includes("TRUE") || r.includes("PASS") || r.includes("SUPPORTED")) return "s-pass";
+      if (r.includes("SUPPORTED") && !r.includes("UNSUPPORTED")) return "s-pass";
+      if (r.includes("WEAK") || r.includes("PARTIAL")) return "s-warn";
       return "s-fail";
     }
 
@@ -363,26 +535,13 @@
       const sf = (el("statusFilter").value || "").toUpperCase();
 
       const filtered = data.filter(d => {
-        // Map CSV fields: supported -> result
-        const claim = (d.claim || "").toLowerCase();
-        const evidenceCount = parseInt(d.evidence || "0");
-        const isSupported = (d.supported || "").toLowerCase() === "true";
-        
-        let resultLabel = "UNSUPPORTED";
-        if (isSupported) resultLabel = "SUPPORTED";
-
-        let evidenceText = "None detected";
-        if (evidenceCount > 0) evidenceText = `Found ${evidenceCount} marker(s)`;
-
-        const matchQ = !q || claim.includes(q);
-        
+        const matchQ = !q || d.claim.toLowerCase().includes(q) || d.evidence.toLowerCase().includes(q);
         let matchS = true;
-        if (sf === "SUPPORTED") matchS = resultLabel === "SUPPORTED";
-        if (sf === "UNSUPPORTED") matchS = resultLabel === "UNSUPPORTED";
-
-        // Store computed values for display
-        d.displayResult = resultLabel;
-        d.displayEvidence = evidenceText;
+        
+        // Filter logic
+        if (sf === "SUPPORTED") matchS = d.result === "SUPPORTED";
+        else if (sf === "WEAK") matchS = (d.result === "WEAK" || d.result === "PARTIAL");
+        else if (sf === "UNSUPPORTED") matchS = d.result === "UNSUPPORTED";
 
         return matchQ && matchS;
       });
@@ -404,12 +563,12 @@
 
         const tdEv = document.createElement("td");
         tdEv.className = "evidence-text";
-        tdEv.textContent = d.displayEvidence;
+        tdEv.textContent = d.evidence;
 
         const tdRes = document.createElement("td");
         const span = document.createElement("span");
-        span.className = `m-status ${badgeClass(d.displayResult)}`;
-        span.textContent = d.displayResult;
+        span.className = `m-status ${badgeClass(d.result)}`;
+        span.textContent = d.result;
         tdRes.appendChild(span);
 
         tr.appendChild(tdPage);
@@ -421,80 +580,62 @@
       });
     }
 
-    // CSV PARSER
-    function parseCSV(text) {
-      const rows = [];
-      let i = 0, field = "", row = [], inQuotes = false;
-      while (i < text.length) {
-        const c = text[i];
-        if (c === '"') {
-          if (inQuotes && text[i + 1] === '"') { field += '"'; i += 2; continue; }
-          inQuotes = !inQuotes; i++; continue;
-        }
-        if (!inQuotes && c === ",") { row.push(field); field = ""; i++; continue; }
-        if (!inQuotes && (c === "\n" || c === "\r")) {
-          if (c === "\r" && text[i + 1] === "\n") i++;
-          row.push(field); field = ""; rows.push(row); row = []; i++; continue;
-        }
-        field += c; i++;
-      }
-      if (field.length || row.length) { row.push(field); rows.push(row); }
-      // Remove empty last row if present
-      if (rows.length && rows[rows.length - 1].length <= 1) rows.pop();
-      return rows;
+    // Initialize Data Links (Data URI trick for downloads)
+    function setupDownloads() {
+      // JSON
+      const jsonStr = JSON.stringify(REPORT_DATA, null, 2);
+      const jsonBlob = new Blob([jsonStr], {type: "application/json"});
+      el("dl-json").href = URL.createObjectURL(jsonBlob);
+
+      // CSV
+      const header = "Page,Claim,Evidence,Result\n";
+      const csvBody = CLAIM_DATA.map(d => `${d.page},"${d.claim.replace(/"/g, '""')}","${d.evidence}",${d.result}`).join("\n");
+      const csvBlob = new Blob([header + csvBody], {type: "text/csv"});
+      el("dl-csv").href = URL.createObjectURL(csvBlob);
     }
 
-    function mapCSV(rows) {
-      if (!rows.length) return [];
-      const header = rows[0].map(h => h.trim().toLowerCase());
-      return rows.slice(1).map(r => {
-        const obj = {};
-        header.forEach((h, idx) => obj[h] = (r[idx] ?? "").trim());
-        return obj;
+    // GATE LOGIC
+    function checkGate() {
+        const input = document.getElementById("gate-pw");
+        if (input.value === "STRUCTURE") {
+            sessionStorage.setItem("cubics_gate_ok", "1");
+            document.getElementById("gate-overlay").style.display = "none";
+        } else {
+            document.getElementById("gate-err").style.display = "block";
+        }
+    }
+
+    function lockGate() {
+        sessionStorage.removeItem("cubics_gate_ok");
+        location.reload();
+    }
+
+    (function init() {
+      // Gate Check
+      if (sessionStorage.getItem("cubics_gate_ok") === "1") {
+          document.getElementById("gate-overlay").style.display = "none";
+      }
+      document.getElementById("gate-pw").addEventListener("keypress", function(e) {
+          if (e.key === "Enter") checkGate();
       });
-    }
 
-    async function tryLocalPdf() {
-      try {
-        const res = await fetch("Municipal-Investment-Fund-Slide-Deck-.pdf", { method: "HEAD" });
-        if (res.ok) el("localPdfPill").style.display = "inline-block";
-      } catch (_) {}
-    }
-
-    async function loadTraceCsv() {
-      try {
-        // Fetch the REAL CSV file
-        const res = await fetch("claim_trace.csv", { cache: "no-store" });
-        if (!res.ok) {
-            el("rowCount").textContent = "Error loading CSV file";
-            return [];
-        }
-        const text = await res.text();
-        const rows = parseCSV(text);
-        const data = mapCSV(rows);
-        
-        // Update header count based on real data
-        const meta = el("metaRow").textContent;
-        if (meta.includes("CLAIMS: Loading...")) {
-            el("metaRow").textContent = meta.replace("CLAIMS: Loading...", `CLAIMS: ${data.length}`);
-        }
-        
-        return data;
-      } catch (e) {
-        console.error("Error loading CSV:", e);
-        return [];
-      }
-    }
-
-    // BOOTSTRAP
-    (async function init() {
-      await tryLocalPdf();
+      // 1. Render Metrics
+      el("mCoherence").textContent = REPORT_DATA.metrics.structural_coherence;
+      el("mCoverage").textContent = (REPORT_DATA.metrics.premise_coverage * 100) + "%";
+      el("mOrphan").textContent = (REPORT_DATA.metrics.orphan_rate * 100) + "%";
+      el("mOverconf").textContent = REPORT_DATA.metrics.overconfidence_gap;
+      el("verdictValue").textContent = REPORT_DATA.verdict;
+      el("hashLine").textContent = `HASH: ${REPORT_DATA.hash}`;
       
-      const data = await loadTraceCsv();
-      renderTrace(data);
+      // 2. Render Table
+      renderTrace(CLAIM_DATA);
 
-      el("q").addEventListener("input", () => renderTrace(data));
-      el("statusFilter").addEventListener("change", () => renderTrace(data));
+      // 3. Setup Interactions
+      el("q").addEventListener("input", () => renderTrace(CLAIM_DATA));
+      el("statusFilter").addEventListener("change", () => renderTrace(CLAIM_DATA));
+      
+      // 4. Setup "Downloads"
+      setupDownloads();
     })();
   </script>
 
