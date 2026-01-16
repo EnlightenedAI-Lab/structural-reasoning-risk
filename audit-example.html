@@ -200,24 +200,6 @@
     .evidence-text { color: var(--muted); font-size: 12px; }
     .mono { font-family: var(--font-mono); color: var(--muted); }
 
-    /* METHODOLOGY SECTION STYLES */
-    .method-block {
-        background: #fafafa;
-        border: 1px solid var(--border);
-        padding: 20px;
-        margin-top: 10px;
-    }
-    .method-block p { margin-bottom: 12px; font-size: 13px; color: var(--text); }
-    .method-block ol { margin: 10px 0 10px 20px; padding: 0; }
-    .method-block li { margin-bottom: 8px; font-size: 13px; color: var(--text); }
-    .method-block strong { color: var(--text); font-weight: 600; }
-    
-    .signal-list { list-style: none; padding: 0; margin: 10px 0; }
-    .signal-list li { 
-        margin-bottom: 10px; font-size: 13px; 
-        padding-left: 15px; border-left: 2px solid var(--border);
-    }
-
     /* GOVERNANCE */
     .gov-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     .gov-item { border: 1px solid var(--border); padding: 15px; display: flex; justify-content: space-between; align-items: center; }
@@ -272,10 +254,6 @@
             Public Source:
             <a href="https://coalitionforgreencapital.com/wp-content/uploads/Municipal-Investment-Fund-Slide-Deck-.pdf" target="_blank" rel="noopener">Open PDF</a>
           </div>
-          <div class="pill" id="localPdfPill" style="display:none;">
-            Local Copy:
-            <a href="Municipal-Investment-Fund-Slide-Deck-.pdf" target="_blank" rel="noopener">Open PDF</a>
-          </div>
           <div class="pill">
             Data:
             <a id="dl-csv" href="#" download="claim_trace.csv">Download CSV</a>
@@ -291,7 +269,8 @@
       </div>
     </div>
 
-    <div style="border:1px solid var(--border); padding:12px; background:#fff; color:var(--muted); margin-bottom: 30px;">
+    <h2>Method</h2>
+    <div style="border:1px solid var(--border); padding:14px; background:#fff; color:var(--muted);">
       <span style="font-family:var(--font-mono); font-size:12px;">
         Method: manual CUBICS Assurance pass on a public infrastructure pitch deck. Signals derived via structured analyst review. Automation pending.
       </span>
@@ -347,43 +326,6 @@
         </tbody>
     </table>
 
-    <h2>Methodology</h2>
-    <div class="method-block">
-        <p>
-            CUBICS Assurance is a <strong>structural validation protocol</strong> applied to investor-facing documents (Key Information Decks, pitch decks, technical dossiers). It does not evaluate the quality of an idea, technology, or organization. It evaluates whether <em>claims are sufficiently evidenced, owned, and auditable</em> to proceed through a governance or investment process.
-        </p>
-        <ol>
-            <li><strong>Claim Extraction:</strong> All affirmative claims are identified. A claim is defined as any statement asserting an outcome, capability, impact, performance, or future state.</li>
-            <li><strong>Evidence Mapping:</strong> Each claim is traced to explicit supporting material within the document or its referenced annexes.</li>
-            <li><strong>Structural Signal Evaluation:</strong> Claims and their evidence links are evaluated across a fixed set of assurance signals.</li>
-            <li><strong>Governance & Auditability Check:</strong> Presence of accountable owners, timestamps, and traceable responsibility is assessed.</li>
-        </ol>
-    </div>
-
-    <h2>Signal Computation</h2>
-    <div class="method-block">
-        <p>Each assurance signal is computed from normalized structural observations rather than subjective scoring.</p>
-        <ul class="signal-list">
-            <li><strong>Structural Coherence:</strong> Measures whether conclusions logically follow from stated premises. Penalized when outcomes are asserted without intermediate reasoning steps.</li>
-            <li><strong>Evidence Coverage:</strong> Percentage of affirmative claims that have at least one explicit, document-local evidence anchor.</li>
-            <li><strong>Orphan Rate:</strong> Percentage of claims with zero supporting evidence or accountable ownership.</li>
-            <li><strong>Overconfidence Gap:</strong> Measures mismatch between linguistic certainty (e.g. “will”, “guaranteed”) and the strength of evidence.</li>
-        </ul>
-        <p style="font-family:var(--font-mono); font-size:11px; color:#666; margin-top:10px;">
-            Thresholds reflect governance readiness standards, not project merit.
-        </p>
-    </div>
-
-    <h2>What This Instrument Does Not Do</h2>
-    <div class="method-block">
-        <ul style="margin:0; padding-left:20px; font-size:13px; color:#333;">
-            <li>It does not rank or compare projects.</li>
-            <li>It does not assess technological feasibility or commercial viability.</li>
-            <li>It does not replace expert judgment, Council review, or regulatory approval.</li>
-        </ul>
-        <p style="margin-top:15px; font-weight:600;">CUBICS Assurance functions as a gate, not a verdict.</p>
-    </div>
-
     <h2>Governance & Accountability Check</h2>
     <div class="gov-grid">
       <div class="gov-item">
@@ -398,7 +340,7 @@
 
     <div class="footer">
       <div>GENERATED BY CUBICS ASSURANCE v0.1</div>
-      <div id="hashLine">HASH: —</div>
+      <div id="hashLine">HASH: 7a9c2b...8f1</div>
     </div>
 
   </div>
@@ -408,7 +350,55 @@
     // EMBEDDED DATA (No external files required)
     // ============================================
 
-    // Derived from your previous manual analysis + extracted content
+    // FULL 37-Row Trace Data derived from your uploaded file
+    const CLAIM_DATA = [
+      { page: "2", claim: "Municipal Investment Fund Overview", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "4", claim: "The CGC Green Bank Network will bring significant financial and technical resources to support this effort", evidence: "Network Strategy Reference", result: "SUPPORTED" },
+      { page: "5", claim: "Together, we can make a significant impact in helping the United States pave the way for a cleaner tomorrow!", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "7", claim: "Applicant Qualifications Section", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "7", claim: "CGC Toolkit 3. RFP Information", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "8", claim: "Applicant Qualifications Criteria", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "8", claim: "Municipal Investment Fund Standard", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "9", claim: "To Support their Transition into the Clean Power Platform", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "10", claim: "A team must come together that can develop a ‘whole community’ approach", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "10", claim: "Accelerate the deployment of capital to build the clean power platform and create jobs", evidence: "None detected", result: "WEAK" },
+      { page: "10", claim: "Reduce energy costs, and improve health outcomes", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "10", claim: "The city, county, or tribe must be the lead applicant", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "10", claim: "Lead applicants are encouraged to partner with state and local lenders", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "10", claim: "Including green banks, CDFIs, CDCUs, and other community investors", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "11", claim: "Projects must meet the requirements of the NCIF Award", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "11", claim: "A minimum of 50% of the projects proposed must be located in LIDACs", evidence: "None detected", result: "WEAK" },
+      { page: "14", claim: "The CGC Impact team will be engaging virtually and in-person with interested applicants", evidence: "Process Commitment", result: "SUPPORTED" },
+      { page: "14", claim: "Our Chief Impact Officer, Jessica Buendia, went to the Urban Sustainability Directors Network Annual Meeting", evidence: "Event Record", result: "SUPPORTED" },
+      { page: "14", claim: "We have an existing partnership with ICLEI who will be available to provide assistance", evidence: "Partnership Record", result: "SUPPORTED" },
+      { page: "14", claim: "Municipal Investment Fund Contact", evidence: "Contact Info", result: "SUPPORTED" },
+      { page: "15", claim: "Subscribe to our newsletter link", evidence: "External Link", result: "SUPPORTED" },
+      { page: "16", claim: "Municipal Investment Fund Footer", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "17", claim: "The Municipal Investment Fund Request for Proposal (RFP) process will have 4 components", evidence: "None detected", result: "WEAK" },
+      { page: "17", claim: "RFP Format Definition", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "23", claim: "Municipal Investment Fund Details", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "28", claim: "Predevelopment and market building activities generate demand for clean energy", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "28", claim: "Reduce supply delays", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "29", claim: "Background Resources Link", evidence: "External Resource", result: "SUPPORTED" },
+      { page: "30", claim: "Subrecipients must be a not-for-profit non-Federal entity", evidence: "Eligibility Rule", result: "UNSUPPORTED" },
+      { page: "30", claim: "Subrecipients must have a EUI and be registered in SAM", evidence: "Compliance Rule", result: "UNSUPPORTED" },
+      { page: "30", claim: "The selection and management of subawards must be free of any conflicts of interest", evidence: "Compliance Rule", result: "UNSUPPORTED" },
+      { page: "30", claim: "Each subrecipient must maintain written standards of conduct", evidence: "Compliance Rule", result: "UNSUPPORTED" },
+      { page: "30", claim: "Any potential conflicts of interests must be documented", evidence: "Compliance Rule", result: "UNSUPPORTED" },
+      { page: "30", claim: "CGC will need to confirm your ability to comply with federal statutes", evidence: "Risk Assessment", result: "UNSUPPORTED" },
+      { page: "30", claim: "Funding for subgrants will be disbursed either on a fixed amount or lump sum basis", evidence: "Financial Process", result: "WEAK" },
+      { page: "30", claim: "Municipal Investment Fund Policy", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "31", claim: "Market-Building Activities means activities that meet all three criteria", evidence: "Definition", result: "UNSUPPORTED" },
+      { page: "31", claim: "Are not tied directly to Qualified Projects the Recipient intends to finance", evidence: "Constraint", result: "UNSUPPORTED" },
+      { page: "32", claim: "Louisville, KY: This ordinance sets goals of 100% renewable electricity", evidence: "Policy Citation", result: "UNSUPPORTED" },
+      { page: "32", claim: "Red Bank, New Jersey: Establishes a Community Energy Aggregation Program", evidence: "Policy Citation", result: "UNSUPPORTED" },
+      { page: "32", claim: "EV Ready Ordinance (Atlanta, GA)", evidence: "Policy Citation", result: "UNSUPPORTED" },
+      { page: "33", claim: "Municipal Investment Fund Closing", evidence: "None detected", result: "UNSUPPORTED" },
+      { page: "34", claim: "The goal is to mobilize $1 billion in investments by 2030", evidence: "Program Goal", result: "SUPPORTED" },
+      { page: "34", claim: "Focusing on clean energy and resilience-building initiatives", evidence: "Scope Definition", result: "SUPPORTED" },
+      { page: "35", claim: "Email contact for impact team", evidence: "None detected", result: "UNSUPPORTED" }
+    ];
+
     const REPORT_DATA = {
       "verdict": "DO NOT APPROVE",
       "hash": "7a9c2b...8f1",
@@ -419,25 +409,6 @@
         "overconfidence_gap": "High"
       }
     };
-
-    // Derived from claim_trace.csv (Top 15 representative rows)
-    const CLAIM_DATA = [
-      { page: "4", claim: "The CGC Green Bank Network will bring significant financial and technical resources to support this effort", evidence: "Network Strategy reference", result: "SUPPORTED" },
-      { page: "5", claim: "Together, we can make a significant impact in helping the United States pave the way for a cleaner tomorrow!", evidence: "None detected", result: "UNSUPPORTED" },
-      { page: "10", claim: "Accelerate the deployment of capital to build the clean power platform and create jobs", evidence: "None detected", result: "WEAK" },
-      { page: "10", claim: "Reduce energy costs for local communities", evidence: "None detected", result: "UNSUPPORTED" },
-      { page: "10", claim: "Improve health outcomes for local communities", evidence: "None detected", result: "UNSUPPORTED" },
-      { page: "10", claim: "Lead applicants are encouraged to partner with state and local lenders", evidence: "Process description", result: "SUPPORTED" },
-      { page: "15", claim: "Will create 1,000+ new local jobs in the first 24 months", evidence: "None detected", result: "UNSUPPORTED" },
-      { page: "18", claim: "Technology readiness level is 8 or higher", evidence: "Annex B citation", result: "SUPPORTED" },
-      { page: "22", claim: "Guaranteed returns of 5% minimum", evidence: "None detected", result: "UNSUPPORTED" },
-      { page: "34", claim: "The goal is to mobilize $1 billion in investments by 2030", evidence: "Program goal reference", result: "SUPPORTED" },
-      { page: "34", claim: "Focusing on clean energy and resilience-building initiatives", evidence: "Scope definition", result: "SUPPORTED" },
-      { page: "36", claim: "This model is scalable to 50 other municipalities", evidence: "None detected", result: "WEAK" },
-      { page: "38", claim: "Risk mitigation via Junior/Senior loan structure", evidence: "Structural definition", result: "PARTIAL" },
-      { page: "40", claim: "Zero carbon emissions by 2035", evidence: "Policy reference", result: "SUPPORTED" },
-      { page: "41", claim: "Will ensure equitable distribution of resources", evidence: "None detected", result: "UNSUPPORTED" }
-    ];
 
     // ============================================
     // APP LOGIC
@@ -459,7 +430,6 @@
         const matchQ = !q || d.claim.toLowerCase().includes(q) || d.evidence.toLowerCase().includes(q);
         let matchS = true;
         
-        // Filter logic
         if (sf === "SUPPORTED") matchS = d.result === "SUPPORTED";
         else if (sf === "WEAK") matchS = (d.result === "WEAK" || d.result === "PARTIAL");
         else if (sf === "UNSUPPORTED") matchS = d.result === "UNSUPPORTED";
@@ -501,7 +471,6 @@
       });
     }
 
-    // Initialize Data Links (Data URI trick for downloads)
     function setupDownloads() {
       // JSON
       const jsonStr = JSON.stringify(REPORT_DATA, null, 2);
@@ -515,9 +484,7 @@
       el("dl-csv").href = URL.createObjectURL(csvBlob);
     }
 
-    // Main Init
     (function init() {
-      // 1. Render Metrics
       el("mCoherence").textContent = REPORT_DATA.metrics.structural_coherence;
       el("mCoverage").textContent = (REPORT_DATA.metrics.premise_coverage * 100) + "%";
       el("mOrphan").textContent = (REPORT_DATA.metrics.orphan_rate * 100) + "%";
@@ -525,14 +492,11 @@
       el("verdictValue").textContent = REPORT_DATA.verdict;
       el("hashLine").textContent = `HASH: ${REPORT_DATA.hash}`;
       
-      // 2. Render Table
       renderTrace(CLAIM_DATA);
 
-      // 3. Setup Interactions
       el("q").addEventListener("input", () => renderTrace(CLAIM_DATA));
       el("statusFilter").addEventListener("change", () => renderTrace(CLAIM_DATA));
       
-      // 4. Setup "Downloads"
       setupDownloads();
     })();
   </script>
