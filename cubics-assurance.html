@@ -31,7 +31,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* INSTRUMENT HEADER */
+        /* INSTRUMENT HEADER (DOCS NAV) */
         .instrument-bar {
             background: var(--bg);
             border-bottom: 1px solid var(--border);
@@ -50,18 +50,28 @@
         }
         .instrument-bar strong { color: var(--text); font-weight: 600; }
         
-        .live-link {
-            color: var(--highlight); text-decoration: none;
-            border-bottom: 1px solid var(--highlight); font-weight: 700; margin-left: 15px;
-        }
-        
         .nav-links { display: flex; gap: 15px; }
         .nav-links a { text-decoration: none; color: var(--muted); font-weight: 600; transition: color 0.2s; }
         .nav-links a:hover { color: var(--text); }
         .nav-links a.active { color: var(--text); border-bottom: 1px solid var(--text); }
 
+        /* ACTION SUB-HEADER */
+        .action-bar {
+            background: var(--panel);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 20px;
+            text-align: right;
+            font-family: var(--font-mono);
+            font-size: 11px;
+        }
+        .action-link {
+            color: var(--text); text-decoration: none; font-weight: 700;
+            border-bottom: 1px solid var(--highlight); transition: opacity 0.2s;
+        }
+        .action-link:hover { opacity: 0.7; }
+
         /* LAYOUT */
-        .container { max-width: 1100px; margin: 0 auto; padding: 60px 20px 100px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px 100px; }
 
         h1 { font-size: 32px; font-weight: 700; margin-bottom: 15px; letter-spacing: -0.5px; }
         h2 {
@@ -71,7 +81,7 @@
         h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
         p { color: var(--muted); margin-bottom: 16px; max-width: 800px; }
 
-        /* NEW DEFINITION SENTENCE */
+        /* DEFINITION SENTENCE */
         .definition-sentence {
             font-size: 16px; color: var(--text); margin-bottom: 40px; line-height: 1.6; max-width: 900px;
         }
@@ -137,6 +147,33 @@
         /* CTA */
         .cta-box { margin-top: 80px; padding: 30px; background: #f4f4f4; text-align: center; border: 1px solid var(--border); }
 
+        /* GATE OVERLAY */
+        #gate-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #f0f0f0; z-index: 9999;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .gate-box {
+            background: #fff; padding: 40px; border: 1px solid #ccc;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 360px;
+            text-align: center;
+        }
+        .gate-box h3 { margin-top: 0; font-size: 16px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .gate-input {
+            width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc;
+            margin-bottom: 15px; font-family: monospace; text-align: center;
+        }
+        .gate-btn {
+            width: 100%; padding: 10px; background: #000; color: #fff; border: none;
+            font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 12px;
+        }
+        .gate-error { color: red; font-size: 12px; margin-top: 10px; display: none; }
+
+        .lock-link {
+            font-family: var(--font-mono); font-size: 10px; color: #ccc; cursor: pointer; text-decoration: none;
+        }
+        .lock-link:hover { color: #000; }
+
         @media (max-width: 800px) {
             .grid-3, .grid-2, .grid-4 { grid-template-columns: 1fr; }
             .pathway { flex-direction: column; gap: 10px; align-items: stretch; }
@@ -144,20 +181,32 @@
             .audit-row { grid-template-columns: 1fr; gap: 5px; padding: 15px 0; border-bottom: 2px solid #eee; }
             .instrument-bar { flex-direction: column; gap: 10px; align-items: flex-start; }
             .nav-links { flex-wrap: wrap; gap: 10px; }
-            .live-link { margin-left: 0; }
+            .action-bar { text-align: left; }
         }
     </style>
 </head>
 <body>
 
+    <div id="gate-overlay">
+        <div class="gate-box">
+            <h3>Restricted Access</h3>
+            <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Enter access phrase to view demonstration materials.</p>
+            <input type="password" id="gate-pw" class="gate-input" placeholder="Access Phrase" autofocus />
+            <button class="gate-btn" onclick="checkGate()">Unlock</button>
+            <div id="gate-err" class="gate-error">Invalid phrase</div>
+        </div>
+    </div>
+
     <div class="instrument-bar">
         <div><strong>Enlightened AI Research Lab</strong></div>
-        
         <div class="nav-links">
             <a href="cubics-assurance.html" class="active">Brief</a>
             <a href="why-this-format.html">Why This Format</a>
-            <a href="audit-example.html" class="live-link">[ VIEW LIVE ARTIFACT ]</a>
         </div>
+    </div>
+
+    <div class="action-bar">
+        <a href="audit-example.html" class="action-link">View Example Audit Artifact →</a>
     </div>
 
     <div class="container">
@@ -411,7 +460,11 @@
             </p>
         </div>
 
-        <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--muted);">
+        <div style="margin-top: 100px; text-align: right;">
+            <a href="#" onclick="lockGate(); return false;" class="lock-link">Lock</a>
+        </div>
+
+        <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--muted);">
             <strong>Scope & Limitations:</strong>
             This analysis evaluates the structural integrity of the submitted artifact in isolation. It validates whether claims are connected to stated premises within the file.
             It does NOT verify factual truth against external reality, assess the intent of authors, or predict project success.
@@ -419,6 +472,34 @@
         </div>
 
     </div>
+
+    <script>
+        function checkGate() {
+            const input = document.getElementById("gate-pw");
+            if (input.value === "STRUCTURE") {
+                sessionStorage.setItem("cubics_gate_ok", "1");
+                document.getElementById("gate-overlay").style.display = "none";
+            } else {
+                document.getElementById("gate-err").style.display = "block";
+            }
+        }
+
+        function lockGate() {
+            sessionStorage.removeItem("cubics_gate_ok");
+            location.reload();
+        }
+
+        (function() {
+            if (sessionStorage.getItem("cubics_gate_ok") === "1") {
+                document.getElementById("gate-overlay").style.display = "none";
+            }
+            
+            // Allow Enter key
+            document.getElementById("gate-pw").addEventListener("keypress", function(e) {
+                if (e.key === "Enter") checkGate();
+            });
+        })();
+    </script>
 
 </body>
 </html>
