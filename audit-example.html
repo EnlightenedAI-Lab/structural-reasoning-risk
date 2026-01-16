@@ -89,7 +89,7 @@
         .trace-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 40px; }
         .trace-table th { text-align: left; font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; color: var(--muted); padding: 10px; border-bottom: 2px solid #000; }
         .trace-table td { padding: 12px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
-        .claim-text { font-weight: 500; max-width: 400px; }
+        .claim-text { font-weight: 500; max-width: 450px; }
         .evidence-text { color: var(--muted); font-size: 12px; }
         
         /* GOVERNANCE CHECK */
@@ -117,7 +117,7 @@
             <div>
                 <h1>Audit Record: Municipal Investment Fund</h1>
                 <div class="meta-row">
-                    SOURCE: Municipal-Investment-Fund-Slide-Deck.pdf · PAGES: 15 · DATE: 2024-03-12
+                    SOURCE: Municipal-Investment-Fund-Slide-Deck-.pdf · CLAIMS EXTRACTED: 37 · DATE: 2026-01-15
                 </div>
             </div>
             <div class="verdict-box">
@@ -130,18 +130,18 @@
         <div class="metrics-grid">
             <div class="metric-cell">
                 <span class="m-label">Structural Coherence</span>
-                <span class="m-value">0.65</span>
+                <span class="m-value">0.72</span>
                 <span class="m-status s-fail">FAIL (< 0.90)</span>
             </div>
             <div class="metric-cell">
                 <span class="m-label">Evidence Coverage</span>
-                <span class="m-value">42%</span>
+                <span class="m-value">54%</span>
                 <span class="m-status s-fail">FAIL (< 95%)</span>
             </div>
             <div class="metric-cell">
                 <span class="m-label">Orphan Rate</span>
-                <span class="m-value">25%</span>
-                <span class="m-status s-warn">WARN (> 10%)</span>
+                <span class="m-value">33%</span>
+                <span class="m-status s-fail">FAIL (> 5%)</span>
             </div>
             <div class="metric-cell">
                 <span class="m-label">Overconfidence</span>
@@ -154,36 +154,42 @@
         <table class="trace-table">
             <thead>
                 <tr>
-                    <th width="10%">ID</th>
-                    <th width="40%">Affirmative Claim</th>
-                    <th width="30%">Detected Evidence</th>
+                    <th width="10%">Slide</th>
+                    <th width="50%">Affirmative Claim</th>
+                    <th width="20%">Evidence Marker</th>
                     <th width="20%">Result</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td style="font-family: var(--font-mono); color: var(--muted);">C-01</td>
-                    <td class="claim-text">"Mobilize private investment at a ratio of 3:1."</td>
-                    <td class="evidence-text">Generic citation to "Green Bank Network data". No specific financial model provided for this fund.</td>
+                    <td style="font-family: var(--font-mono); color: var(--muted);">4</td>
+                    <td class="claim-text">"The CGC Green Bank Network will bring significant financial and technical resources to support this effort."</td>
+                    <td class="evidence-text">References Network Strategy (internal?)</td>
+                    <td><span class="m-status s-pass">SUPPORTED</span></td>
+                </tr>
+                <tr>
+                    <td style="font-family: var(--font-mono); color: var(--muted);">5</td>
+                    <td class="claim-text">"Together, we can make a significant impact in helping the United States pave the way for a cleaner tomorrow!"</td>
+                    <td class="evidence-text">None detected.</td>
+                    <td><span class="m-status s-fail">UNSUPPORTED</span></td>
+                </tr>
+                <tr>
+                    <td style="font-family: var(--font-mono); color: var(--muted);">10</td>
+                    <td class="claim-text">"...can help accelerate the deployment of capital to build the clean power platform and create jobs, reduce energy costs, and improve health outcomes."</td>
+                    <td class="evidence-text">None detected.</td>
                     <td><span class="m-status s-warn">WEAK SUBSTANTIATION</span></td>
                 </tr>
                 <tr>
-                    <td style="font-family: var(--font-mono); color: var(--muted);">C-02</td>
-                    <td class="claim-text">"Improve health outcomes for local communities."</td>
-                    <td class="evidence-text">Zero evidence found. No medical baselines or pollution impact studies cited.</td>
-                    <td><span class="m-status s-fail">ORPHAN CLAIM</span></td>
+                    <td style="font-family: var(--font-mono); color: var(--muted);">10</td>
+                    <td class="claim-text">"Lead applicants are encouraged to partner with state and local lenders – including green banks, CDFIs, CDCUs..."</td>
+                    <td class="evidence-text">None detected.</td>
+                    <td><span class="m-status s-fail">UNSUPPORTED</span></td>
                 </tr>
                 <tr>
-                    <td style="font-family: var(--font-mono); color: var(--muted);">C-03</td>
-                    <td class="claim-text">"Junior/Senior loans will mitigate financial risk."</td>
-                    <td class="evidence-text">Mechanism described, but risk calculation is absent.</td>
-                    <td><span class="m-status s-warn">PARTIAL COVERAGE</span></td>
-                </tr>
-                <tr>
-                    <td style="font-family: var(--font-mono); color: var(--muted);">C-04</td>
-                    <td class="claim-text">"Technology is market-ready for deployment."</td>
-                    <td class="evidence-text">Cited: Annex B (Technical Readiness Level 8).</td>
-                    <td><span class="m-status s-pass">VERIFIED</span></td>
+                    <td style="font-family: var(--font-mono); color: var(--muted);">34</td>
+                    <td class="claim-text">"The goal is to mobilize $1 billion in investments by 2030, focusing on clean energy and resilience-building initiatives."</td>
+                    <td class="evidence-text">Implicit reference to program goal.</td>
+                    <td><span class="m-status s-pass">SUPPORTED</span></td>
                 </tr>
             </tbody>
         </table>
