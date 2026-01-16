@@ -45,6 +45,7 @@
             letter-spacing: 0.5px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
             color: var(--muted);
             position: sticky;
             top: 0;
@@ -58,6 +59,14 @@
         .instrument-bar strong {
             color: var(--text);
             font-weight: 600;
+        }
+
+        .live-link {
+            color: var(--highlight);
+            text-decoration: none;
+            border-bottom: 1px solid var(--highlight);
+            font-weight: 700;
+            margin-left: 15px;
         }
 
         /* LAYOUT */
@@ -288,7 +297,8 @@
             .pathway { flex-direction: column; gap: 10px; align-items: stretch; }
             .arrow { display: none; }
             .audit-row { grid-template-columns: 1fr; gap: 5px; padding: 15px 0; border-bottom: 2px solid #eee; }
-            .instrument-bar { flex-direction: column; gap: 5px; }
+            .instrument-bar { flex-direction: column; gap: 5px; align-items: flex-start; }
+            .live-link { margin-left: 0; }
         }
     </style>
 </head>
@@ -298,7 +308,10 @@
         <div><strong>Enlightened AI Research Lab</strong></div>
         <div>Instrument: <strong>CUBICS Assurance</strong></div>
         <div>Mode: <strong>Document Validation</strong></div>
-        <div>Version: <strong>v0.2</strong></div>
+        <div>
+            <span>Version: <strong>v0.2</strong></span>
+            <a href="audit-example.html" class="live-link">[ VIEW LIVE ARTIFACT ]</a>
+        </div>
     </div>
 
     <div class="container">
