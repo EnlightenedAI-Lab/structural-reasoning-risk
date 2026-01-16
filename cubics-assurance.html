@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CUBICS Assurance · Instrument Brief</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #111111;
+            --muted: #666666;
+            --border: #e0e0e0;
+            --panel: #f9f9f9;
+            --highlight: #000000;
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            --status-fail: #d32f2f;
+            --status-warn: #f57c00;
+            --status-pass: #388e3c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-main);
+            line-height: 1.5;
+            font-size: 14px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* INSTRUMENT HEADER */
+        .instrument-bar {
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 20px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+            color: var(--muted);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .instrument-bar span {
+            display: inline-block;
+        }
+
+        .instrument-bar strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* LAYOUT */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px 100px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        h2 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            margin: 50px 0 25px 0;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        p {
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--text);
+        }
+
+        /* CARDS */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            border: 1px solid var(--border);
+            padding: 25px;
+            background: var(--bg);
+            transition: border-color 0.2s;
+        }
+
+        .card:hover {
+            border-color: var(--highlight);
+        }
+
+        .card-header {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* TABLES */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+
+        th {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--muted);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 10px;
+            font-weight: 500;
+        }
+
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .code-font {
+            font-family: var(--font-mono);
+            font-size: 12px;
+        }
+
+        /* MOCK INTERFACE */
+        .mock-ui {
+            border: 1px solid var(--border);
+            background: var(--panel);
+            padding: 30px;
+        }
+
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 1px solid transparent;
+        }
+
+        .badge.fail { color: var(--status-fail); border-color: var(--status-fail); background: #fff; }
+        .badge.warn { color: var(--status-warn); border-color: var(--status-warn); background: #fff; }
+        .badge.pass { color: var(--status-pass); border-color: var(--status-pass); background: #fff; }
+
+        .stat-group {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--muted);
+        }
+        
+        .stat-val { color: var(--text); font-weight: 700; margin-right: 15px; }
+
+        .audit-row {
+            display: grid;
+            grid-template-columns: 1.5fr 1.5fr 0.5fr 1fr 1fr 0.5fr;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            align-items: center;
+        }
+
+        .audit-row.header {
+            color: var(--muted);
+            font-size: 10px;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .audit-row span.fail { color: var(--status-fail); font-weight: 700; }
+        .audit-row span.warn { color: var(--status-warn); font-weight: 700; }
+        .audit-row span.pass { color: var(--status-pass); font-weight: 700; }
+
+        /* PATHWAY */
+        .pathway {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .step {
+            border: 1px solid var(--border);
+            padding: 10px 15px;
+            background: #fff;
+            color: var(--muted);
+        }
+
+        .step.active {
+            border-color: var(--highlight);
+            color: var(--text);
+            font-weight: 700;
+            background: #f0f0f0;
+        }
+
+        .arrow { color: var(--muted); }
+
+        /* CTA */
+        .cta-box {
+            margin-top: 80px;
+            padding: 30px;
+            background: #f4f4f4;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        @media (max-width: 800px) {
+            .grid-3, .grid-2, .grid-4 { grid-template-columns: 1fr; }
+            .pathway { flex-direction: column; gap: 10px; align-items: stretch; }
+            .arrow { display: none; }
+            .audit-row { grid-template-columns: 1fr; gap: 5px; padding: 15px 0; border-bottom: 2px solid #eee; }
+            .instrument-bar { flex-direction: column; gap: 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="instrument-bar">
+        <div><strong>Enlightened AI Research Lab</strong></div>
+        <div>Instrument: <strong>CUBICS Assurance</strong></div>
+        <div>Mode: <strong>Document Validation</strong></div>
+        <div>Version: <strong>v0.1</strong></div>
+    </div>
+
+    <div class="container">
+
+        <div style="max-width: 800px;">
+            <h1>CUBICS Assurance</h1>
+            <p style="font-size: 18px; color: var(--text); margin-bottom: 20px;">
+                Court-grade document validation for Key Information Decks (KIDs) and Cubics submissions.
+            </p>
+            <div style="border-left: 3px solid var(--highlight); padding-left: 20px; margin-top: 20px;">
+                <ul>
+                    <li style="margin-bottom: 5px; color: var(--text);">Ensures claims made to investors are structurally tied to evidence.</li>
+                    <li style="margin-bottom: 5px; color: var(--text);">Automates the detection of governance gaps and missing accountability trails.</li>
+                    <li style="margin-bottom: 5px; color: var(--text);">Provides an independent, auditable artifact for compliance records.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>System Capabilities</h2>
+        <div class="grid-3">
+            <div class="card">
+                <span class="card-header">Module A</span>
+                <h3>Claim–Evidence Consistency</h3>
+                <p>Scans document submissions to map every affirmative claim to its supporting premise. Detects unsupported assertions and logical gaps.</p>
+            </div>
+            <div class="card">
+                <span class="card-header">Module B</span>
+                <h3>Governance & Accountability</h3>
+                <p>Validates the presence of required audit trails, accountable owners, and verifiable timestamps for key decisions.</p>
+            </div>
+            <div class="card">
+                <span class="card-header">Module C</span>
+                <h3>Risk & Integrity Signals</h3>
+                <p>Analyzes semantic patterns to detect overconfidence, "marketing fluff" disguised as fact, and missing substantiation.</p>
+            </div>
+        </div>
+
+        <h2>Metric Definitions</h2>
+        <div class="card" style="padding: 0;">
+            <table>
+                <thead>
+                    <tr>
+                        <th width="20%">Metric</th>
+                        <th width="45%">Meaning</th>
+                        <th width="35%">What failure looks like</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="code-font">integrity_score</td>
+                        <td>Degree to which conclusions logically follow from stated premises.</td>
+                        <td>Conclusions that "sound right" but lack evidentiary steps.</td>
+                    </tr>
+                    <tr>
+                        <td class="code-font">premise_coverage</td>
+                        <td>Percentage of distinct claims supported by at least one piece of evidence.</td>
+                        <td>A deck full of assertions with no reference citations.</td>
+                    </tr>
+                    <tr>
+                        <td class="code-font">orphan_rate</td>
+                        <td>Volume of claims that have zero structural support links.</td>
+                        <td>"We will dominate the market" (orphaned from market data).</td>
+                    </tr>
+                    <tr>
+                        <td class="code-font">unsupported_risk</td>
+                        <td>Composite probability that a statement is fabricated or hallucinatory.</td>
+                        <td>Specific numbers or dates that appear without source documents.</td>
+                    </tr>
+                    <tr>
+                        <td class="code-font">overconfidence_gap</td>
+                        <td>Distance between the certainty of language and the strength of evidence.</td>
+                        <td>Using words like "guaranteed" or "proven" on weak premises.</td>
+                    </tr>
+                    <tr>
+                        <td class="code-font">stability_score</td>
+                        <td>Consistency of the claim structure under stress-testing.</td>
+                        <td>Claims that change meaning when phrased slightly differently.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Protection & Liability</h2>
+        <div class="grid-4">
+            <div class="card">
+                <h3>Disputes</h3>
+                <p>Reduces litigation exposure by ensuring all investor-facing claims are pre-validated.</p>
+            </div>
+            <div class="card">
+                <h3>Reputation</h3>
+                <p>Prevents reputational damage caused by overstated or retracted public claims.</p>
+            </div>
+            <div class="card">
+                <h3>Compliance</h3>
+                <p>Auto-flags missing substantiation before regulatory submission.</p>
+            </div>
+            <div class="card">
+                <h3>Governance</h3>
+                <p>Eliminates ambiguity regarding who owns a specific claim.</p>
+            </div>
+        </div>
+
+        <h2>Efficiency Impact</h2>
+        <div class="grid-3">
+            <div class="card" style="background: var(--panel); border: none;">
+                <h3>Time</h3>
+                <p>Drastically reduces back-and-forth cycles in KID drafting and manual review.</p>
+            </div>
+            <div class="card" style="background: var(--panel); border: none;">
+                <h3>Cost</h3>
+                <p>Minimizes billable hours spent on basic structural assurance cycles.</p>
+            </div>
+            <div class="card" style="background: var(--panel); border: none;">
+                <h3>Risk</h3>
+                <p>Stops fragile or false claims from reaching investors or the Council.</p>
+            </div>
+        </div>
+
+        <h2>Audit Result Artifact (Example)</h2>
+        <div class="mock-ui">
+            <div class="status-header">
+                <div>
+                    <span class="badge fail">STATUS: FAIL</span>
+                    <span style="font-family: var(--font-mono); margin-left: 10px; font-size: 12px;">DOC ID: REF-2024-KID-09</span>
+                </div>
+                <div class="stat-group">
+                    FAIL RULES: <span class="stat-val" style="color: var(--status-fail);">3</span>
+                    WARN RULES: <span class="stat-val" style="color: var(--status-warn);">1</span>
+                    TOTAL RULES: <span class="stat-val">5</span>
+                </div>
+            </div>
+
+            <div class="audit-row header">
+                <span>Rule ID</span>
+                <span>Metric</span>
+                <span>Op</span>
+                <span>Target</span>
+                <span>Actual</span>
+                <span>Result</span>
+            </div>
+            <div class="audit-row">
+                <span>CUBICS.R1 Min Integrity</span>
+                <span class="code-font">integrity_score</span>
+                <span>>=</span>
+                <span>0.90</span>
+                <span>0.72</span>
+                <span class="fail">FAIL</span>
+            </div>
+            <div class="audit-row">
+                <span>CUBICS.R2 Min Coverage</span>
+                <span class="code-font">premise_coverage</span>
+                <span>>=</span>
+                <span>0.95</span>
+                <span>0.88</span>
+                <span class="fail">FAIL</span>
+            </div>
+            <div class="audit-row">
+                <span>CUBICS.R3 Orphan Cap</span>
+                <span class="code-font">orphan_rate</span>
+                <span><=</span>
+                <span>0.05</span>
+                <span>0.11</span>
+                <span class="fail">FAIL</span>
+            </div>
+            <div class="audit-row">
+                <span>CUBICS.R4 Unsupported Risk</span>
+                <span class="code-font">unsupported_risk</span>
+                <span><=</span>
+                <span>0.10</span>
+                <span>0.04</span>
+                <span class="pass">PASS</span>
+            </div>
+            <div class="audit-row">
+                <span>CUBICS.R5 Overconfidence</span>
+                <span class="code-font">overconfidence_gap</span>
+                <span><=</span>
+                <span>0.10</span>
+                <span>0.14</span>
+                <span class="warn">WARN</span>
+            </div>
+
+            <div style="margin-top: 25px; border-top: 1px solid #ddd; padding-top: 15px;">
+                <h4 style="font-size: 12px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px;">Detected Red Flags</h4>
+                <ul style="font-size: 13px; color: var(--text);">
+                    <li><strong>Critical:</strong> Section 4.2 contains 3 revenue projections with zero linked evidence.</li>
+                    <li><strong>Governance:</strong> "Technical Feasibility" section lacks a named accountable owner.</li>
+                    <li><strong>Integrity:</strong> Conclusion on "Market Dominance" does not logically follow from the provided premises.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Integration in CFU Pathway</h2>
+        <div class="pathway">
+            <div class="step">Quick Scan</div>
+            <div class="arrow">→</div>
+            <div class="step">Mining</div>
+            <div class="arrow">→</div>
+            <div class="step">KID Creation</div>
+            <div class="arrow">→</div>
+            <div class="step active" style="background: #000; color: #fff; border-color: #000;">CUBICS Assurance</div>
+            <div class="arrow">→</div>
+            <div class="step">Council of Sages</div>
+            <div class="arrow">→</div>
+            <div class="step">Monitoring</div>
+        </div>
+        <p style="margin-top: 15px; font-size: 13px;">
+            The instrument acts as a mandatory gate before Council review, ensuring expensive human attention is only spent on structurally valid proposals. It continues to run in "Monitoring" mode to detect drift.
+        </p>
+
+        <div class="cta-box">
+            <p style="color: var(--text); margin: 0;">
+                If CFU wants an independent assurance layer, we can pilot on one KID and produce a reproducible audit artifact.
+            </p>
+        </div>
+
+    </div>
+
+</body>
+</html>
