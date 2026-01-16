@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Artifact: REF-MUNI-2024</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #111111;
+            --muted: #666666;
+            --border: #e0e0e0;
+            --panel: #f9f9f9;
+            --highlight: #000000;
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            --status-fail: #d32f2f;
+            --status-warn: #f57c00;
+            --status-pass: #388e3c;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-main);
+            line-height: 1.5;
+            font-size: 14px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* INSTRUMENT HEADER */
+        .instrument-bar {
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 20px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            gap: 20px;
+            color: var(--muted);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            align-items: center;
+        }
+        .instrument-bar strong { color: var(--text); font-weight: 600; }
+        .back-link { text-decoration: none; color: var(--highlight); border-bottom: 1px solid var(--highlight); margin-right: auto; }
+
+        /* LAYOUT */
+        .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px 100px; }
+
+        /* HEADER BLOCK */
+        .audit-header {
+            border-bottom: 2px solid var(--text);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        h1 { font-size: 24px; font-weight: 700; margin-bottom: 5px; letter-spacing: -0.5px; }
+        .meta-row { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+        .verdict-box { text-align: right; }
+        .verdict-label { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 5px; }
+        .verdict-value { font-size: 18px; font-weight: 700; color: var(--status-fail); border: 2px solid var(--status-fail); padding: 5px 10px; display: inline-block; }
+
+        /* SECTIONS */
+        h2 {
+            font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted);
+            border-bottom: 1px solid var(--border); padding-bottom: 5px; margin: 40px 0 20px 0; font-weight: 600; font-family: var(--font-mono);
+        }
+
+        /* METRICS GRID */
+        .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+        .metric-cell { background: #fff; padding: 20px; }
+        .m-label { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 8px; }
+        .m-value { font-size: 24px; font-weight: 700; display: block; margin-bottom: 5px; }
+        .m-status { font-family: var(--font-mono); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 2px; text-transform: uppercase; }
+        
+        .s-fail { color: var(--status-fail); background: #ffebee; }
+        .s-warn { color: var(--status-warn); background: #fff3e0; }
+        .s-pass { color: var(--status-pass); background: #e8f5e9; }
+
+        /* TRACE TABLE */
+        .trace-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 40px; }
+        .trace-table th { text-align: left; font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; color: var(--muted); padding: 10px; border-bottom: 2px solid #000; }
+        .trace-table td { padding: 12px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+        .claim-text { font-weight: 500; max-width: 400px; }
+        .evidence-text { color: var(--muted); font-size: 12px; }
+        
+        /* GOVERNANCE CHECK */
+        .gov-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .gov-item { border: 1px solid var(--border); padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .gov-label { font-size: 13px; font-weight: 600; }
+        .gov-status { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; font-weight: 700; }
+
+        /* FOOTER */
+        .footer { margin-top: 80px; padding-top: 20px; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; }
+    </style>
+</head>
+<body>
+
+    <div class="instrument-bar">
+        <a href="cubics-assurance.html" class="back-link">← BACK TO BRIEF</a>
+        <div>INSTRUMENT: <strong>CUBICS ASSURANCE</strong></div>
+        <div>MODE: <strong>ARTIFACT INSPECTION</strong></div>
+        <div>REF: <strong>MUNI-2024</strong></div>
+    </div>
+
+    <div class="container">
+
+        <div class="audit-header">
+            <div>
+                <h1>Audit Record: Municipal Investment Fund</h1>
+                <div class="meta-row">
+                    SOURCE: Municipal-Investment-Fund-Slide-Deck.pdf · PAGES: 15 · DATE: 2024-03-12
+                </div>
+            </div>
+            <div class="verdict-box">
+                <span class="verdict-label">Structural Verdict</span>
+                <span class="verdict-value">DO NOT APPROVE</span>
+            </div>
+        </div>
+
+        <h2>Assurance Signals (Computed)</h2>
+        <div class="metrics-grid">
+            <div class="metric-cell">
+                <span class="m-label">Structural Coherence</span>
+                <span class="m-value">0.65</span>
+                <span class="m-status s-fail">FAIL (< 0.90)</span>
+            </div>
+            <div class="metric-cell">
+                <span class="m-label">Evidence Coverage</span>
+                <span class="m-value">42%</span>
+                <span class="m-status s-fail">FAIL (< 95%)</span>
+            </div>
+            <div class="metric-cell">
+                <span class="m-label">Orphan Rate</span>
+                <span class="m-value">25%</span>
+                <span class="m-status s-warn">WARN (> 10%)</span>
+            </div>
+            <div class="metric-cell">
+                <span class="m-label">Overconfidence</span>
+                <span class="m-value">High</span>
+                <span class="m-status s-warn">WARN</span>
+            </div>
+        </div>
+
+        <h2>Claim–Evidence Trace (Detected Vulnerabilities)</h2>
+        <table class="trace-table">
+            <thead>
+                <tr>
+                    <th width="10%">ID</th>
+                    <th width="40%">Affirmative Claim</th>
+                    <th width="30%">Detected Evidence</th>
+                    <th width="20%">Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="font-family: var(--font-mono); color: var(--muted);">C-01</td>
+                    <td class="claim-text">"Mobilize private investment at a ratio of 3:1."</td>
+                    <td class="evidence-text">Generic citation to "Green Bank Network data". No specific financial model provided for this fund.</td>
+                    <td><span class="m-status s-warn">WEAK SUBSTANTIATION</span></td>
+                </tr>
+                <tr>
+                    <td style="font-family: var(--font-mono); color: var(--muted);">C-02</td>
+                    <td class="claim-text">"Improve health outcomes for local communities."</td>
+                    <td class="evidence-text">Zero evidence found. No medical baselines or pollution impact studies cited.</td>
+                    <td><span class="m-status s-fail">ORPHAN CLAIM</span></td>
+                </tr>
+                <tr>
+                    <td style="font-family: var(--font-mono); color: var(--muted);">C-03</td>
+                    <td class="claim-text">"Junior/Senior loans will mitigate financial risk."</td>
+                    <td class="evidence-text">Mechanism described, but risk calculation is absent.</td>
+                    <td><span class="m-status s-warn">PARTIAL COVERAGE</span></td>
+                </tr>
+                <tr>
+                    <td style="font-family: var(--font-mono); color: var(--muted);">C-04</td>
+                    <td class="claim-text">"Technology is market-ready for deployment."</td>
+                    <td class="evidence-text">Cited: Annex B (Technical Readiness Level 8).</td>
+                    <td><span class="m-status s-pass">VERIFIED</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Governance & Accountability Check</h2>
+        <div class="gov-grid">
+            <div class="gov-item">
+                <span class="gov-label">Document Timestamping</span>
+                <span class="gov-status" style="color:var(--status-pass)">PRESENT</span>
+            </div>
+            <div class="gov-item">
+                <span class="gov-label">Accountable Owner (CIO/Risk)</span>
+                <span class="gov-status" style="color:var(--status-fail)">MISSING</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div>GENERATED BY CUBICS ASSURANCE v0.1</div>
+            <div>HASH: 7a9c2b...8f1</div>
+        </div>
+
+    </div>
+
+</body>
+</html>
