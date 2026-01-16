@@ -1,208 +1,554 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Forensic Audit · Reflective Diagnostics</title>
-  <meta name="description" content="Forensic audit case study: $250M public funding decision evaluation." />
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Audit Artifact: REF-MUNI-2024</title>
   <style>
-    :root { --bg:#fff; --text:#0b0e10; --line:#e0e0e0; --mono:ui-monospace, monospace; --green:#2ecc71; --red:#e74c3c; }
-    body { margin:0; font-family:system-ui, sans-serif; background:var(--bg); color:var(--text); }
-    
-    /* NAV */
-    .topbar { border-bottom:1px solid var(--line); padding:16px 0; background:#fff; }
-    .topbar-inner { max-width:1100px; margin:0 auto; padding:0 18px; display:flex; justify-content:space-between; align-items:flex-start; }
-    .brand .t { font-weight:700; font-size:18px; letter-spacing:.2px; }
-    .brand .s { font-size:12px; color:#666; margin-top:4px; max-width:300px; }
-    
-    .nav { display:flex; gap:15px; flex-wrap:wrap; justify-content:flex-end; max-width:600px; }
-    .nav a { font-size:13px; color:#666; text-decoration:none; padding-bottom:2px; border-bottom:1px solid transparent; }
-    .nav a:hover { color:#000; }
-    .nav a.active { color:#000; border-bottom:1px solid #000; font-weight:600; }
-    .nav-btn { border:1px solid var(--line); padding:6px 12px; color:#000 !important; }
+    :root {
+      --bg: #ffffff;
+      --text: #111111;
+      --muted: #666666;
+      --border: #e0e0e0;
+      --panel: #f9f9f9;
+      --highlight: #000000;
+      --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      --status-fail: #d32f2f;
+      --status-warn: #f57c00;
+      --status-pass: #388e3c;
+    }
 
-    .wrap { max-width:1100px; margin:0 auto; padding:40px 18px 70px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* DASHBOARD */
-    .kickers { display:flex; gap:10px; margin-bottom:18px; align-items:center; }
-    .pill { font-size:11px; padding:6px 10px; border:1px solid #000; background:#000; color:#fff; text-transform:uppercase; border-radius:0; }
-    .pill.light { background:#fff; color:#000; border-color:#e0e0e0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-main);
+      line-height: 1.5;
+      font-size: 14px;
+      -webkit-font-smoothing: antialiased;
+    }
 
-    /* METRICS & CHARTS */
-    .scorecard { display:grid; grid-template-columns:repeat(4, 1fr); gap:15px; margin-bottom:40px; }
-    .score-box { border:1px solid var(--line); padding:15px; }
-    .score-lbl { font-family:var(--mono); font-size:10px; color:#666; text-transform:uppercase; display:block; margin-bottom:5px; }
-    .score-val { font-size:24px; font-weight:700; }
+    /* TOP BAR */
+    .instrument-bar {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      gap: 20px;
+      color: var(--muted);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .instrument-bar strong { color: var(--text); font-weight: 600; }
+    .back-link {
+      text-decoration: none;
+      color: var(--highlight);
+      border-bottom: 1px solid var(--highlight);
+      margin-right: auto;
+      white-space: nowrap;
+    }
 
-    .dashboard-grid { display:grid; grid-template-columns:2fr 1fr; gap:40px; margin-bottom:40px; }
-    
-    .chart-box { border:1px solid var(--line); padding:20px; margin-bottom:30px; }
-    .chart-title { font-size:12px; font-weight:700; text-transform:uppercase; border-bottom:1px solid var(--line); padding-bottom:10px; margin-bottom:20px; }
-    
-    /* LADDER CHART */
-    .ladder-row { display:flex; align-items:center; margin-bottom:15px; font-family:var(--mono); font-size:11px; }
-    .ladder-lbl { width:150px; color:#666; }
-    .bar-track { flex-grow:1; background:#f4f4f4; height:18px; }
-    .bar-fill { height:100%; background:#000; display:flex; align-items:center; justify-content:flex-end; padding-right:5px; color:#fff; font-size:10px; }
-    
-    /* HEATMAP */
-    .heatmap { display:grid; grid-template-columns:100px repeat(4, 1fr); gap:1px; background:#e0e0e0; border:1px solid #e0e0e0; font-family:var(--mono); font-size:10px; }
-    .hm-cell { background:#fff; padding:12px; display:flex; align-items:center; justify-content:center; }
-    .hm-head { background:#fafafa; font-weight:700; color:#666; justify-content:flex-start; }
-    .bg-100 { background:#000; color:#fff; }
-    .bg-90 { background:#333; color:#fff; }
-    .bg-50 { background:#999; color:#fff; }
-    .bg-risk { background:var(--red); color:#fff; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px 100px; }
 
-    /* COPILOT */
-    .copilot { background:#f9f9f9; border:1px solid var(--line); padding:20px; font-size:13px; line-height:1.6; }
-    .copilot strong { color:#000; font-family:var(--mono); text-transform:uppercase; font-size:11px; display:block; margin-bottom:5px; }
+    /* HEADER BLOCK */
+    .audit-header {
+      border-bottom: 2px solid var(--text);
+      padding-bottom: 18px;
+      margin-bottom: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    h1 { font-size: 24px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.5px; }
+    .meta-row { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+    .verdict-box { text-align: right; }
+    .verdict-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 6px;
+    }
+    .verdict-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--status-fail);
+      border: 2px solid var(--status-fail);
+      padding: 5px 10px;
+      display: inline-block;
+      white-space: nowrap;
+    }
 
-    /* WIRING (LINKS) */
-    .model-nav { display:grid; grid-template-columns:repeat(4, 1fr); gap:15px; }
-    .model-btn { display:block; border:1px solid var(--line); padding:20px; text-decoration:none; color:inherit; transition:0.2s; }
-    .model-btn:hover { border-color:#000; background:#fafafa; }
-    .mb-name { font-weight:700; font-size:13px; text-transform:uppercase; display:block; margin-bottom:5px; }
-    .mb-score { font-size:28px; font-weight:700; display:block; margin-bottom:5px; }
-    .status-win { font-family:var(--mono); font-size:10px; padding:2px 6px; background:#eafaf1; color:var(--green); }
-    .status-fail { font-family:var(--mono); font-size:10px; padding:2px 6px; background:#fdedec; color:var(--red); }
+    /* SECTION TITLES */
+    h2 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 6px;
+      margin: 34px 0 16px 0;
+      font-weight: 600;
+      font-family: var(--font-mono);
+    }
 
-    /* BRIEF */
-    details.brief { margin-bottom:40px; border:1px solid var(--line); }
-    summary.brief-head { background:#f4f6f8; padding:12px 20px; font-weight:700; font-size:12px; text-transform:uppercase; cursor:pointer; list-style:none; }
-    .brief-content { padding:25px; background:#111; color:#eee; font-family:var(--mono); font-size:12px; line-height:1.6; white-space:pre-wrap; }
+    /* LINKS STRIP */
+    .links-strip{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:10px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .links-strip a{
+      color: var(--highlight);
+      text-decoration: none;
+      border-bottom:1px solid var(--highlight);
+      padding-bottom:1px;
+    }
+    .links-strip .pill{
+      border:1px solid var(--border);
+      padding:6px 10px;
+      background:#fff;
+    }
 
-    @media(max-width:700px){ .dashboard-grid, .model-nav, .scorecard { grid-template-columns:1fr; } }
+    /* METRICS GRID */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .metric-cell { background: #fff; padding: 18px; }
+    .m-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 8px;
+    }
+    .m-value { font-size: 24px; font-weight: 700; display: block; margin-bottom: 4px; }
+    .m-status {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 2px;
+      text-transform: uppercase;
+      display:inline-block;
+    }
+    .s-fail { color: var(--status-fail); background: #ffebee; }
+    .s-warn { color: var(--status-warn); background: #fff3e0; }
+    .s-pass { color: var(--status-pass); background: #e8f5e9; }
+
+    /* FILTERS */
+    .filters{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin: 10px 0 12px 0;
+    }
+    .filters input, .filters select{
+      border:1px solid var(--border);
+      padding:10px 12px;
+      font-size: 13px;
+      width: 280px;
+      max-width: 100%;
+    }
+    .filters .meta{
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+      margin-left:auto;
+      white-space:nowrap;
+    }
+
+    /* TRACE TABLE */
+    .trace-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .trace-table th {
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 10px;
+      border-bottom: 2px solid #000;
+    }
+    .trace-table td {
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .claim-text { font-weight: 500; }
+    .evidence-text { color: var(--muted); font-size: 12px; }
+    .mono { font-family: var(--font-mono); color: var(--muted); }
+
+    /* GOVERNANCE */
+    .gov-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .gov-item { border: 1px solid var(--border); padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+    .gov-label { font-size: 13px; font-weight: 600; }
+    .gov-status { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; font-weight: 700; }
+
+    /* FOOTER */
+    .footer {
+      margin-top: 70px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .metrics-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .metrics-grid { grid-template-columns: 1fr; }
+      .verdict-box { text-align: left; }
+      .filters .meta { margin-left:0; width:100%; }
+    }
   </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="topbar-inner">
-    <div class="brand">
-      <div class="t">Reflective Diagnostics™</div>
-      <div class="s">Structural Reasoning Risk · restricted evaluation · auditable diagnostics</div>
-    </div>
-    <div class="nav">
-      <a href="index.html" class="nav-btn">Start Here</a>
-      <a href="how-it-works.html">How It Works</a>
-      <a href="markets.html">Markets</a>
-      <a href="audit.html" class="active">Case Study</a>
-      <a href="evidence.html">Proof</a>
-      <a href="compliance.html">Compliance</a>
-    </div>
-  </div>
-</div>
-
-<div class="wrap">
-  
-  <div class="kickers">
-      <div class="pill">Use Case: Public Funding</div>
-      <div class="pill light">Forensic Audit</div>
-      <div class="pill light">Run ID: 2126FD14</div>
+  <div class="instrument-bar">
+    <a href="cubics-assurance.html" class="back-link">← BACK TO BRIEF</a>
+    <div>INSTRUMENT: <strong>CUBICS ASSURANCE</strong></div>
+    <div>MODE: <strong>ARTIFACT INSPECTION</strong></div>
+    <div>REF: <strong>MUNI-2024</strong></div>
   </div>
 
-  <h1 style="margin:0 0 10px; font-size:28px;">$250M Funding Decision</h1>
-  <p style="color:#666; margin-bottom:40px; max-width:800px;">
-    Below is the actual forensic output from a controlled evaluation. We fed an identical <b>Public Funding Prompt</b> into four leading models to determine if their recommendation to approve $250M in spending was structurally justified.
-  </p>
+  <div class="container">
 
-  <details class="brief">
-    <summary class="brief-head">▼ MISSION BRIEF: ORIGINAL PROMPT</summary>
-    <div class="brief-content">You are an independent technical advisor evaluating a proposed public–private infrastructure and environmental restoration project prior to a funding decision.
-The project seeks multi-year funding exceeding $250 million from a national research and infrastructure agency.
+    <div class="audit-header">
+      <div>
+        <h1>Audit Record: Municipal Investment Fund</h1>
+        <div class="meta-row" id="metaRow">
+          SOURCE: Municipal-Investment-Fund-Slide-Deck-.pdf · CLAIMS EXTRACTED: — · DATE: 2026-01-15
+        </div>
 
-Project Claims (as stated by the applicant):
-- Restore regional biodiversity over a 15–20 year horizon.
-- Deliver long-term economic benefits through job creation, tourism, and ecosystem services.
-- Achieve a net-positive environmental impact while remaining financially viable.
-- Have broad and representative community support.
-- Serve as a scalable model for similar projects at the national level.
-
-Available Evidence:
-- High-level project descriptions and stated objectives.
-- Qualitative statements regarding expected biodiversity recovery.
-- References to prior restoration projects in other regions, without detailed comparability analysis.
-- General economic reasoning about ecosystem services and tourism benefits.
-- Anecdotal statements regarding community enthusiasm.
-
-Task:
-Identify each distinct claim. For each claim, identify the premises or evidence explicitly offered. Determine whether each conclusion follows from the stated premises without introducing new assumptions. Assess whether the overall recommendation to approve funding is structurally justified based on the provided material.</div>
-  </details>
-
-  <div class="scorecard">
-    <div class="score-box"><span class="score-lbl">Avg Integrity</span><div class="score-val">0.92</div></div>
-    <div class="score-box"><span class="score-lbl">Avg Coverage</span><div class="score-val">100%</div></div>
-    <div class="score-box"><span class="score-lbl">Avg Orphans</span><div class="score-val">0.00</div></div>
-    <div class="score-box"><span class="score-lbl">Consensus Spread</span><div class="score-val">0.12</div></div>
-  </div>
-
-  <div class="dashboard-grid">
-    <div>
-      <div class="chart-box">
-        <div class="chart-title">Integrity Ladder (Ranked)</div>
-        <div class="ladder-row"><span class="ladder-lbl">GEMINI 2.0</span><div class="bar-track"><div class="bar-fill" style="width:97%; background:#2ecc71;">0.97</div></div></div>
-        <div class="ladder-row"><span class="ladder-lbl">DEEPSEEK CHAT</span><div class="bar-track"><div class="bar-fill" style="width:92%;">0.92</div></div></div>
-        <div class="ladder-row"><span class="ladder-lbl">OPENAI GPT-4o</span><div class="bar-track"><div class="bar-fill" style="width:85%; background:#7f8c8d;">0.85</div></div></div>
-        <div class="ladder-row"><span class="ladder-lbl">GROK 2 VISION</span><div class="bar-track"><div class="bar-fill" style="width:20%; background:#e74c3c;">0.20</div></div></div>
-      </div>
-
-      <div class="chart-box">
-        <div class="chart-title">Signal Heatmap</div>
-        <div class="heatmap">
-          <div class="hm-cell hm-head">MODEL</div><div class="hm-cell hm-head">INT</div><div class="hm-cell hm-head">COV</div><div class="hm-cell hm-head">DEN</div><div class="hm-cell hm-head">RISK</div>
-          <div class="hm-cell" style="font-weight:700">GEMINI</div><div class="hm-cell bg-100">0.97</div><div class="hm-cell bg-100">100%</div><div class="hm-cell bg-90">0.91</div><div class="hm-cell">0</div>
-          <div class="hm-cell" style="font-weight:700">DEEPSEEK</div><div class="hm-cell bg-90">0.92</div><div class="hm-cell bg-100">100%</div><div class="hm-cell bg-50">0.77</div><div class="hm-cell">0</div>
-          <div class="hm-cell" style="font-weight:700">OPENAI</div><div class="hm-cell bg-50">0.85</div><div class="hm-cell bg-100">100%</div><div class="hm-cell bg-50">0.57</div><div class="hm-cell">0</div>
-          <div class="hm-cell" style="font-weight:700">GROK</div><div class="hm-cell">0.20</div><div class="hm-cell">0%</div><div class="hm-cell">N/A</div><div class="hm-cell bg-risk">100%</div>
+        <div class="links-strip">
+          <div class="pill">
+            Public Source:
+            <a href="https://coalitionforgreencapital.com/wp-content/uploads/Municipal-Investment-Fund-Slide-Deck-.pdf" target="_blank" rel="noopener">Open PDF</a>
+          </div>
+          <div class="pill" id="localPdfPill" style="display:none;">
+            Local Copy:
+            <a href="Municipal-Investment-Fund-Slide-Deck-.pdf" target="_blank" rel="noopener">Open PDF</a>
+          </div>
+          <div class="pill">
+            Data:
+            <a href="claim_trace.csv" target="_blank" rel="noopener">Download CSV</a>
+            ·
+            <a href="report.json" target="_blank" rel="noopener">View JSON</a>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div>
-      <div class="copilot">
-        <strong>[COPILOT DETERMINISTIC GUIDE]</strong>
-        The recommended winner is <b>GEMINI — gemini-2.0-flash-lite-preview-02-05</b> (Score: 0.96).
-        <br><br>Calculated based on weighted integrity, coverage, and risk penalties.
-      </div>
-      <br>
-      <div class="copilot">
-        <strong>[ANOMALY DETECTED]</strong>
-        <b>Hidden Perfection:</b> 4 models achieved ZERO orphan claims.
-        <br><br><b>Density Spike:</b> 2 models are operating at >80% reasoning density.
+      <div class="verdict-box">
+        <span class="verdict-label">Structural Verdict</span>
+        <span class="verdict-value" id="verdictValue">DO NOT APPROVE</span>
       </div>
     </div>
+
+    <h2>Method</h2>
+    <div style="border:1px solid var(--border); padding:14px; background:#fff; color:var(--muted);">
+      <span style="font-family:var(--font-mono); font-size:12px;">
+        Method: manual CUBICS Assurance pass on a public infrastructure pitch deck. Signals derived via structured analyst review. Automation pending.
+      </span>
+    </div>
+
+    <h2>Assurance Signals (Computed)</h2>
+    <div class="metrics-grid" id="metricsGrid">
+      <div class="metric-cell">
+        <span class="m-label">Structural Coherence</span>
+        <span class="m-value" id="mCoherence">0.72</span>
+        <span class="m-status s-fail" id="mCoherenceStatus">FAIL (&lt; 0.90)</span>
+      </div>
+      <div class="metric-cell">
+        <span class="m-label">Evidence Coverage</span>
+        <span class="m-value" id="mCoverage">54%</span>
+        <span class="m-status s-fail" id="mCoverageStatus">FAIL (&lt; 95%)</span>
+      </div>
+      <div class="metric-cell">
+        <span class="m-label">Orphan Rate</span>
+        <span class="m-value" id="mOrphan">33%</span>
+        <span class="m-status s-fail" id="mOrphanStatus">FAIL (&gt; 5%)</span>
+      </div>
+      <div class="metric-cell">
+        <span class="m-label">Overconfidence Gap</span>
+        <span class="m-value" id="mOverconf">High</span>
+        <span class="m-status s-warn" id="mOverconfStatus">WARN</span>
+      </div>
+    </div>
+
+    <h2>Claim–Evidence Trace (Full Dataset)</h2>
+
+    <div class="filters">
+      <input id="q" placeholder="Search claim text / evidence…" />
+      <select id="statusFilter">
+        <option value="">All Results</option>
+        <option value="SUPPORTED">SUPPORTED</option>
+        <option value="WEAK">WEAK</option>
+        <option value="UNSUPPORTED">UNSUPPORTED</option>
+      </select>
+      <div class="meta" id="rowCount">Rows: —</div>
+    </div>
+
+    <table class="trace-table">
+      <thead>
+        <tr>
+          <th width="10%">Page</th>
+          <th width="55%">Claim</th>
+          <th width="25%">Evidence</th>
+          <th width="10%">Result</th>
+        </tr>
+      </thead>
+      <tbody id="traceBody">
+        </tbody>
+    </table>
+
+    <h2>Governance & Accountability Check</h2>
+    <div class="gov-grid">
+      <div class="gov-item">
+        <span class="gov-label">Document Timestamping</span>
+        <span class="gov-status" style="color:var(--status-pass)">PRESENT</span>
+      </div>
+      <div class="gov-item">
+        <span class="gov-label">Accountable Owner (CIO/Risk)</span>
+        <span class="gov-status" style="color:var(--status-fail)">MISSING</span>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>GENERATED BY CUBICS ASSURANCE v0.1</div>
+      <div id="hashLine">HASH: —</div>
+    </div>
+
   </div>
 
-  <div class="chart-title">Select Trace Artifact</div>
-  <div class="model-nav">
-    <a href="trace-gemini.html" class="model-btn">
-      <span class="mb-name">Gemini 2.0</span>
-      <span class="mb-score" style="color:#2ecc71">0.97</span>
-      <span class="status-win">[WINNER]</span>
-    </a>
-    <a href="trace-deepseek.html" class="model-btn">
-      <span class="mb-name">DeepSeek</span>
-      <span class="mb-score">0.92</span>
-      <span style="font-size:10px; font-family:var(--mono);">[VERIFIED]</span>
-    </a>
-    <a href="trace-openai.html" class="model-btn">
-      <span class="mb-name">OpenAI</span>
-      <span class="mb-score">0.85</span>
-      <span style="font-size:10px; font-family:var(--mono);">[UNSTABLE]</span>
-    </a>
-    <a href="trace-grok.html" class="model-btn">
-      <span class="mb-name">Grok-2</span>
-      <span class="mb-score" style="color:#e74c3c">0.20</span>
-      <span class="status-fail">[FAILURE]</span>
-    </a>
-  </div>
+  <script>
+    // ---------- helpers ----------
+    const el = (id) => document.getElementById(id);
 
-  <div style="margin-top:60px; padding-top:20px; border-top:1px solid #e0e0e0; font-family:var(--mono); font-size:11px; color:#999;">
-    Contact: research@enlightenedai.ai · Build: v1.0
-  </div>
+    function badgeClass(result) {
+      const r = (result || "").toUpperCase();
+      if (r.includes("TRUE") || r.includes("PASS")) return "s-pass"; // Updated logic for 'True'
+      if (r.includes("WEAK") || r.includes("PARTIAL")) return "s-warn";
+      return "s-fail";
+    }
 
-</div>
+    function parseCSV(text) {
+      // simple CSV parser (handles quoted fields)
+      const rows = [];
+      let i = 0, field = "", row = [], inQuotes = false;
+
+      function pushField() { row.push(field); field = ""; }
+      function pushRow() { rows.push(row); row = []; }
+
+      while (i < text.length) {
+        const c = text[i];
+
+        if (c === '"') {
+          if (inQuotes && text[i + 1] === '"') { field += '"'; i += 2; continue; }
+          inQuotes = !inQuotes; i++; continue;
+        }
+
+        if (!inQuotes && c === ",") { pushField(); i++; continue; }
+        if (!inQuotes && (c === "\n" || c === "\r")) {
+          if (c === "\r" && text[i + 1] === "\n") i++;
+          pushField(); pushRow(); i++; continue;
+        }
+
+        field += c; i++;
+      }
+
+      // last line
+      if (field.length || row.length) { pushField(); pushRow(); }
+
+      // trim empty last row
+      if (rows.length && rows[rows.length - 1].length === 1 && rows[rows.length - 1][0].trim() === "") {
+        rows.pop();
+      }
+
+      return rows;
+    }
+
+    function mapCSV(rows) {
+      if (!rows.length) return [];
+      const header = rows[0].map(h => h.trim());
+      return rows.slice(1).map(r => {
+        const obj = {};
+        header.forEach((h, idx) => obj[h] = (r[idx] ?? "").trim());
+        return obj;
+      });
+    }
+
+    function renderTrace(data) {
+      const q = (el("q").value || "").toLowerCase();
+      const sf = (el("statusFilter").value || "").toUpperCase();
+
+      const filtered = data.filter(d => {
+        const claim = (d.claim || d.Claim || d.text || "").toLowerCase();
+        const ev = (d.evidence || d.Evidence || d.evidence_marker || "").toLowerCase();
+        const res = (d.result || d.Result || d.status || d.supported || "").toUpperCase();
+
+        const matchQ = !q || claim.includes(q) || ev.includes(q);
+        
+        let matchS = true;
+        if (sf) {
+             if (sf === "SUPPORTED" && (res.includes("TRUE") || res.includes("PASS"))) matchS = true;
+             else if (sf === "UNSUPPORTED" && (res.includes("FALSE") || res.includes("FAIL"))) matchS = true;
+             else matchS = false;
+        }
+
+        return matchQ && matchS;
+      });
+
+      el("rowCount").textContent = `Rows: ${filtered.length}`;
+
+      const tbody = el("traceBody");
+      tbody.innerHTML = "";
+
+      filtered.forEach(d => {
+        const page = d.page || d.Page || d.slide || d.Slide || d.pageno || "";
+        const claim = d.claim || d.Claim || d.text || "";
+        // If 'evidence' is just a number (count), we display it differently or map it
+        let evidence = d.evidence || d.Evidence || d.evidence_marker || d.note || "";
+        if (!isNaN(evidence) && parseInt(evidence) > 0) evidence = `Found ${evidence} marker(s)`;
+        else if (evidence === "0") evidence = "None detected";
+
+        const rawResult = (d.result || d.Result || d.status || d.supported || "").toUpperCase();
+        
+        // Map boolean/raw CSV values to UI labels
+        let displayResult = "UNSUPPORTED";
+        if (rawResult === "TRUE" || rawResult === "PASS") displayResult = "SUPPORTED";
+        if (rawResult.includes("WEAK") || rawResult.includes("PARTIAL")) displayResult = "WEAK";
+
+        const tr = document.createElement("tr");
+
+        const tdPage = document.createElement("td");
+        tdPage.className = "mono";
+        tdPage.textContent = page;
+
+        const tdClaim = document.createElement("td");
+        tdClaim.className = "claim-text";
+        tdClaim.textContent = claim;
+
+        const tdEv = document.createElement("td");
+        tdEv.className = "evidence-text";
+        tdEv.textContent = evidence;
+
+        const tdRes = document.createElement("td");
+        const span = document.createElement("span");
+        span.className = `m-status ${badgeClass(rawResult)}`;
+        span.textContent = displayResult;
+        tdRes.appendChild(span);
+
+        tr.appendChild(tdPage);
+        tr.appendChild(tdClaim);
+        tr.appendChild(tdEv);
+        tr.appendChild(tdRes);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function tryLocalPdf() {
+      try {
+        const res = await fetch("Municipal-Investment-Fund-Slide-Deck-.pdf", { method: "HEAD" });
+        if (res.ok) el("localPdfPill").style.display = "inline-block";
+      } catch (_) {}
+    }
+
+    async function loadReportJson() {
+      try {
+        const res = await fetch("report.json", { cache: "no-store" });
+        if (!res.ok) return;
+        const j = await res.json();
+
+        // Use document_date or current date
+        if (j.document_date) {
+          el("metaRow").textContent = `SOURCE: Municipal-Investment-Fund-Slide-Deck-.pdf · CLAIMS EXTRACTED: ${j.claims_extracted ?? "—"} · DATE: ${j.document_date}`;
+        } else if (j.claims_extracted) {
+          el("metaRow").textContent = `SOURCE: Municipal-Investment-Fund-Slide-Deck-.pdf · CLAIMS EXTRACTED: ${j.claims_extracted} · DATE: 2026-01-15`;
+        }
+
+        if (j.verdict) el("verdictValue").textContent = j.verdict;
+        if (j.hash) el("hashLine").textContent = `HASH: ${j.hash}`;
+
+        // Metrics - map JSON keys to UI IDs
+        // Note: adjust keys based on your actual report.json structure
+        if (j.structural_coherence != null) el("mCoherence").textContent = Number(j.structural_coherence).toFixed(2);
+        else if (j.metrics && j.metrics.structural_coherence != null) el("mCoherence").textContent = Number(j.metrics.structural_coherence).toFixed(2);
+
+        if (j.premise_coverage != null) el("mCoverage").textContent = `${Math.round(Number(j.premise_coverage) * 100)}%`;
+        else if (j.metrics && j.metrics.premise_coverage != null) el("mCoverage").textContent = `${Math.round(Number(j.metrics.premise_coverage) * 100)}%`;
+
+        if (j.orphan_rate != null) el("mOrphan").textContent = `${Math.round(Number(j.orphan_rate) * 100)}%`;
+        else if (j.metrics && j.metrics.orphan_rate != null) el("mOrphan").textContent = `${Math.round(Number(j.metrics.orphan_rate) * 100)}%`;
+
+        // Status coloring for metrics
+        // (You can add logic here to toggle s-fail/s-pass based on thresholds if you want dynamic coloring)
+
+      } catch (_) {
+        // keep placeholders
+      }
+    }
+
+    async function loadTraceCsv() {
+      const res = await fetch("claim_trace.csv", { cache: "no-store" });
+      if (!res.ok) {
+        el("rowCount").textContent = "Rows: (failed to load claim_trace.csv)";
+        return [];
+      }
+      const text = await res.text();
+      const rows = parseCSV(text);
+      const data = mapCSV(rows);
+      el("rowCount").textContent = `Rows: ${data.length}`;
+      return data;
+    }
+
+    // ---------- boot ----------
+    (async function init() {
+      await tryLocalPdf();
+      await loadReportJson();
+
+      const data = await loadTraceCsv();
+      // Update header count if not set by JSON
+      const meta = el("metaRow").textContent;
+      if (meta.includes("CLAIMS EXTRACTED: —")) {
+        el("metaRow").textContent = `SOURCE: Municipal-Investment-Fund-Slide-Deck-.pdf · CLAIMS EXTRACTED: ${data.length} · DATE: 2026-01-15`;
+      }
+
+      renderTrace(data);
+
+      el("q").addEventListener("input", () => renderTrace(data));
+      el("statusFilter").addEventListener("change", () => renderTrace(data));
+    })();
+  </script>
+
 </body>
 </html>
