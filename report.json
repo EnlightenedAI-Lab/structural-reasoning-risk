@@ -1,0 +1,39 @@
+{
+  "ref": "MUNI-2024",
+  "source_pdf": "Municipal-Investment-Fund-Slide-Deck-.pdf",
+  "generated_at": "2026-01-15 21:36:45",
+  "claims_extracted": 73,
+  "metrics": {
+    "structural_coherence": 0.72,
+    "premise_coverage": 0.62,
+    "orphan_rate": 0.38,
+    "overconfidence_gap": "Low"
+  },
+  "counts": {
+    "supported": 37,
+    "weak": 3,
+    "partial": 5,
+    "unsupported": 28,
+    "overconfidence_no_evidence": 2
+  },
+  "thresholds": {
+    "structural_coherence_min": 0.9,
+    "premise_coverage_min": 0.95,
+    "orphan_rate_max": 0.05,
+    "overconfidence_gap_max_level": "Medium"
+  },
+  "verdict": "DO NOT APPROVE",
+  "fail_reasons": [
+    "Structural coherence below minimum.",
+    "Evidence coverage below minimum.",
+    "Orphan claim rate exceeds cap."
+  ],
+  "methodology": {
+    "claim_detection": "Sentence-level heuristic: triggers (will/must/ensure/etc.) OR numeric tokens.",
+    "evidence_detection": "Page-level heuristic: presence of evidence markers (source/appendix/study/data/url/etc.).",
+    "support_logic": "SUPPORTED if evidence markers present; WEAK if generic/marketing language with only page-level markers; PARTIAL if mechanism described without supporting calc; UNSUPPORTED if no evidence markers on page.",
+    "structural_coherence": "Explainable proxy score penalizing unsupported claims and overconfidence-without-evidence.",
+    "note": "This is a structural screening tool, not a judgment of the underlying project quality."
+  },
+  "disclaimer": "Public-document demonstration. Results are heuristic and intended for assurance triage; not financial advice."
+}
