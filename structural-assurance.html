@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CUBICS Assurance · Instrument Brief</title>
+    <title>Structural Assurance · Instrument Brief</title>
     <style>
         :root {
             --bg: #ffffff;
@@ -31,7 +31,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* INSTRUMENT HEADER (DOCS NAV) */
+        /* INSTRUMENT HEADER */
         .instrument-bar {
             background: var(--bg);
             border-bottom: 1px solid var(--border);
@@ -50,28 +50,18 @@
         }
         .instrument-bar strong { color: var(--text); font-weight: 600; }
         
+        .live-link {
+            color: var(--highlight); text-decoration: none;
+            border-bottom: 1px solid var(--highlight); font-weight: 700; margin-left: 15px;
+        }
+        
         .nav-links { display: flex; gap: 15px; }
         .nav-links a { text-decoration: none; color: var(--muted); font-weight: 600; transition: color 0.2s; }
         .nav-links a:hover { color: var(--text); }
         .nav-links a.active { color: var(--text); border-bottom: 1px solid var(--text); }
 
-        /* ACTION SUB-HEADER */
-        .action-bar {
-            background: var(--panel);
-            border-bottom: 1px solid var(--border);
-            padding: 10px 20px;
-            text-align: right;
-            font-family: var(--font-mono);
-            font-size: 11px;
-        }
-        .action-link {
-            color: var(--text); text-decoration: none; font-weight: 700;
-            border-bottom: 1px solid var(--highlight); transition: opacity 0.2s;
-        }
-        .action-link:hover { opacity: 0.7; }
-
         /* LAYOUT */
-        .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px 100px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 60px 20px 100px; }
 
         h1 { font-size: 32px; font-weight: 700; margin-bottom: 15px; letter-spacing: -0.5px; }
         h2 {
@@ -81,9 +71,10 @@
         h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
         p { color: var(--muted); margin-bottom: 16px; max-width: 800px; }
 
-        /* DEFINITION SENTENCE */
+        /* CANONICAL DEFINITION */
         .definition-sentence {
             font-size: 16px; color: var(--text); margin-bottom: 40px; line-height: 1.6; max-width: 900px;
+            border-left: 3px solid var(--highlight); padding-left: 15px;
         }
 
         /* ORIENTATION BLOCK */
@@ -147,6 +138,13 @@
         /* CTA */
         .cta-box { margin-top: 80px; padding: 30px; background: #f4f4f4; text-align: center; border: 1px solid var(--border); }
 
+        /* FOOTER */
+        .footer {
+            margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border);
+            font-family: var(--font-mono); font-size: 11px; color: var(--muted);
+            display: flex; justify-content: space-between;
+        }
+
         /* GATE OVERLAY */
         #gate-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -181,7 +179,7 @@
             .audit-row { grid-template-columns: 1fr; gap: 5px; padding: 15px 0; border-bottom: 2px solid #eee; }
             .instrument-bar { flex-direction: column; gap: 10px; align-items: flex-start; }
             .nav-links { flex-wrap: wrap; gap: 10px; }
-            .action-bar { text-align: left; }
+            .live-link { margin-left: 0; }
         }
     </style>
 </head>
@@ -199,28 +197,26 @@
 
     <div class="instrument-bar">
         <div><strong>Enlightened AI Research Lab</strong></div>
+        
         <div class="nav-links">
-            <a href="cubics-assurance.html" class="active">Brief</a>
+            <a href="structural-assurance.html" class="active">Brief</a>
             <a href="why-this-format.html">Why This Format</a>
+            <a href="audit-example.html" class="live-link">[ VIEW LIVE ARTIFACT ]</a>
         </div>
-    </div>
-
-    <div class="action-bar">
-        <a href="audit-example.html" class="action-link">View Example Audit Artifact →</a>
     </div>
 
     <div class="container">
 
-        <h1>CUBICS Assurance</h1>
+        <h1>Structural Assurance</h1>
         
         <p class="definition-sentence">
-            CUBICS Assurance is a deterministic audit instrument that checks whether a document, on its own, contains sufficient evidence to structurally support the claims it makes before a decision is taken.
+            Structural Assurance is a deterministic audit instrument that evaluates whether a document, in isolation, contains sufficient internal evidence to structurally support the claims it makes before a decision is taken.
         </p>
         
         <div class="orientation-block">
             <strong>Instrument Overview</strong>
             <p>
-                CUBICS Assurance is a structural reasoning audit instrument designed to evaluate the decision-readiness of documentation. It analyzes whether a submitted artifact (such as a Key Information Document, dossier, or deck) contains sufficient internal evidence to support its claims without requiring external assumptions.
+                Structural Assurance is a module of Reflective Diagnostics designed to evaluate the decision-readiness of documentation. It analyzes whether a submitted artifact (such as a Key Information Document, dossier, or deck) contains sufficient internal evidence to support its claims without requiring external assumptions.
             </p>
             <strong>Primary Question</strong>
             <p>
@@ -338,7 +334,7 @@
             </div>
         </div>
 
-        <h2>System Workflow</h2>
+        <h2>Instrument Workflow</h2>
         <div class="grid-2">
             <div class="card" style="background: var(--panel);">
                 <span class="card-header">System Inputs</span>
@@ -350,7 +346,7 @@
                 </ul>
             </div>
             <div class="card" style="background: var(--panel);">
-                <span class="card-header">Assurance Outputs</span>
+                <span class="card-header">Audit Outputs</span>
                 <ul>
                     <li>1-Page Assurance Summary (PASS/WARN/FAIL)</li>
                     <li>Claim–Evidence Map (CSV + Viewer)</li>
@@ -386,7 +382,7 @@
                 <span>Result</span>
             </div>
             <div class="audit-row">
-                <span>CUBICS.R1 Min Coherence</span>
+                <span>SA.R1 Min Coherence</span>
                 <span class="code-font">structural_coherence</span>
                 <span>>=</span>
                 <span>0.90</span>
@@ -394,7 +390,7 @@
                 <span class="fail">FAIL</span>
             </div>
             <div class="audit-row">
-                <span>CUBICS.R2 Min Coverage</span>
+                <span>SA.R2 Min Coverage</span>
                 <span class="code-font">premise_coverage</span>
                 <span>>=</span>
                 <span>0.95</span>
@@ -402,7 +398,7 @@
                 <span class="fail">FAIL</span>
             </div>
             <div class="audit-row">
-                <span>CUBICS.R3 Orphan Cap</span>
+                <span>SA.R3 Orphan Cap</span>
                 <span class="code-font">orphan_rate</span>
                 <span><=</span>
                 <span>0.05</span>
@@ -410,7 +406,7 @@
                 <span class="fail">FAIL</span>
             </div>
             <div class="audit-row">
-                <span>CUBICS.R4 Evidence Risk</span>
+                <span>SA.R4 Evidence Risk</span>
                 <span class="code-font">evidence_gap_risk</span>
                 <span><=</span>
                 <span>0.10</span>
@@ -418,7 +414,7 @@
                 <span class="pass">PASS</span>
             </div>
             <div class="audit-row">
-                <span>CUBICS.R5 Overconfidence</span>
+                <span>SA.R5 Overconfidence</span>
                 <span class="code-font">overconfidence_gap</span>
                 <span><=</span>
                 <span>0.10</span>
@@ -436,7 +432,7 @@
             </div>
         </div>
 
-        <h2>Integration in CFU Pathway</h2>
+        <h2>Integration in Decision Pathway</h2>
         <div class="pathway">
             <div class="step">Quick Scan</div>
             <div class="arrow">→</div>
@@ -444,7 +440,7 @@
             <div class="arrow">→</div>
             <div class="step">KID Creation</div>
             <div class="arrow">→</div>
-            <div class="step active" style="background: #000; color: #fff; border-color: #000;">CUBICS Assurance</div>
+            <div class="step active" style="background: #000; color: #fff; border-color: #000;">Structural Assurance</div>
             <div class="arrow">→</div>
             <div class="step">Council of Sages</div>
             <div class="arrow">→</div>
@@ -456,12 +452,18 @@
 
         <div class="cta-box">
             <p style="color: var(--text); margin: 0;">
-                If CFU wants an independent assurance layer, we can pilot on one KID and produce a reproducible audit artifact.
+                If you want an independent assurance layer, we can pilot on one KID and produce a reproducible audit artifact.
             </p>
         </div>
 
-        <div style="margin-top: 100px; text-align: right;">
-            <a href="#" onclick="lockGate(); return false;" class="lock-link">Lock</a>
+        <div class="footer">
+            <div style="font-family:var(--font-mono); font-size:11px; color:#666;">
+                <strong>Developed by Enlightened AI Research Lab</strong><br>
+                Module: Structural Assurance · Reflective Diagnostics Suite
+            </div>
+            <div>
+                <a href="#" onclick="lockGate(); return false;" class="lock-link">Lock</a>
+            </div>
         </div>
 
         <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--muted);">
