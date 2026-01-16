@@ -253,33 +253,6 @@
       flex-wrap: wrap;
     }
 
-    /* GATE OVERLAY */
-    #gate-overlay {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: #f0f0f0; z-index: 9999;
-        display: flex; align-items: center; justify-content: center;
-    }
-    .gate-box {
-        background: #fff; padding: 40px; border: 1px solid #ccc;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 360px;
-        text-align: center;
-    }
-    .gate-box h3 { margin-top: 0; font-size: 16px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
-    .gate-input {
-        width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc;
-        margin-bottom: 15px; font-family: monospace; text-align: center;
-    }
-    .gate-btn {
-        width: 100%; padding: 10px; background: #000; color: #fff; border: none;
-        font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 12px;
-    }
-    .gate-error { color: red; font-size: 12px; margin-top: 10px; display: none; }
-
-    .lock-link {
-        font-family: var(--font-mono); font-size: 10px; color: #ccc; cursor: pointer; text-decoration: none;
-    }
-    .lock-link:hover { color: #000; }
-
     /* RESPONSIVE */
     @media (max-width: 900px) {
       .metrics-grid { grid-template-columns: 1fr 1fr; }
@@ -293,19 +266,9 @@
 </head>
 <body>
 
-  <div id="gate-overlay">
-      <div class="gate-box">
-          <h3>Restricted Access</h3>
-          <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Enter access phrase to view demonstration materials.</p>
-          <input type="password" id="gate-pw" class="gate-input" placeholder="Access Phrase" autofocus />
-          <button class="gate-btn" onclick="checkGate()">Unlock</button>
-          <div id="gate-err" class="gate-error">Invalid phrase</div>
-      </div>
-  </div>
-
   <div class="instrument-bar">
-    <a href="cubics-assurance.html" class="back-link">← BACK TO BRIEF</a>
-    <div>INSTRUMENT: <strong>CUBICS ASSURANCE</strong></div>
+    <a href="structural-assurance.html" class="back-link">← BACK TO BRIEF</a>
+    <div>INSTRUMENT: <strong>STRUCTURAL ASSURANCE</strong></div>
     <div>MODE: <strong>ARTIFACT INSPECTION</strong></div>
     <div>REF: <strong>MUNI-2024</strong></div>
   </div>
@@ -318,7 +281,7 @@
             <li>This is a demonstration of an assurance workflow on a publicly available document.</li>
             <li>It does not evaluate the organization or the proposal quality.</li>
             <li>It checks structural readiness only: claim extraction, evidence markers, and governance indicators.</li>
-            <li>“CUBICS Assurance” is a working title for the demo; not an official Cubics tool.</li>
+            <li>"Structural Assurance" is a module within Reflective Diagnostics; not an official Cubics tool.</li>
             <li>Outputs are generated from a deterministic script; analyst review can override.</li>
         </ul>
     </div>
@@ -357,7 +320,7 @@
     <h2>Method</h2>
     <div style="border:1px solid var(--border); padding:14px; background:#fff; color:var(--muted);">
       <span style="font-family:var(--font-mono); font-size:12px;">
-        Method: manual CUBICS Assurance pass on a public infrastructure pitch deck. Signals derived via structured analyst review. Automation pending.
+        Method: Manual Structural Assurance pass on a public infrastructure pitch deck. Signals derived via structured analyst review. Automation pending.
       </span>
     </div>
 
@@ -426,7 +389,7 @@
     <h2>Methodology</h2>
     <div class="method-block">
         <p>
-            CUBICS Assurance is a <strong>structural validation protocol</strong> applied to investor-facing documents (Key Information Decks, pitch decks, technical dossiers). It does not evaluate the quality of an idea, technology, or organization. It evaluates whether <em>claims are sufficiently evidenced, owned, and auditable</em> to proceed through a governance or investment process.
+            Structural Assurance is a <strong>structural validation protocol</strong> applied to investor-facing documents (Key Information Decks, pitch decks, technical dossiers). It does not evaluate the quality of an idea, technology, or organization. It evaluates whether <em>claims are sufficiently evidenced, owned, and auditable</em> to proceed through a governance or investment process.
         </p>
         <ol>
             <li><strong>Claim Extraction:</strong> All affirmative claims are identified. A claim is defined as any statement asserting an outcome, capability, impact, performance, or future state.</li>
@@ -457,7 +420,7 @@
             <li>It does not assess technological feasibility or commercial viability.</li>
             <li>It does not replace expert judgment, Council review, or regulatory approval.</li>
         </ul>
-        <p style="margin-top:15px; font-weight:600;">CUBICS Assurance functions as a gate, not a verdict.</p>
+        <p style="margin-top:15px; font-weight:600;">Structural Assurance functions as a gate, not a verdict.</p>
     </div>
 
     <h2>Governance & Accountability Check</h2>
@@ -473,11 +436,8 @@
     </div>
 
     <div class="footer">
-      <div>GENERATED BY CUBICS ASSURANCE v0.1</div>
-      <div id="hashLine">HASH: —</div>
-      <div>
-        <a href="#" onclick="lockGate(); return false;" class="lock-link">Lock</a>
-      </div>
+        <div>Developed by Enlightened AI Research Lab</div>
+        <div id="hashLine">HASH: —</div>
     </div>
 
   </div>
@@ -594,31 +554,8 @@
       el("dl-csv").href = URL.createObjectURL(csvBlob);
     }
 
-    // GATE LOGIC
-    function checkGate() {
-        const input = document.getElementById("gate-pw");
-        if (input.value === "STRUCTURE") {
-            sessionStorage.setItem("cubics_gate_ok", "1");
-            document.getElementById("gate-overlay").style.display = "none";
-        } else {
-            document.getElementById("gate-err").style.display = "block";
-        }
-    }
-
-    function lockGate() {
-        sessionStorage.removeItem("cubics_gate_ok");
-        location.reload();
-    }
-
+    // BOOTSTRAP
     (function init() {
-      // Gate Check
-      if (sessionStorage.getItem("cubics_gate_ok") === "1") {
-          document.getElementById("gate-overlay").style.display = "none";
-      }
-      document.getElementById("gate-pw").addEventListener("keypress", function(e) {
-          if (e.key === "Enter") checkGate();
-      });
-
       // 1. Render Metrics
       el("mCoherence").textContent = REPORT_DATA.metrics.structural_coherence;
       el("mCoverage").textContent = (REPORT_DATA.metrics.premise_coverage * 100) + "%";
