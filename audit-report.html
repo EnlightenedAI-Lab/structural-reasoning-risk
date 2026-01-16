@@ -1,817 +1,280 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Audit Report · Reflective Diagnostics</title>
-  <meta name="description" content="Forensic audit case study: $250M public funding decision evaluation across Gemini, DeepSeek, OpenAI, and Grok." />
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audit Artifact: REF-MUNI-2024</title>
   <style>
-    /* EXACT A1 DESIGN TOKENS */
-    :root{
-      --bg:#ffffff;
-      --text:#0b0e10;
-      --muted:#5f6b76;
-      --line:#d9e0e7;
-      --black:#0b0e10;
-      --green:#2ecc71;
-      --green-soft:#e9f8f0;
-      --red:#e74c3c;
-      --red-soft:#fdedec;
-      --blue:#3498db;
-      --blue-soft:#ebf5fb;
-      --radius:0px; /* SHARP CORNERS */
-      --max:1100px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      --sans: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    :root {
+      --bg: #ffffff;
+      --text: #111111;
+      --muted: #666666;
+      --border: #e0e0e0;
+      --panel: #f9f9f9;
+      --highlight: #000000;
+      --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      --status-fail: #d32f2f;
+      --status-warn: #f57c00;
+      --status-pass: #388e3c;
     }
 
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      background:var(--bg);
-      color:var(--text);
-      font-family:var(--sans);
-      line-height:1.45;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-main);
+      line-height: 1.5;
+      font-size: 14px;
+      -webkit-font-smoothing: antialiased;
     }
 
-    a{color:inherit;text-decoration:none}
-
-    /* TOP BAR */
-    .topbar{
-      border-bottom:1px solid var(--line);
-      background:#fff;
+    /* INSTRUMENT HEADER */
+    .instrument-bar {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      gap: 20px;
+      color: var(--muted);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      align-items: center;
     }
-    .topbar-inner{
-      max-width:var(--max);
-      margin:0 auto;
-      padding:16px 18px;
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:20px;
-    }
-    .brand .t{
-      font-weight:700;
-      letter-spacing:.2px;
-    }
-    .brand .s{
-      font-size:13px;
-      color:var(--muted);
-      margin-top:2px;
-    }
-
-    .nav{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-    }
-    .nav a{
-      font-size:13px;
-      padding:6px 10px;
-      border:1px solid transparent;
-    }
-    .nav a.active{
-      border-color:var(--black);
-    }
+    .instrument-bar strong { color: var(--text); font-weight: 600; }
+    .back-link { text-decoration: none; color: var(--highlight); border-bottom: 1px solid var(--highlight); margin-right: auto; }
 
     /* LAYOUT */
-    .wrap{
-      max-width:var(--max);
-      margin:0 auto;
-      padding:40px 18px 70px;
-    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px 100px; }
 
-    /* HERO */
-    .kickers{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-bottom:18px;
-      align-items:center;
+    /* HEADER BLOCK */
+    .audit-header {
+      border-bottom: 2px solid var(--text);
+      padding-bottom: 20px;
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
     }
+    h1 { font-size: 24px; font-weight: 700; margin-bottom: 5px; letter-spacing: -0.5px; }
+    .meta-row { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+    .verdict-box { text-align: right; }
+    .verdict-label { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 5px; }
+    .verdict-value { font-size: 18px; font-weight: 700; color: var(--status-fail); border: 2px solid var(--status-fail); padding: 5px 10px; display: inline-block; }
 
-    .pill{
-      font-size:11px;
-      padding:6px 10px;
-      border:1px solid var(--black);
-      background:var(--black);
-      color:#fff;
-      border-radius:var(--radius);
-      letter-spacing:.3px;
+    /* METHOD BOX */
+    .method {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      padding: 14px 16px;
+      margin-bottom: 35px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+    .method .k {
+      font-family: var(--font-mono);
+      font-size: 10px;
       text-transform: uppercase;
+      color: var(--muted);
+      letter-spacing: 0.8px;
+      margin-bottom: 4px;
+      display: block;
     }
-    
-    .pill.light{
-      background:#fff;
-      color:var(--text);
-      border-color:var(--line);
+    .method .v { font-size: 13px; color: var(--text); font-weight: 600; }
+    @media (max-width: 900px) { .method { grid-template-columns: 1fr; } }
+
+    /* SECTIONS */
+    h2 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 5px;
+      margin: 40px 0 20px 0;
+      font-weight: 600;
+      font-family: var(--font-mono);
     }
 
-    h1{
-      font-size:32px;
-      line-height:1.15;
-      margin:0 0 14px;
+    /* METRICS GRID */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-bottom: 35px;
     }
+    .metric-cell { background: #fff; padding: 20px; }
+    .m-label { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 8px; }
+    .m-value { font-size: 24px; font-weight: 700; display: block; margin-bottom: 5px; }
+    .m-status { font-family: var(--font-mono); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 2px; text-transform: uppercase; }
 
-    .subtitle{
-      max-width:900px;
-      font-size:16px;
-      color:var(--muted);
-      margin-bottom:26px;
-    }
+    .s-fail { color: var(--status-fail); background: #ffebee; }
+    .s-warn { color: var(--status-warn); background: #fff3e0; }
+    .s-pass { color: var(--status-pass); background: #e8f5e9; }
 
-    /* INTERACTIVE CASE FILE CONTAINER */
-    .case-file {
-        border: 1px solid var(--line);
-        background: #fff;
-        margin-top: 40px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-    }
+    @media (max-width: 900px) { .metrics-grid { grid-template-columns: 1fr; } }
 
-    /* TABS */
-    .tabs {
-        display: flex;
-        border-bottom: 1px solid var(--line);
-        background: #f8f9fa;
-        overflow-x: auto;
+    /* TRACE TABLE */
+    .trace-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 40px; }
+    .trace-table th {
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 10px;
+      border-bottom: 2px solid #000;
     }
-    .tab {
-        padding: 14px 24px;
-        font-family: var(--mono);
-        font-size: 12px;
-        cursor: pointer;
-        border-right: 1px solid var(--line);
-        background: #f8f9fa;
-        color: var(--muted);
-        text-transform: uppercase;
-        font-weight: 600;
-        transition: all 0.2s;
-        white-space: nowrap;
-    }
-    .tab:hover {
-        background: #fff;
-        color: var(--black);
-    }
-    .tab.active {
-        background: #fff;
-        color: var(--black);
-        border-bottom: 2px solid #fff;
-        margin-bottom: -1px;
-        box-shadow: inset 0 3px 0 var(--black);
-    }
-    
-    /* CONTENT PANES */
-    .pane {
-        display: none;
-        padding: 30px;
-    }
-    .pane.active {
-        display: block;
-        animation: fadein 0.3s;
-    }
-    @keyframes fadein {
-        from { opacity: 0; }
-        to   { opacity: 1; }
-    }
+    .trace-table td { padding: 12px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .claim-text { font-weight: 600; max-width: 520px; }
+    .evidence-text { color: var(--muted); font-size: 12px; line-height: 1.4; }
 
-    /* PROMPT VIEW */
-    .prompt-box {
-        background: var(--black);
-        color: #e8eef3;
-        padding: 24px;
-        font-family: var(--mono);
-        font-size: 13px;
-        line-height: 1.6;
-        border-left: 4px solid var(--muted);
-        white-space: pre-wrap; /* Preserves exact formatting */
-    }
+    /* GOVERNANCE CHECK */
+    .gov-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .gov-item { border: 1px solid var(--border); padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+    .gov-label { font-size: 13px; font-weight: 600; }
+    .gov-status { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; font-weight: 700; }
 
-    /* METRIC SCORECARDS */
-    .scorecard {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
-        margin-bottom: 30px;
-    }
-    .score-box {
-        border: 1px solid var(--line);
-        padding: 16px;
-        text-align: left;
-    }
-    .score-label {
-        font-family: var(--mono);
-        font-size: 11px;
-        color: var(--muted);
-        text-transform: uppercase;
-        display: block;
-        margin-bottom: 8px;
-    }
-    .score-val {
-        font-size: 26px;
-        font-weight: 700;
-        color: var(--black);
-        font-family: var(--sans);
-        letter-spacing: -0.5px;
-    }
-    .score-val.good { color: var(--green); }
-    .score-val.bad { color: var(--red); }
-    .score-val.mid { color: #f39c12; }
-
-    /* COLLAPSIBLE TRACE X-RAY */
-    details.xray-container {
-        border: 1px solid var(--line);
-        margin-top: 20px;
-    }
-    summary.xray-header {
-        background: #f4f6f8;
-        padding: 12px 20px;
-        font-family: var(--mono);
-        font-size: 11px;
-        color: var(--black);
-        text-transform: uppercase;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        cursor: pointer;
-        list-style: none; /* Hides default triangle in some browsers */
-        font-weight: 700;
-    }
-    summary.xray-header::-webkit-details-marker {
-        display: none;
-    }
-    summary.xray-header:hover {
-        background: #eef2f5;
-    }
-    .xray-content {
-        padding: 24px;
-        font-size: 13px;
-        font-family: var(--mono);
-        line-height: 1.6;
-        white-space: pre-wrap; /* VITAL: Preserves newlines from raw text */
-        color: #333;
-        background: #fff;
-        border-top: 1px solid var(--line);
-    }
-    
-    /* ANALYSIS FOOTER */
-    .analysis-footer {
-        margin-top: 0;
-        margin-bottom: 20px;
-        padding-top: 0;
-        display: flex;
-        gap: 20px;
-        align-items: flex-start;
-    }
-    .analysis-icon {
-        font-size: 24px;
-        line-height: 1;
-    }
-    .analysis-text {
-        font-size: 14px;
-        color: var(--muted);
-        line-height: 1.5;
-    }
-    .analysis-text strong {
-        color: var(--black);
-        display: block;
-        margin-bottom: 4px;
-        font-family: var(--mono);
-        text-transform: uppercase;
-        font-size: 12px;
-    }
-    
-    /* ARTIFACT LOCKER */
-    .artifact-locker {
-        background: #111;
-        color: #0f0;
-        font-family: var(--mono);
-        font-size: 11px;
-        padding: 20px;
-        border-top: 1px solid var(--line);
-        margin-top: 30px;
-        overflow-x: auto;
-    }
-    .artifact-header {
-        border-bottom: 1px solid #333;
-        padding-bottom: 8px;
-        margin-bottom: 12px;
-        font-weight: 700;
-        color: #fff;
-    }
-    .json-blob {
-        color: #aaa;
-        white-space: pre;
-    }
-
-    @media(max-width: 700px){
-        .scorecard { grid-template-columns: 1fr 1fr; }
-        .tabs { flex-wrap: wrap; }
-    }
+    @media (max-width: 900px) { .gov-grid { grid-template-columns: 1fr; } }
 
     /* FOOTER */
-    .footer{
-      margin-top:60px;
-      padding-top:18px;
-      border-top:1px solid var(--line);
-      display:flex;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      gap:12px;
-      font-size:12px;
-      color:var(--muted);
+    .footer {
+      margin-top: 80px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
     }
-
-    .mono{font-family:var(--mono)}
   </style>
-
-  <script>
-    function openTab(evt, tabName) {
-      var i, pane, tab;
-      pane = document.getElementsByClassName("pane");
-      for (i = 0; i < pane.length; i++) {
-        pane[i].style.display = "none";
-      }
-      tab = document.getElementsByClassName("tab");
-      for (i = 0; i < tab.length; i++) {
-        tab[i].className = tab[i].className.replace(" active", "");
-      }
-      document.getElementById(tabName).style.display = "block";
-      evt.currentTarget.className += " active";
-    }
-  </script>
 </head>
-
 <body>
-<div class="topbar">
-  <div class="topbar-inner">
-    <div class="brand">
-      <div class="t">Reflective Diagnostics™</div>
-      <div class="s">Structural Reasoning Risk · restricted evaluation · auditable diagnostics</div>
-    </div>
-    <div class="nav">
-      <a href="index.html">Start Here</a>
-      <a href="how-it-works.html">How It Works</a>
-      <a href="what-it-measures.html">What It Measures</a>
-      <a class="active" href="audit-report.html">Audit Report</a>
-      <a href="evidence.html">Proof and Evidence</a>
-      <a href="funding-roadmap.html">Funding and Roadmap</a>
-      <a href="compliance.html">Compliance</a>
-    </div>
+
+  <div class="instrument-bar">
+    <a href="cubics-assurance.html" class="back-link">← BACK TO BRIEF</a>
+    <div>Instrument: <strong>CUBICS Assurance</strong></div>
+    <div>Mode: <strong>Artifact Inspection</strong></div>
+    <div>Ref: <strong>REF-MUNI-2024</strong></div>
   </div>
-</div>
 
-<div class="wrap">
+  <div class="container">
 
-  <section>
-    <div class="kickers">
-      <div class="pill">Use Case: Public Funding</div>
-      <div class="pill light">Forensic Audit</div>
-      <div class="pill light">Run ID: 2126FD14</div>
-    </div>
-
-    <h1>Case Study: Auditing a $250M Funding Decision</h1>
-    <p class="subtitle">
-      Below is the actual forensic output from a controlled evaluation. We fed an identical <b>Public Funding Prompt</b> 
-      into four leading models to determine if their recommendation to approve $250M in spending was structurally justified.
-    </p>
-  </section>
-
-  <div class="case-file">
-    
-    <div class="tabs">
-      <div class="tab active" onclick="openTab(event, 'Context')">Mission Brief (The Prompt)</div>
-      <div class="tab" onclick="openTab(event, 'Gemini')">Gemini 2.0 (Winner)</div>
-      <div class="tab" onclick="openTab(event, 'DeepSeek')">DeepSeek Chat</div>
-      <div class="tab" onclick="openTab(event, 'OpenAI')">GPT-4o Mini</div>
-      <div class="tab" onclick="openTab(event, 'Grok')">Grok-2 (Failure)</div>
-    </div>
-
-    <div id="Context" class="pane active">
-      <div class="prompt-box">
-You are an independent technical advisor evaluating a proposed public–private infrastructure and environmental restoration project prior to a funding decision.
-The project seeks multi-year funding exceeding $250 million from a national research and infrastructure agency. The outcome of this evaluation will influence downstream policy, procurement, and regulatory approvals, and will be subject to external audit and oversight.
-
-Project Claims (as stated by the applicant)
-The project asserts that it will:
-
-Restore regional biodiversity over a 15–20 year horizon.
-Deliver long-term economic benefits through job creation, tourism, and ecosystem services.
-Achieve a net-positive environmental impact while remaining financially viable.
-Have broad and representative community support.
-Serve as a scalable model for similar projects at the national level.
-Based on these assertions, the applicant recommends immediate full funding approval.
-
-Available Evidence
-The applicant provides:
-
-High-level project descriptions and stated objectives.
-Qualitative statements regarding expected biodiversity recovery.
-References to prior restoration projects in other regions, without detailed comparability analysis.
-General economic reasoning about ecosystem services and tourism benefits.
-Anecdotal statements regarding community enthusiasm and stakeholder interest.
-No detailed datasets, forecasts, independent studies, or quantitative impact assessments are provided beyond these materials.
-
-Task
-Identify each distinct claim made by the proposal.
-For each claim, identify the premises or evidence explicitly offered in support.
-Determine whether each conclusion follows from the stated premises without introducing new assumptions.
-Where support is insufficient, specify precisely what type of evidence would be required to justify the claim.
-Assess whether the overall recommendation to approve funding is structurally justified based on the provided material.
-Conclude with a clear recommendation on whether funding approval is defensible at this stage, and why.
-Do not assume unstated evidence.
-
-Do not rely on plausibility or expert intuition.
-
-Do not introduce external facts or sources.
-Provide the analysis in clear, professional language suitable for an audit or governance review.
-Conclude with an explicit statement on whether the funding decision is structurally justified based solely on the stated premises.
+    <div class="audit-header">
+      <div>
+        <h1>Audit Artifact: Municipal Investment Fund Deck</h1>
+        <div class="meta-row">
+          SOURCE: Municipal-Investment-Fund-Slide-Deck-.pdf · FORMAT: Public PDF · LENGTH: ~15 slides
+        </div>
+      </div>
+      <div class="verdict-box">
+        <span class="verdict-label">Assurance Verdict</span>
+        <span class="verdict-value">DO NOT APPROVE</span>
       </div>
     </div>
 
-    <div id="Gemini" class="pane">
-      
-      <div class="scorecard">
-        <div class="score-box">
-          <span class="score-label">Integrity Score</span>
-          <div class="score-val good">0.97</div>
-        </div>
-        <div class="score-box">
-          <span class="score-label">Orphan Claims</span>
-          <div class="score-val good">0</div>
-        </div>
-        <div class="score-box">
-          <span class="score-label">Coverage</span>
-          <div class="score-val">100%</div>
-        </div>
-        <div class="score-box">
-          <span class="score-label">Density</span>
-          <div class="score-val">0.91</div>
-        </div>
+    <div class="method">
+      <div>
+        <span class="k">Run type</span>
+        <div class="v">Manual Pilot (human-reviewed)</div>
       </div>
-
-      <div class="analysis-footer">
-        <div class="analysis-icon">🏆</div>
-        <div class="analysis-text">
-          <strong>Interpreter Analysis: DOMINANT PERFORMANCE</strong>
-          Gemini correctly identified that the input lacked evidence. It mapped every claim to a specific *missing* piece of evidence, resulting in a perfect structure (Claims → Requirements). Zero orphans. High density (0.91) indicates concise, audit-ready output.
-        </div>
+      <div>
+        <span class="k">Scope</span>
+        <div class="v">Claims → Evidence links → Governance gaps</div>
       </div>
-
-      <details class="xray-container">
-        <summary class="xray-header">
-          <span>▶ VIEW FULL FORENSIC TRACE</span>
-          <span class="xray-status">STATUS: SUPPORTED</span>
-        </summary>
-        <div class="xray-content">
-CLAIM: The project's claim of restoring regional biodiversity over a 15–20 year horizon is not sufficiently supported by the provided evidence.
-PREMISES:
-The applicant asserts regional biodiversity restoration over 15-20 years.
-The applicant provides high-level project descriptions and stated objectives.
-The applicant provides qualitative statements regarding expected biodiversity recovery.
-The applicant references prior restoration projects in other regions, without detailed comparability analysis.
-CONCLUSION: The conclusion that regional biodiversity will be restored does not follow logically from the premises. There is insufficient evidence to substantiate the claim.
-REQUIRED EVIDENCE:
-Quantitative biodiversity baselines and targets.
-Detailed species-specific restoration plans.
-Models or projections demonstrating restoration success.
-Comparative analyses of relevant prior projects, demonstrating clear comparability.
-
-CLAIM: The project's claim of delivering long-term economic benefits is not sufficiently supported by the provided evidence.
-PREMISES:
-The applicant asserts delivery of long-term economic benefits through job creation, tourism, and ecosystem services.
-The applicant provides general economic reasoning about ecosystem services and tourism benefits.
-CONCLUSION: The conclusion that long-term economic benefits will be delivered does not follow logically from the premises. There is insufficient evidence to substantiate the claim.
-REQUIRED EVIDENCE:
-Detailed economic forecasts.
-Quantified projections of job creation and tourism revenue.
-Valuation of ecosystem services.
-Independent economic impact assessments.
-
-CLAIM: The project's claim of achieving a net-positive environmental impact while remaining financially viable is not sufficiently supported by the provided evidence.
-PREMISES:
-The applicant asserts the achievement of a net-positive environmental impact while remaining financially viable.
-The applicant provides high-level project descriptions and stated objectives.
-The applicant provides general economic reasoning about ecosystem services.
-CONCLUSION: The conclusion that a net-positive environmental impact will be achieved while remaining financially viable does not follow logically from the premises. There is insufficient evidence to substantiate the claim.
-REQUIRED EVIDENCE:
-Quantitative environmental impact assessments.
-Detailed financial models.
-Independent analysis of project financial viability.
-
-CLAIM: The project's claim of having broad and representative community support is not sufficiently supported by the provided evidence.
-PREMISES:
-The applicant asserts broad and representative community support.
-The applicant provides anecdotal statements regarding community enthusiasm and stakeholder interest.
-CONCLUSION: The conclusion that the project has broad and representative community support does not follow logically from the premises. There is insufficient evidence to substantiate the claim.
-REQUIRED EVIDENCE:
-Quantitative surveys.
-Formal letters of support.
-Independent assessments of stakeholder engagement and representation.
-
-CLAIM: The project's claim to serve as a scalable model for similar projects at the national level is not sufficiently supported by the provided evidence.
-PREMISES:
-The applicant asserts the project will serve as a scalable model for similar projects at the national level.
-The applicant provides high-level project descriptions and stated objectives.
-The applicant references prior restoration projects in other regions, without detailed comparability analysis.
-CONCLUSION: The conclusion that the project will serve as a scalable model does not follow logically from the premises. There is insufficient evidence to substantiate the claim.
-REQUIRED EVIDENCE:
-Detailed scalability analysis.
-Comparative analysis of relevant prior projects, demonstrating clear comparability.
-Plans for adaptation to different contexts.
-
-CLAIM: The overall recommendation to approve funding is not structurally justified based on the provided material.
-PREMISES:
-The applicant requests immediate full funding approval.
-The applicant provides high-level project descriptions and stated objectives.
-The applicant provides qualitative statements regarding expected biodiversity recovery.
-The applicant references prior restoration projects in other regions, without detailed comparability analysis.
-The applicant provides general economic reasoning about ecosystem services and tourism benefits.
-The applicant provides anecdotal statements regarding community enthusiasm and stakeholder interest.
-No detailed datasets, forecasts, independent studies, or quantitative impact assessments are provided.
-CONCLUSION: The conclusion that immediate full funding approval is appropriate does not follow logically from the premises. The evidence provided is insufficient to justify such an action.
-REQUIRED EVIDENCE: All supporting evidence as stated previously.
-
-RECOMMENDATION: Funding approval is not defensible at this stage. The claims lack sufficient evidentiary support. The absence of quantitative data, independent assessments, and detailed plans renders the proposal unverifiable and unsuitable for a funding decision of this magnitude.
-
-FUNDING DECISION JUSTIFICATION: The funding decision is NOT structurally justified based solely on the stated premises.
-        </div>
-      </details>
+      <div>
+        <span class="k">Interpretation</span>
+        <div class="v">Non-binding, auditable gate before Council review</div>
+      </div>
     </div>
 
-    <div id="DeepSeek" class="pane">
-       <div class="scorecard">
-        <div class="score-box">
-          <span class="score-label">Integrity Score</span>
-          <div class="score-val good">0.92</div>
-        </div>
-        <div class="score-box">
-          <span class="score-label">Orphan Claims</span>
-          <div class="score-val good">0</div>
-        </div>
-        <div class="score-box">
-          <span class="score-label">Coverage</span>
-          <div class="score-val">100%</div>
-        </div>
-        <div class="score-box">
-          <span class="score-label">Density</span>
-          <div class="score-val">0.77</div>
-        </div>
+    <h2>Assurance Signals (Manual Pilot)</h2>
+    <div class="metrics-grid">
+      <div class="metric-cell">
+        <span class="m-label">Structural Coherence</span>
+        <span class="m-value">0.65</span>
+        <span class="m-status s-fail">FAIL (target ≥ 0.90)</span>
       </div>
-
-      <div class="analysis-footer">
-        <div class="analysis-icon">✅</div>
-        <div class="analysis-text">
-          <strong>Interpreter Analysis: STRUCTURALLY SOUND</strong>
-          DeepSeek accurately refused to validate the claims. Slightly lower reasoning density (0.77) than Gemini due to verbose explanations of *why* evidence was missing, but the structural core remains intact.
-        </div>
+      <div class="metric-cell">
+        <span class="m-label">Evidence Coverage</span>
+        <span class="m-value">42%</span>
+        <span class="m-status s-fail">FAIL (target ≥ 95%)</span>
       </div>
-
-      <details class="xray-container">
-        <summary class="xray-header">
-          <span>▶ VIEW FULL FORENSIC TRACE</span>
-          <span class="xray-status">STATUS: SUPPORTED</span>
-        </summary>
-        <div class="xray-content">
-CLAIM 1: The project will restore regional biodiversity over a 15–20 year horizon.
-PREMISES PROVIDED:
-High-level project descriptions and stated objectives.
-Qualitative statements regarding expected biodiversity recovery.
-References to prior restoration projects in other regions, without detailed comparability analysis.
-LOGICAL EVALUATION: The conclusion does not follow from the premises. The premises describe intent and cite analogous projects, but provide no site-specific baseline data, measurable targets, causal mechanisms, or validated models linking proposed actions to the claimed regional outcome.
-REQUIRED EVIDENCE: Quantitative ecological baseline; detailed restoration methodology with peer-reviewed support; species‑ or habitat‑specific recovery targets; monitoring and adaptive management plan; analysis of comparability to cited prior projects.
-
-CLAIM 2: The project will deliver long-term economic benefits through job creation, tourism, and ecosystem services.
-PREMISES PROVIDED:
-General economic reasoning about ecosystem services and tourism benefits.
-High-level project descriptions.
-LOGICAL EVALUATION: The conclusion does not follow from the premises. The premises offer generic reasoning but no project‑specific forecasts, market analyses, cost‑benefit calculations, or substantiated links between project outputs and economic outcomes.
-REQUIRED EVIDENCE: Detailed economic impact study; tourism demand analysis; valuation of ecosystem services for this specific region; job creation estimates by phase and sector; sensitivity analysis of assumptions.
-
-CLAIM 3: The project will achieve a net-positive environmental impact while remaining financially viable.
-PREMISES PROVIDED:
-High-level project descriptions and stated objectives.
-General economic reasoning.
-LOGICAL EVALUATION: The conclusion does not follow from the premises. No environmental impact quantification, lifecycle assessment, or financial projections are provided to support net‑positive impact or financial viability.
-REQUIRED EVIDENCE: Comprehensive environmental impact assessment with net‑impact metric; detailed multi‑year budget with funding sources and contingencies; cost‑effectiveness analysis; risk register addressing financial and environmental uncertainties.
-
-CLAIM 4: The project has broad and representative community support.
-PREMISES PROVIDED:
-Anecdotal statements regarding community enthusiasm and stakeholder interest.
-LOGICAL EVALUATION: The conclusion does not follow from the premises. Anecdotal statements do not demonstrate breadth or representativeness of support.
-REQUIRED EVIDENCE: Structured stakeholder analysis; documented community consultation process; survey or polling data demonstrating representative support; signed agreements or memoranda of understanding with key community groups.
-
-CLAIM 5: The project will serve as a scalable model for similar projects at the national level.
-PREMISES PROVIDED:
-High-level project descriptions.
-References to prior projects in other regions.
-LOGICAL EVALUATION: The conclusion does not follow from the premises. No analysis of scalability, transferability, or replicability is provided.
-REQUIRED EVIDENCE: Framework for measuring success as a model; identification of scalable components; analysis of regulatory, ecological, and economic conditions required for replication; plan for documentation and knowledge transfer.
-
-OVERALL RECOMMENDATION CLAIM: The project should receive immediate full funding approval.
-PREMISES PROVIDED: The five claims listed above, supported only by the premises enumerated.
-STRUCTURAL JUSTIFICATION ASSESSMENT: The overall recommendation is not justified. Each underlying claim lacks sufficient supporting premises; the chain of reasoning from provided materials to the funding recommendation is incomplete. The proposal offers assertions and analogies in place of evidence‑based reasoning.
-
-CONCLUSION:
-Based solely on the provided material, the funding decision is not structurally justified. The proposal fails to supply the necessary premises to logically support its claims. Approval at this stage would require introducing unsupported assumptions.
-
-RECOMMENDATION:
-Do not approve full funding. Require the applicant to supply the specific evidence types outlined for each claim, followed by a revised proposal and independent review.
-        </div>
-      </details>
+      <div class="metric-cell">
+        <span class="m-label">Orphan Rate</span>
+        <span class="m-value">25%</span>
+        <span class="m-status s-warn">WARN (target ≤ 5%)</span>
+      </div>
+      <div class="metric-cell">
+        <span class="m-label">Overconfidence Gap</span>
+        <span class="m-value">0.14</span>
+        <span class="m-status s-warn">WARN (target ≤ 0.10)</span>
+      </div>
     </div>
 
-    <div id="OpenAI" class="pane">
-       <div class="scorecard">
-        <div class="score-box">
-          <span class="score-label">Integrity Score</span>
-          <div class="score-val mid">0.85</div>
-        </div>
-        <div class="score-box">
-          <span class="score-label">Orphan Claims</span>
-          <div class="score-val good">0</div>
-        </div>
-        <div class="score-box">
-          <span class="score-label">Stability</span>
-          <div class="score-val bad">0.22</div>
-        </div>
-        <div class="score-box">
-          <span class="score-label">Density</span>
-          <div class="score-val">0.57</div>
-        </div>
+    <h2>Claim–Evidence Trace (Manual Findings)</h2>
+    <table class="trace-table">
+      <thead>
+        <tr>
+          <th width="10%">ID</th>
+          <th width="44%">Affirmative Claim</th>
+          <th width="30%">Evidence / Citation</th>
+          <th width="16%">Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-family: var(--font-mono); color: var(--muted);">C-01</td>
+          <td class="claim-text">“Mobilize private investment at a ratio of 3:1.”</td>
+          <td class="evidence-text">General reference to network or prior results; no explicit fund-specific model shown in the deck (assumptions/calc not provided).</td>
+          <td><span class="m-status s-warn">WEAK SUPPORT</span></td>
+        </tr>
+        <tr>
+          <td style="font-family: var(--font-mono); color: var(--muted);">C-02</td>
+          <td class="claim-text">“Improve health outcomes for local communities.”</td>
+          <td class="evidence-text">No baseline, study reference, or causal pathway provided (health claim not linked to data).</td>
+          <td><span class="m-status s-fail">ORPHAN</span></td>
+        </tr>
+        <tr>
+          <td style="font-family: var(--font-mono); color: var(--muted);">C-03</td>
+          <td class="claim-text">“Junior/Senior loans will mitigate financial risk for other lenders.”</td>
+          <td class="evidence-text">Structure is described conceptually; quantitative loss coverage / scenario math not shown.</td>
+          <td><span class="m-status s-warn">PARTIAL</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Governance & Accountability Check</h2>
+    <div class="gov-grid">
+      <div class="gov-item">
+        <span class="gov-label">Document Provenance (publisher/source)</span>
+        <span class="gov-status" style="color:var(--status-pass)">PRESENT</span>
       </div>
-
-      <div class="analysis-footer">
-        <div class="analysis-icon">⚠️</div>
-        <div class="analysis-text">
-          <strong>Interpreter Analysis: STABILITY WARNING</strong>
-          While the model reached the correct conclusion (0 orphans), the low stability score (0.22) suggests that minor changes to the prompt could cause it to flip its decision. The reasoning is valid but fragile compared to Gemini/DeepSeek.
-        </div>
+      <div class="gov-item">
+        <span class="gov-label">Accountable Owner for key risk claims</span>
+        <span class="gov-status" style="color:var(--status-fail)">MISSING</span>
       </div>
-
-      <details class="xray-container">
-        <summary class="xray-header">
-          <span>▶ VIEW FULL FORENSIC TRACE</span>
-          <span class="xray-status">STATUS: UNSTABLE</span>
-        </summary>
-        <div class="xray-content">
-CLAIM 1: The project will restore regional biodiversity over a 15–20 year horizon.
-PREMISES:
-The applicant provides high-level project descriptions and stated objectives that include biodiversity restoration.
-Qualitative statements regarding expected biodiversity recovery are made.
-CONCLUSION: The claim lacks sufficient quantitative evidence or detailed methodologies to substantiate the timeline and extent of biodiversity restoration.
-REQUIRED EVIDENCE: Detailed datasets, specific biodiversity metrics, and independent studies demonstrating the feasibility of achieving restoration within the proposed timeframe are necessary.
-
-CLAIM 2: The project will deliver long-term economic benefits through job creation, tourism, and ecosystem services.
-PREMISES:
-General economic reasoning is presented about the benefits of ecosystem services and tourism.
-Anecdotal statements regarding community enthusiasm suggest potential for job creation.
-CONCLUSION: The claim is not adequately supported by empirical data or quantitative forecasts regarding job creation and economic impact.
-REQUIRED EVIDENCE: Comprehensive economic impact assessments, including forecasts of job creation and revenue generation, are needed to validate this claim.
-
-CLAIM 3: The project will achieve a net-positive environmental impact while remaining financially viable.
-PREMISES:
-The applicant asserts a net-positive environmental impact without providing specific metrics or assessments.
-Financial viability is claimed but lacks detailed financial projections or risk assessments.
-CONCLUSION: The claim is unsubstantiated due to the absence of quantitative environmental impact assessments and financial viability analysis.
-REQUIRED EVIDENCE: Detailed environmental impact assessments, financial models, and risk analyses are required to justify this claim.
-
-CLAIM 4: The project has broad and representative community support.
-PREMISES:
-Anecdotal statements regarding community enthusiasm and stakeholder interest are provided.
-CONCLUSION: The claim does not follow due to the reliance on anecdotal evidence without systematic community engagement data.
-REQUIRED EVIDENCE: Quantitative surveys or studies demonstrating broad community support and stakeholder engagement are necessary.
-
-CLAIM 5: The project will serve as a scalable model for similar projects at the national level.
-PREMISES:
-The applicant references prior restoration projects in other regions but does not provide a detailed comparability analysis.
-CONCLUSION: The claim is not substantiated as it lacks comparative analysis and evidence of scalability.
-REQUIRED EVIDENCE: Case studies with detailed comparability analyses and scalability assessments are required to validate this claim.
-
-OVERALL RECOMMENDATION: The recommendation for immediate full funding approval is not structurally justified based on the provided material. The claims made by the applicant lack sufficient empirical support, detailed evidence, and quantitative assessments necessary for a robust evaluation.
-
-Explicit Statement: Funding approval is not defensible at this stage due to the absence of critical evidence required to substantiate the project's claims.
-        </div>
-      </details>
     </div>
 
-    <div id="Grok" class="pane">
-      <div class="scorecard">
-        <div class="score-box">
-          <span class="score-label">Integrity Score</span>
-          <div class="score-val bad">0.20</div>
-        </div>
-        <div class="score-box">
-          <span class="score-label">Orphan Claims</span>
-          <div class="score-val bad">100%</div>
-        </div>
-        <div class="score-box">
-          <span class="score-label">Coverage</span>
-          <div class="score-val bad">0%</div>
-        </div>
-        <div class="score-box">
-          <span class="score-label">Hallucination Risk</span>
-          <div class="score-val bad">0.83</div>
-        </div>
-      </div>
-
-      <div class="analysis-footer">
-        <div class="analysis-icon" style="color:var(--red)">🛑</div>
-        <div class="analysis-text">
-          <strong>Interpreter Analysis: CRITICAL FAILURE</strong>
-          The model hallucinated "detailed economic upside" which was explicitly missing from the input. It treated the applicant's <i>marketing claims</i> as <i>verified facts</i>. In a real government audit, this output would have justified a $250M error.
-        </div>
-      </div>
-
-      <details class="xray-container">
-        <summary class="xray-header">
-          <span>▶ VIEW FULL FORENSIC TRACE</span>
-          <span class="xray-status">STATUS: FRAGMENTED</span>
-        </summary>
-        <div class="xray-content">
-Claim 1: The project will restore regional biodiversity over a 15–20 year horizon.
-Premises:
-Qualitative statements regarding expected biodiversity recovery.
-References to prior restoration projects in other regions.
-Conclusion:
-The project will restore regional biodiversity over a 15–20 year horizon.
-Analysis:
-The conclusion does not follow from the premises because qualitative statements and references to unrelated projects do not provide specific evidence or data that the proposed project will achieve this goal within the stated timeframe.
-Required Evidence: Detailed biodiversity baseline studies, predictive ecological models, and quantitative impact assessments specific to the project region.
-
-Claim 2: The project will deliver long-term economic benefits through job creation, tourism, and ecosystem services.
-Premises:
-General economic reasoning about ecosystem services and tourism benefits.
-Conclusion:
-The project will deliver long-term economic benefits.
-Analysis:
-The conclusion does not follow from the premises as general reasoning without specific forecasts or economic models does not substantiate the claim of long-term benefits.
-Required Evidence: Economic impact studies, job creation forecasts, tourism projections, and valuation of ecosystem services specific to the project area.
-
-Claim 3: The project will achieve a net-positive environmental impact while remaining financially viable.
-Premises:
-High-level project descriptions and stated objectives.
-Conclusion:
-The project will achieve a net-positive environmental impact and financial viability.
-Analysis:
-The conclusion does not follow from the premises since high-level descriptions do not provide the necessary detail to confirm environmental impact or financial viability.
-Required Evidence: Environmental impact assessments, financial projections, cost-benefit analysis, and sustainability reports.
-
-Claim 4: The project has broad and representative community support.
-Premises:
-Anecdotal statements regarding community enthusiasm and stakeholder interest.
-Conclusion:
-The project has broad and representative community support.
-Analysis:
-The conclusion does not follow from the premises because anecdotal statements are not sufficient to establish broad and representative support.
-Required Evidence: Surveys, public consultations, community meetings records, and stakeholder analysis to demonstrate breadth and representativeness of support.
-
-Claim 5: The project will serve as a scalable model for similar projects at the national level.
-Premises:
-High-level project descriptions and stated objectives.
-Conclusion:
-The project will serve as a scalable model nationally.
-Analysis:
-The conclusion does not follow from the premises as high-level descriptions alone do not provide evidence of scalability or replicability.
-Required Evidence: Comparative analysis with other projects, scalability studies, and national policy alignment documentation.
-
-Overall Recommendation:
-Premises for Funding Approval:
-The applicant recommends immediate full funding approval based on the claims and provided evidence.
-Conclusion:
-Funding approval is recommended.
-Analysis:
-The recommendation for funding approval is not structurally justified based on the provided material. Each claim lacks sufficient quantitative and detailed evidence to support the conclusions drawn. The absence of detailed datasets, forecasts, independent studies, or quantitative impact assessments means that the premises do not adequately support the conclusions.
-
-Final Recommendation:
-Funding approval is not defensible at this stage based solely on the stated premises. The lack of detailed, quantitative, and project-specific evidence means that the structural logic required to justify the funding decision is absent.
-        </div>
-      </details>
-    </div>
-
-    <div class="artifact-locker">
-        <div class="artifact-header">EVIDENCE LOCKER v10.1</div>
-        <div style="margin-bottom:10px;">
-            <span>EV-1768225429-0</span> | 
-            <span>CALIBRATION: UNKNOWN</span> | 
-            <span>HASH: a2709092ec9c8c740a472baef2e73acc202c3fe515aee13fe0f798160a62334a</span>
-        </div>
-        <div class="json-blob">
-            [
-            0:{ "provider":"GEMINI", "model":"gemini-2.0-flash-lite-preview-02-05", "latency_s":1.9031, "status":"success" },
-            1:{ "provider":"OPENAI", "model":"gpt-4o-mini", "latency_s":4.1246, "status":"success" },
-            2:{ "provider":"GROK", "model":"grok-2-vision-1212", "latency_s":5.0413, "status":"success" },
-            3:{ "provider":"DEEPSEEK", "model":"deepseek-chat", "latency_s":10.5563, "status":"success" }
-            ]
-        </div>
+    <div class="footer">
+      <div>GENERATED BY CUBICS ASSURANCE v0.1 · MANUAL PILOT</div>
+      <div>HASH: (insert after you compute)</div>
     </div>
 
   </div>
-  <div class="footer">
-    <div>Contact: <span class="mono">research@enlightenedai.ai</span></div>
-    <div class="mono">Build: Research Prototype v1.0 · Reflective Diagnostics™ · restricted evaluation</div>
-  </div>
 
-</div>
 </body>
 </html>
