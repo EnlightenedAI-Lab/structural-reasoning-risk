@@ -17,13 +17,10 @@
             --status-fail: #d32f2f;
             --status-warn: #f57c00;
             --status-pass: #388e3c;
+            --status-neutral: #607d8b;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             background-color: var(--bg);
@@ -51,287 +48,83 @@
             top: 0;
             z-index: 100;
         }
-
-        .instrument-bar span {
-            display: inline-block;
-        }
-
-        .instrument-bar strong {
-            color: var(--text);
-            font-weight: 600;
-        }
-
+        .instrument-bar strong { color: var(--text); font-weight: 600; }
         .live-link {
-            color: var(--highlight);
-            text-decoration: none;
-            border-bottom: 1px solid var(--highlight);
-            font-weight: 700;
-            margin-left: 15px;
+            color: var(--highlight); text-decoration: none;
+            border-bottom: 1px solid var(--highlight); font-weight: 700; margin-left: 15px;
         }
 
         /* LAYOUT */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 60px 20px 100px;
-        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 60px 20px 100px; }
 
-        /* DISCLOSURE BLOCK */
-        .disclosure-box {
-            background: #fff8e1;
-            border: 1px solid #ffecb3;
-            padding: 15px;
-            margin-bottom: 30px;
-            font-size: 13px;
-            color: #5d4037;
-            border-radius: 4px;
-        }
-        .disclosure-box strong { font-weight: 700; display: block; margin-bottom: 5px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
-        .disclosure-box ul { margin: 5px 0 0 20px; padding: 0; }
-        .disclosure-box li { margin-bottom: 4px; }
-
-        h1 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            letter-spacing: -0.5px;
-        }
-
+        h1 { font-size: 32px; font-weight: 700; margin-bottom: 15px; letter-spacing: -0.5px; }
         h2 {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--muted);
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 8px;
-            margin: 50px 0 25px 0;
-            font-weight: 600;
+            font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted);
+            border-bottom: 1px solid var(--border); padding-bottom: 8px; margin: 50px 0 25px 0; font-weight: 600;
         }
+        h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+        p { color: var(--muted); margin-bottom: 16px; max-width: 800px; }
 
-        h3 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 8px;
+        /* ORIENTATION BLOCK */
+        .orientation-block {
+            background: var(--panel); border: 1px solid var(--border); padding: 25px; margin-bottom: 40px;
         }
-
-        p {
-            color: var(--muted);
-            margin-bottom: 16px;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        li {
-            margin-bottom: 8px;
-            position: relative;
-            padding-left: 15px;
-        }
-
-        li::before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: var(--text);
-        }
+        .orientation-block strong { color: var(--text); display: block; margin-bottom: 5px; font-size: 13px; }
+        .orientation-block p { font-size: 14px; margin-bottom: 15px; color: var(--text); }
+        .orientation-block ul { margin: 0; padding-left: 20px; color: var(--muted); font-size: 13px; }
+        .orientation-block li { margin-bottom: 5px; }
 
         /* CARDS */
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-        
-        .grid-4 {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 
         .card {
-            border: 1px solid var(--border);
-            padding: 25px;
-            background: var(--bg);
-            transition: border-color 0.2s;
-            display: flex;
-            flex-direction: column;
+            border: 1px solid var(--border); padding: 25px; background: var(--bg);
+            transition: border-color 0.2s; display: flex; flex-direction: column;
         }
-
-        .card:hover {
-            border-color: var(--highlight);
-        }
-
+        .card:hover { border-color: var(--highlight); }
         .card-header {
-            font-family: var(--font-mono);
-            font-size: 11px;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 15px;
-            display: block;
+            font-family: var(--font-mono); font-size: 11px; text-transform: uppercase;
+            color: var(--muted); margin-bottom: 15px; display: block;
         }
 
         /* TABLES */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-            text-align: left;
-        }
-
+        table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; }
         th {
-            font-family: var(--font-mono);
-            font-size: 11px;
-            text-transform: uppercase;
-            color: var(--muted);
-            border-bottom: 1px solid var(--border);
-            padding: 12px 10px;
-            font-weight: 500;
+            font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: var(--muted);
+            border-bottom: 1px solid var(--border); padding: 12px 10px; font-weight: 500;
         }
+        td { padding: 12px 10px; border-bottom: 1px solid var(--border); color: var(--text); }
+        .code-font { font-family: var(--font-mono); font-size: 12px; }
 
-        td {
-            padding: 12px 10px;
-            border-bottom: 1px solid var(--border);
-            color: var(--text);
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        .code-font {
-            font-family: var(--font-mono);
-            font-size: 12px;
-        }
-
-        /* MOCK INTERFACE */
-        .mock-ui {
-            border: 1px solid var(--border);
-            background: var(--panel);
-            padding: 30px;
-        }
-
-        .status-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 20px;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 8px;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            border: 1px solid transparent;
-        }
-
+        /* MOCK UI */
+        .mock-ui { border: 1px solid var(--border); background: var(--panel); padding: 30px; }
+        .status-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 20px; }
+        
+        .badge { display: inline-block; padding: 4px 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 700; text-transform: uppercase; border: 1px solid transparent; }
         .badge.fail { color: var(--status-fail); border-color: var(--status-fail); background: #fff; }
         .badge.warn { color: var(--status-warn); border-color: var(--status-warn); background: #fff; }
         .badge.pass { color: var(--status-pass); border-color: var(--status-pass); background: #fff; }
+        .badge.neutral { color: var(--status-neutral); border-color: var(--status-neutral); background: #fff; }
 
-        .stat-group {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            color: var(--muted);
-        }
-        
+        .stat-group { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
         .stat-val { color: var(--text); font-weight: 700; margin-right: 15px; }
 
-        .audit-row {
-            display: grid;
-            grid-template-columns: 1.5fr 1.5fr 0.5fr 1fr 1fr 0.5fr;
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-            font-family: var(--font-mono);
-            font-size: 12px;
-            align-items: center;
-        }
-
-        .audit-row.header {
-            color: var(--muted);
-            font-size: 10px;
-            text-transform: uppercase;
-            border-bottom: 2px solid var(--border);
-        }
-
+        .audit-row { display: grid; grid-template-columns: 1.5fr 1.5fr 0.5fr 1fr 1fr 0.5fr; padding: 8px 0; border-bottom: 1px solid #eee; font-family: var(--font-mono); font-size: 12px; align-items: center; }
+        .audit-row.header { color: var(--muted); font-size: 10px; text-transform: uppercase; border-bottom: 2px solid var(--border); }
         .audit-row span.fail { color: var(--status-fail); font-weight: 700; }
         .audit-row span.warn { color: var(--status-warn); font-weight: 700; }
         .audit-row span.pass { color: var(--status-pass); font-weight: 700; }
 
         /* PATHWAY */
-        .pathway {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-            font-family: var(--font-mono);
-            font-size: 12px;
-            text-transform: uppercase;
-        }
-
-        .step {
-            border: 1px solid var(--border);
-            padding: 10px 15px;
-            background: #fff;
-            color: var(--muted);
-        }
-
-        .step.active {
-            border-color: var(--highlight);
-            color: var(--text);
-            font-weight: 700;
-            background: #f0f0f0;
-        }
-
+        .pathway { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; }
+        .step { border: 1px solid var(--border); padding: 10px 15px; background: #fff; color: var(--muted); }
+        .step.active { border-color: var(--highlight); color: var(--text); font-weight: 700; background: #f0f0f0; }
         .arrow { color: var(--muted); }
 
         /* CTA */
-        .cta-box {
-            margin-top: 80px;
-            padding: 30px;
-            background: #f4f4f4;
-            text-align: center;
-            border: 1px solid var(--border);
-        }
-
-        /* GATE OVERLAY */
-        #gate-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #f0f0f0; z-index: 9999;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .gate-box {
-            background: #fff; padding: 40px; border: 1px solid #ccc;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 360px;
-            text-align: center;
-        }
-        .gate-box h3 { margin-top: 0; font-size: 16px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
-        .gate-input {
-            width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc;
-            margin-bottom: 15px; font-family: monospace; text-align: center;
-        }
-        .gate-btn {
-            width: 100%; padding: 10px; background: #000; color: #fff; border: none;
-            font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 12px;
-        }
-        .gate-error { color: red; font-size: 12px; margin-top: 10px; display: none; }
-
-        .lock-link {
-            font-family: var(--font-mono); font-size: 10px; color: #ccc; cursor: pointer; text-decoration: none;
-        }
-        .lock-link:hover { color: #000; }
+        .cta-box { margin-top: 80px; padding: 30px; background: #f4f4f4; text-align: center; border: 1px solid var(--border); }
 
         @media (max-width: 800px) {
             .grid-3, .grid-2, .grid-4 { grid-template-columns: 1fr; }
@@ -345,54 +138,33 @@
 </head>
 <body>
 
-    <div id="gate-overlay">
-        <div class="gate-box">
-            <h3>Restricted Access</h3>
-            <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Enter access phrase to view demonstration materials.</p>
-            <input type="password" id="gate-pw" class="gate-input" placeholder="Access Phrase" autofocus />
-            <button class="gate-btn" onclick="checkGate()">Unlock</button>
-            <div id="gate-err" class="gate-error">Invalid phrase</div>
-        </div>
-    </div>
-
     <div class="instrument-bar">
         <div><strong>Enlightened AI Research Lab</strong></div>
         <div>Instrument: <strong>CUBICS Assurance</strong></div>
         <div>Mode: <strong>Document Validation</strong></div>
         <div>
-            <span>Version: <strong>v0.2</strong></span>
+            <span>Version: <strong>v0.3</strong></span>
             <a href="audit-example.html" class="live-link">[ VIEW LIVE ARTIFACT ]</a>
         </div>
     </div>
 
     <div class="container">
 
-        <div class="disclosure-box">
-            <strong>Disclosure & Scope</strong>
-            <ul>
-                <li>This is a demonstration of an assurance workflow on a publicly available document.</li>
-                <li>It does not evaluate the organization or the proposal quality.</li>
-                <li>It checks structural readiness only: claim extraction, evidence markers, and governance indicators.</li>
-                <li>“CUBICS Assurance” is a working title for the demo; not an official Cubics tool.</li>
-                <li>Outputs are generated from a deterministic script; analyst review can override.</li>
-            </ul>
-        </div>
-
-        <div style="max-width: 800px;">
-            <h1>CUBICS Assurance</h1>
-            <p style="font-size: 18px; color: var(--text); margin-bottom: 20px;">
-                Independent assurance gate for Cubics submissions: validates evidence, accountability, and audit trail readiness before Council review.
+        <h1>CUBICS Assurance</h1>
+        
+        <div class="orientation-block">
+            <strong>Instrument Overview</strong>
+            <p>
+                CUBICS Assurance is a structural reasoning audit instrument designed to evaluate the decision-readiness of documentation. It analyzes whether a submitted artifact (such as a Key Information Document, dossier, or deck) contains sufficient internal evidence to support its claims without requiring external assumptions.
             </p>
-            <p style="font-size: 14px; color: var(--muted); margin-bottom: 25px; font-style: italic;">
-                CUBICS Assurance does not score ideas or technologies; it validates whether submitted claims are sufficiently evidenced, owned, and auditable to proceed.
+            <strong>Primary Question</strong>
+            <p>
+                "Does this document, evaluated in isolation, contain a structurally complete and auditable chain of reasoning from stated evidence to asserted conclusions?"
             </p>
-            <div style="border-left: 3px solid var(--highlight); padding-left: 20px; margin-top: 20px;">
-                <ul>
-                    <li style="margin-bottom: 5px; color: var(--text);">Ensures claims made to investors are structurally tied to evidence.</li>
-                    <li style="margin-bottom: 5px; color: var(--text);">Automates the detection of governance gaps and missing accountability trails.</li>
-                    <li style="margin-bottom: 5px; color: var(--text);">Provides an independent, auditable artifact for compliance records.</li>
-                </ul>
-            </div>
+            <hr style="border:0; border-top:1px solid #e0e0e0; margin:15px 0;">
+            <p style="font-size:12px; color:#666; font-family:var(--font-mono);">
+                NOTE: Current analyses may include manual or semi-automated review steps. Full automation status is disclosed per artifact.
+            </p>
         </div>
 
         <h2>Assurance Modules</h2>
@@ -415,6 +187,14 @@
         </div>
 
         <h2>Assurance Signals</h2>
+        
+        <div style="background:#f4f4f4; padding:15px; border-left:3px solid #999; margin-bottom:20px;">
+            <strong>Format Context: Pitch Decks & Summary Presentations</strong><br>
+            <span style="font-size:13px; color:#444;">
+                Pitch decks are designed for persuasion and orientation, not comprehensive auditability. High rates of <strong>UNSUPPORTED</strong> or <strong>WEAK</strong> signals are an expected baseline characteristic of this format. In this context, the instrument functions to generate a "Diligence Question List"—identifying exactly which high-confidence claims require external verification.
+            </span>
+        </div>
+
         <div class="card" style="padding: 0;">
             <table>
                 <thead>
@@ -449,11 +229,6 @@
                         <td class="code-font">overconfidence_gap</td>
                         <td>Distance between the certainty of language and the strength of evidence.</td>
                         <td>Using words like "guaranteed" or "proven" on weak premises.</td>
-                    </tr>
-                    <tr>
-                        <td class="code-font">claim_stability</td>
-                        <td>Consistency of the claim meaning under stress-testing.</td>
-                        <td>Claims that change meaning when phrased slightly differently.</td>
                     </tr>
                 </tbody>
             </table>
@@ -527,7 +302,7 @@
         <div class="mock-ui">
             <div class="status-header">
                 <div>
-                    <span class="badge fail">STATUS: FAIL</span>
+                    <span class="badge neutral" style="border:1px solid #999; color:#444;">STATUS: NON-DECISION GRADE</span>
                     <span style="font-family: var(--font-mono); margin-left: 10px; font-size: 12px;">DOC ID: REF-2024-KID-09</span>
                 </div>
                 <div class="stat-group">
@@ -587,11 +362,11 @@
             </div>
 
             <div style="margin-top: 25px; border-top: 1px solid #ddd; padding-top: 15px;">
-                <h4 style="font-size: 12px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px;">Detected Red Flags</h4>
+                <h4 style="font-size: 12px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px;">Detected Diligence Items</h4>
                 <ul style="font-size: 13px; color: var(--text);">
-                    <li><strong>Critical:</strong> Section 4.2 contains 3 revenue projections with zero linked evidence.</li>
+                    <li><strong>Evidence Gap:</strong> Section 4.2 contains 3 revenue projections with zero linked evidence.</li>
                     <li><strong>Governance:</strong> "Technical Feasibility" section lacks a named accountable owner.</li>
-                    <li><strong>Integrity:</strong> Conclusion on "Market Dominance" does not logically follow from the provided premises.</li>
+                    <li><strong>Coherence:</strong> Conclusion on "Market Dominance" does not logically follow from the provided premises.</li>
                 </ul>
             </div>
         </div>
@@ -620,39 +395,14 @@
             </p>
         </div>
 
-        <div style="margin-top: 100px; text-align: right;">
-            <a href="#" onclick="lockGate(); return false;" class="lock-link">Lock</a>
+        <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--muted);">
+            <strong>Scope & Limitations:</strong>
+            This analysis evaluates the structural integrity of the submitted artifact in isolation. It validates whether claims are connected to stated premises within the file.
+            It does NOT verify factual truth against external reality, assess the intent of authors, or predict project success.
+            The instrument is a risk-diagnostic tool intended to expose reliance on unverified assumptions within the decision loop.
         </div>
 
     </div>
-
-    <script>
-        function checkGate() {
-            const input = document.getElementById("gate-pw");
-            if (input.value === "STRUCTURE") {
-                sessionStorage.setItem("cubics_gate_ok", "1");
-                document.getElementById("gate-overlay").style.display = "none";
-            } else {
-                document.getElementById("gate-err").style.display = "block";
-            }
-        }
-
-        function lockGate() {
-            sessionStorage.removeItem("cubics_gate_ok");
-            location.reload();
-        }
-
-        (function() {
-            if (sessionStorage.getItem("cubics_gate_ok") === "1") {
-                document.getElementById("gate-overlay").style.display = "none";
-            }
-            
-            // Allow Enter key
-            document.getElementById("gate-pw").addEventListener("keypress", function(e) {
-                if (e.key === "Enter") checkGate();
-            });
-        })();
-    </script>
 
 </body>
 </html>
