@@ -304,7 +304,7 @@
         <div style="max-width: 800px;">
             <h1>CUBICS Assurance</h1>
             <p style="font-size: 18px; color: var(--text); margin-bottom: 20px;">
-                Court-grade document validation for Key Information Decks (KIDs) and Cubics submissions.
+                Independent assurance gate for Cubics submissions: validates evidence, accountability, and audit trail readiness before Council review.
             </p>
             <div style="border-left: 3px solid var(--highlight); padding-left: 20px; margin-top: 20px;">
                 <ul>
@@ -334,19 +334,19 @@
             </div>
         </div>
 
-        <h2>Metric Definitions</h2>
+        <h2>Assurance Signals</h2>
         <div class="card" style="padding: 0;">
             <table>
                 <thead>
                     <tr>
-                        <th width="20%">Metric</th>
+                        <th width="20%">Signal</th>
                         <th width="45%">Meaning</th>
                         <th width="35%">What failure looks like</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="code-font">integrity_score</td>
+                        <td class="code-font">structural_coherence</td>
                         <td>Degree to which conclusions logically follow from stated premises.</td>
                         <td>Conclusions that "sound right" but lack evidentiary steps.</td>
                     </tr>
@@ -361,8 +361,8 @@
                         <td>"We will dominate the market" (orphaned from market data).</td>
                     </tr>
                     <tr>
-                        <td class="code-font">unsupported_risk</td>
-                        <td>Composite probability that a statement is fabricated or hallucinatory.</td>
+                        <td class="code-font">evidence_gap_risk</td>
+                        <td>Composite probability that a statement is fabricated or lacks source documents.</td>
                         <td>Specific numbers or dates that appear without source documents.</td>
                     </tr>
                     <tr>
@@ -371,8 +371,8 @@
                         <td>Using words like "guaranteed" or "proven" on weak premises.</td>
                     </tr>
                     <tr>
-                        <td class="code-font">stability_score</td>
-                        <td>Consistency of the claim structure under stress-testing.</td>
+                        <td class="code-font">claim_stability</td>
+                        <td>Consistency of the claim meaning under stress-testing.</td>
                         <td>Claims that change meaning when phrased slightly differently.</td>
                     </tr>
                 </tbody>
@@ -415,6 +415,28 @@
             </div>
         </div>
 
+        <h2>System Workflow</h2>
+        <div class="grid-2">
+            <div class="card" style="background: var(--panel);">
+                <span class="card-header">System Inputs</span>
+                <ul>
+                    <li>KID PDF / Word Documents</li>
+                    <li>Supporting Annexes (Market study, Capex sheets)</li>
+                    <li>Engineering Notes & Technical Claims</li>
+                    <li>Claims Register (Auto-generated or Manual)</li>
+                </ul>
+            </div>
+            <div class="card" style="background: var(--panel);">
+                <span class="card-header">Assurance Outputs</span>
+                <ul>
+                    <li>1-Page Assurance Summary (PASS/WARN/FAIL)</li>
+                    <li>Claim–Evidence Map (CSV + Viewer)</li>
+                    <li>Governance Gap List (Missing Owners)</li>
+                    <li>Audit Log Bundle (Hashes + Timestamps)</li>
+                </ul>
+            </div>
+        </div>
+
         <h2>Audit Result Artifact (Example)</h2>
         <div class="mock-ui">
             <div class="status-header">
@@ -431,15 +453,15 @@
 
             <div class="audit-row header">
                 <span>Rule ID</span>
-                <span>Metric</span>
+                <span>Signal</span>
                 <span>Op</span>
                 <span>Target</span>
                 <span>Actual</span>
                 <span>Result</span>
             </div>
             <div class="audit-row">
-                <span>CUBICS.R1 Min Integrity</span>
-                <span class="code-font">integrity_score</span>
+                <span>CUBICS.R1 Min Coherence</span>
+                <span class="code-font">structural_coherence</span>
                 <span>>=</span>
                 <span>0.90</span>
                 <span>0.72</span>
@@ -462,8 +484,8 @@
                 <span class="fail">FAIL</span>
             </div>
             <div class="audit-row">
-                <span>CUBICS.R4 Unsupported Risk</span>
-                <span class="code-font">unsupported_risk</span>
+                <span>CUBICS.R4 Evidence Risk</span>
+                <span class="code-font">evidence_gap_risk</span>
                 <span><=</span>
                 <span>0.10</span>
                 <span>0.04</span>
